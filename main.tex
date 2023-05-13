@@ -1,0 +1,117 @@
+
+\documentclass[11pt, onecolumn, oneside]{ctexbook}
+
+\usepackage{xpatch}
+\usepackage[a5paper, scale=0.8]{geometry}
+\usepackage{subfiles,graphicx,enumitem,titlesec,pdfpages,tcolorbox}
+\usepackage{tabularx,booktabs}
+\usepackage[pdfusetitle]{hyperref}
+\usepackage{bookmark,url}
+\usepackage{minted}
+
+\title{C++ Templates 2nd Edition} 
+\author{David Vandevoorde \and Nicolai M. Josuttis \and Douglas Gregor \and 陈晓伟}
+\date{\today}
+
+\ExplSyntaxOn
+
+% Remove newpage after \part
+\assignpagestyle { \part } { empty }
+\titleclass   { \part } { top }
+\titleformat  { \part } [ display ]              % shape
+                        { \Huge\bfseries }       % format
+                        { 第 \zhdig{part} 部分 }  % label
+                        { 0.5em }                % sep
+                        {}                       % before-code
+                        []                       % after-code
+\titlespacing { \part } { 0pt }  % left
+                        { 0pt }  % before-sep
+                        { 2em }  % after-sep
+                      % []       % right-sep
+\xpatchcmd { \@endpart } { \vfil\newpage } {} {} {}
+\xpatchcmd { \@endpart } { \newpage      } {} {} {}
+
+% Setup fonts
+\setCJKmainfont { Noto~Serif~CJK~SC } [ ItalicFont=FandolKai ]
+\setmainfont { Libertinus~Serif }
+\setsansfont { Libertinus~Sans  }
+\setmonofont { Iosevka~Slab     }
+
+% Setup hyperlinks
+\hypersetup { breaklinks=true } 
+
+% Setup enumerate, itemize and description
+\setenumerate  { nosep }
+\setitemize    { nosep }
+\setdescription{ nosep }
+
+% Setup minted
+\setminted { obeytabs, tabsize=2, breaklines=true, fontsize=\footnotesize, frame=single }
+
+% Def \filename
+\NewDocumentCommand { \filename } { m } 
+{ \noindent \textit { #1 } \vspace*{ -1ex } \nopagebreak[4] }
+
+% Def \inlcpp
+\NewDocumentCommand { \inlcpp }   { m } 
+{ \mintinline { cpp } { #1 } }
+
+% Def cpp environment
+\NewDocumentEnvironment { cpp } { }
+{ \VerbatimEnvironment
+  \begin { minted } [ linenos=true ] { cpp } } 
+{ \end   { minted } }
+
+% Def shell environment
+\NewDocumentEnvironment { shell } { }
+{ \VerbatimEnvironment
+  \begin { minted } { text } } 
+{ \end   { minted } }
+
+\NewDocumentEnvironment { notice } { }
+{ \begin { tcolorbox } [ colback = green!5!white, colframe=green!75!black ] } 
+{ \end   { tcolorbox } }
+
+\ExplSyntaxOff
+
+\begin{document}
+
+    \includepdf{cover.pdf}
+    \maketitle
+
+    % 前言部分
+    \frontmatter
+    \setcounter{secnumdepth}{0}
+
+    \subfile{frontmatter/Description.tex}
+    \subfile{frontmatter/Preface.tex}
+    \subfile{frontmatter/Acknowledgments-for-the-Second.tex}
+    \subfile{frontmatter/Acknowledgments-for-the-First.tex}
+    \subfile{frontmatter/About-This-Book.tex}
+    
+    % 目录
+    \newpage
+    \phantomsection
+    \addcontentsline{toc}{chapter}{目录}
+    \tableofcontents
+
+    % 正文部分
+    \mainmatter
+    \setcounter{secnumdepth}{2}
+
+    \subfile{content/part1.tex}
+    \subfile{content/part2.tex}
+    \subfile{content/part3.tex}
+    
+    % 附录
+    \appendix
+    \subfile{backmatter/Appendix.tex}
+    
+    % 后记部分
+    \backmatter
+    \bookmarksetup{startatroot}
+    \subfile{backmatter/Bibliography.tex}
+    \subfile{backmatter/Glossary.tex}
+
+\end{document}
+
