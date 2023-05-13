@@ -49,7 +49,7 @@
 
 标准库为容器和数组定义了一组访问函数。这包括std::begin和std::end代替成员函数begin和end, std::size代替成员函数size等，这些称为范围访问函数。类似地，范围库定义了一组范围访问函数。其为范围设计的，可以在<ranges>和<iterator>头文件和std::ranges命名空间中使用。下表列出了它们：
 
-\begin{table}[!htbp]
+\begin{table}[!htb]
   \centering
   \begin{talltblr}
     { colspec = {|l|l|X|}, hlines, rows={m}, row{1} = {c, font=\bfseries} }
@@ -111,11 +111,10 @@ for (auto i : std::views::iota(1, 10))
 
 iota视图是工厂视图的一部分。这些工厂视图是新生成范围的视图，范围库中有以下工厂视图：
 
-\begin{table}[!htbp]
+\begin{table}[!htb]
   \centering
   \begin{talltblr}
     { colspec = {|l|l|X|}, hlines, rows={m}, row{1} = {c, font=\bfseries} }
-    { colspec = {|l|c|X|}, hlines, rowhead = 1, rows={m}, row{1} = {c, font=\bfseries}, measure = vbox }
     类型                     & 变量 & 描述       \\
     ranges::empty\_view    &
     ranges::views::empty   &
