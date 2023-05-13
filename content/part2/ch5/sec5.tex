@@ -3,93 +3,100 @@
 标准库提供了一系列类型特征，用于查询类型的属性以及对类型执行转换。这些类型特征可以在<type\_traits>头文件中作为类型支持库使用。类型特征有以下几种：
 
 \begin{itemize}
-\item
-查询类型类别（主或复合类型）
+  \item
+        查询类型类别（主或复合类型）
 
-\item
-查询类型属性
+  \item
+        查询类型属性
 
-\item
-查询支持的操作
+  \item
+        查询支持的操作
 
-\item
-查询类型关系
+  \item
+        查询类型关系
 
-\item
-修改cv说明符、引用、指针或符号
+  \item
+        修改cv说明符、引用、指针或符号
 
-\item
-各种转换
+  \item
+        各种转换
 \end{itemize}
 
 尽管研究每一种类型的特征超出了本书的范畴，但将探讨这些类别，看看它们包含什么。下面的小节中，将列出构成这些类别的类型特征（或大部分类型特征）。这些列表以及关于每种类型特征的详细信息可以在C++标准中找到（参见本章末尾的扩展阅读，以获得标准草案版本的链接）或cppreference.com网站\url{https://en.cppreference.com/w/cpp/header/type_traits}（许可链接：\url{http://creativecommons.org/licenses/by-sa/3.0/}）。
 
-\subsubsection{5.5.1\hspace{0.2cm}查询类型类别}
+\subsection{查询类型类别}
 
 之前已经使用了几个类型特征，例如std::is\_integral，std::is\_floating\_point，以及std::is\_arithmetic。这些用于查询主类型和复合类型类别的一些标准类型特征。下表列出了所有这些类型的特征：
 
-\begin{table}[H]
-\centering
-	\begin{tabular}{|l|l|}
-		\hline
-		\textbf{名称} &
-		\textbf{描述} \\ \hline
-		is\_void &
-		类型是否为void类型。 \\ \hline
-		is\_null\_pointer &
-		一个类型是否为std::nullptr\_t类型。 \\ \hline
-		is\_integral &
-		\begin{tabular}[c]{@{}l@{}}类型是否为整型，包括有符号、无符号和cv限定变量。整型类型为：\\ ·bool, char, char8\_t(C++20), char16\_t, char32\_t, wchar\_t, short, \\ int, long和long long\\ ·任何扩展整数类型\end{tabular} \\ \hline
-		is\_floating\_point &
-		\begin{tabular}[c]{@{}l@{}}类型是否为浮点类型，包括cv限定变量。T可能的类型有\\ float，double和long double.\end{tabular}\\ \hline
-		is\_array &
-		类型是否为数组类型。 \\ \hline
-		is\_enum &
-		类型是否为枚举类型。 \\ \hline
-		is\_union &
-		类型是否为联合类型。 \\ \hline
-		is\_class &
-		类型是否是类类型，而不是联合类型。 \\ \hline
-		is\_function &
-		\begin{tabular}[c]{@{}l@{}}类型是否为函数类型。除了Lambda，重载调用操作符的类，\\ 指向函数的指针，而std::function类型除外。\end{tabular} \\ \hline
-	\end{tabular}
-\end{table}
+\begin{longtblr}
+  { colspec = {|l|X|}, hlines, rowhead = 1, rows={m}, row{1} = {c, font=\bfseries}, measure = vbox }
+  名称                            & 描述                       \\
+  is\_void                      &
+  类型是否为void类型。                                             \\
+  is\_null\_pointer             &
+  一个类型是否为std::nullptr\_t类型。                                \\
+  is\_integral                  &
+  {类型是否为整型，包括有符号、无符号和cv限定变量。整型类型为：
+      \begin{itemize}[tableitem]
+        \item bool, char, char8\_t(C++20), char16\_t, char32\_t, wchar\_t, short, int, long和long long
+        \item 任何扩展整数类型
+      \end{itemize}}
+  \\
+  is\_floating\_point           &
+  类型是否为浮点类型，包括cv限定变量。T可能的类型有 float，double和long double.     \\
+  is\_array                     &
+  类型是否为数组类型。                                               \\
+  is\_enum                      &
+  类型是否为枚举类型。                                               \\
+  is\_union                     &
+  类型是否为联合类型。                                               \\
+  is\_class                     &
+  类型是否是类类型，而不是联合类型。                                        \\
+  is\_function                  &
+  类型是否为函数类型。除了Lambda，重载调用操作符的类，指向函数的指针，而std::function类型除外。 \\
+  is\_pointer                   &
+  类型是指向对象的指针、指向函数的指针还是cv限定变量。这不包括指向成员对象的指针或指向成员函数的指针。      \\
+  is\_member\_pointer           &
+  类型是指向非静态成员对象的指针，还是指向非静态成员函数的指针。                          \\
+  is\_member\_object\_pointer   &
+  类型是否为非静态成员对象指针。                                          \\
+  is\_member\_function\_pointer &
+  类型是否为非静态成员函数指针。                                          \\
+  is\_lvalue\_reference         &
+  类型是否为左值引用类型。                                             \\
+  is\_rvalue\_reference         &
+  类型是否为右值引用类型。                                             \\
+  is\_reference                 &
+  类型是否为引用类型，可以是左值引用类型，也可以是右值引用类型。                          \\
+  is\_fundamental               &
+  类型是否为基本类型。基本类型为算术类型， void类型和std::nullptr\_t类型。           \\
+  is\_scalar                    &
+  {类型是标量类型还是标量类型的cv-限定符版本。 标量类型包括：
+      \begin{itemize}[tableitem]
+        \item 算术类型
+        \item 指针类型
+        \item 指向成员类型的指针
+        \item 枚举类型
+        \item std::nullptr\_t
+      \end{itemize}}
+  \\
+  is\_object                    &
+  类型是否为cv-qualifier版本的对象类型。对象类型不是函数类型、引用类型或void类型。         \\
+  is\_compound                  &
+  {类型是复合类型还是复合类型的cv变体。复合类型不是基本类型，它们是
+      \begin{itemize}[tableitem]
+        \item 数组
+        \item 函数
+        \item 类
+        \item 联合
+        \item 对象指针和函数指针
+        \item 成员对象指针和成员函数指针
+        \item 引用
+        \item 枚举
+      \end{itemize}}
+  \\
+\end{longtblr}
 
-\begin{table}[H]
-\centering
-	\begin{tabular}{|l|l|}
-		\hline
-		\textbf{名称} &
-		\textbf{描述} \\ \hline	
-		is\_pointer & 
-		\begin{tabular}[c]{@{}l@{}}类型是指向对象的指针、指向函数的指针还是cv限定变量。\\ 这不包括指向成员对象的指针或指向成员函数的指针。\end{tabular} \\ \hline
-
-		is\_member\_pointer &
-		\begin{tabular}[c]{@{}l@{}}类型是指向非静态成员对象的指针，\\ 还是指向非静态成员函数的指针。\end{tabular} \\ \hline
-		\begin{tabular}[c]{@{}l@{}}is\_member\_object\_\\ pointer\end{tabular} &
-		类型是否为非静态成员对象指针。 \\ \hline
-		\begin{tabular}[c]{@{}l@{}}is\_member\_function\_\\ pointer\end{tabular} &
-		类型是否为非静态成员函数指针。 \\ \hline
-		is\_lvalue\_reference &
-		类型是否为左值引用类型。 \\ \hline
-		is\_rvalue\_reference &
-		类型是否为右值引用类型。 \\ \hline
-		is\_reference &
-		\begin{tabular}[c]{@{}l@{}}类型是否为引用类型，可以是左值引用类型，\\ 也可以是右值引用类型。\end{tabular} \\ \hline
-		is\_fundamental &
-		\begin{tabular}[c]{@{}l@{}}类型是否为基本类型。基本类型为算术类型， \\ void类型和std::nullptr\_t类型。.\end{tabular} \\ \hline
-		is\_scalar &
-		\begin{tabular}[c]{@{}l@{}}类型是标量类型还是标量类型的cv-限定符版本。 标量类型包括：\\ ·算术类型\\ ·指针类型\\ ·指向成员类型的指针\\ ·枚举类型\\ ·std::nullptr\_t\end{tabular} \\ \hline
-		is\_object &
-		\begin{tabular}[c]{@{}l@{}}类型是否为cv-qualifier版本的对象类型。\\ 对象类型不是函数类型、引用类型或void类型。\end{tabular} \\ \hline
-		is\_compound &
-		\begin{tabular}[c]{@{}l@{}}类型是复合类型还是复合类型的cv变体。\\ 复合类型不是基本类型，它们是\\ ·数组\\ ·函数\\ ·类\\ ·联合\\ ·对象指针和函数指针\\ ·成员对象指针和成员函数指针\\ ·引用\\ ·枚举\end{tabular} \\ \hline
-	\end{tabular}
-\end{table}
-
-\begin{center}
-表 5.1
-\end{center}
 
 这些类型特征在C++11中可用。从C++17开始，每个变量都有一个变量模板来简化对布尔成员value的访问。对于名称为is\_abc的类型特征，则存在名为is\_abc\_v的变量模板。对于所有具有名为value的布尔成员的类型特征都是如此，这些变量的定义很简单。下面的代码展示了is\_arithmentc\_v变量模板的定义：
 
@@ -134,75 +141,53 @@ static\_assert(false)会使程序格式不正确。原因是它的条件不依�
 
 我们探索的下一类类型特征，是查询类型的属性。
 
-\subsubsection{5.5.2\hspace{0.2cm}查询类型属性}
+\subsection{查询类型属性}
 
 能够查询类型属性的类型特征如下所示：
 
-\begin{table}[H]
-\centering
-	\begin{tabular}{|l|l|l|}
-		\hline
-		\textbf{名称} & \textbf{C++版本} & \textbf{描述}                                                                                                      \\ \hline
-		is\_const     & C++11                & \begin{tabular}[c]{@{}l@{}}是否为const限定（const或const volatile）。\end{tabular}       \\ \hline
-		is\_volatile  & C++11                & \begin{tabular}[c]{@{}l@{}}是否为volatile限定（volatile或const volatile）。\end{tabular} \\ \hline
-	\end{tabular}
-\end{table}
-
-\begin{table}[H]
-\centering
-	\begin{tabular}{|l|l|l|}
-		\hline
-		\textbf{名称} &
-		\textbf{C++版本} &
-		\textbf{描述} \\ \hline
-		is\_trivial &
-		C++11 &
-		\begin{tabular}[c]{@{}l@{}}是普通类型，还是cv限定变量。以下是简单类型：\\  ·标量类型或标量类型的数组\\ ·具有简单的默认构造函数\\   或此类数组的简单的可复制类。\end{tabular} \\ \hline
-		\begin{tabular}[c]{@{}l@{}}is\_trivially\_\\ copyable\end{tabular} &
-		C++11 &
-		\begin{tabular}[c]{@{}l@{}}是否可复制。 以下是可复制的类型：\\ ·标量类型或标量类型的数组\\ ·可复制的类或此类的数组\end{tabular} \\ \hline
-		\begin{tabular}[c]{@{}l@{}}is\_standard\_\\ layout\end{tabular} &
-		C++11 &
-		\begin{tabular}[c]{@{}l@{}}是标准布局类型，还是cv限定类型\\ ·标量类型或标量类型的数组\\ ·标准布局类或此类的数组\end{tabular} \\ \hline
-		is\_empty &
-		C++11 &
-		\begin{tabular}[c]{@{}l@{}}是否为空类型。空类型是一种类类型（不是联合体），\\ 是否为空类型。空类型是一种类类型（不是联合体），\\ 没有虚函数，没有虚基类，也没有非空基类。\end{tabular} \\ \hline
-		is\_polymorphic &
-		C++11 &
-		\begin{tabular}[c]{@{}l@{}}是否为多态类型。多态类型至少继承\\ 自有一个虚函数的类型（不是联合体）。\end{tabular} \\ \hline
-		is\_abstract &
-		C++11 &
-		\begin{tabular}[c]{@{}l@{}}是否为抽象类型。抽象类型至少继承\\ 自有一个虚纯函数的类型（不是联合体）。\end{tabular} \\ \hline
-		is\_final &
-		C++14 &
-		\begin{tabular}[c]{@{}l@{}}是否是使用final说明符声明的类型。\end{tabular} \\ \hline
-		is\_aggregate &
-		C++17 &
-		是否为聚合类型。 \\ \hline
-		is\_signed &
-		C++11 &
-		\begin{tabular}[c]{@{}l@{}}是浮点类型，还是有符号整型。\end{tabular} \\ \hline
-		is\_unsigned &
-		C++11 &
-		类型是无符号整型，还是bool类型。 \\ \hline
-		\begin{tabular}[c]{@{}l@{}}is\_bounded\_\\ array\end{tabular} &
-		C++20 &
-		\begin{tabular}[c]{@{}l@{}}是否为已知边界的数组类型（比如int{[}5{]}）\end{tabular} \\ \hline
-		\begin{tabular}[c]{@{}l@{}}is\_unbounded\_\\ array\end{tabular} &
-		C++20 &
-		\begin{tabular}[c]{@{}l@{}}是否为未知边界的数组类型（比如int{[}{]}）.\end{tabular} \\ \hline
-		is\_scoped\_enum &
-		C++23 &
-		是否为范围枚举类型。 \\ \hline
-		\begin{tabular}[c]{@{}l@{}}has\_unique\_\\ object\_\\ representation\end{tabular} &
-		C++17 &
-		\begin{tabular}[c]{@{}l@{}}是否可复制，并且该类型的两个具有相同值的对象\\ 也具有相同表现的形式。\end{tabular} \\ \hline
-	\end{tabular}
-\end{table}
-
-\begin{center}
-表 5.2
-\end{center}
+\begin{longtblr}
+  { colspec = {|l|c|X|}, hlines, rowhead = 1, rows={m}, row{1} = {c, font=\bfseries}, measure = vbox }
+  名称                      & C++ 版本 & 描述                                           \\
+  is\_const               & C++11  & 是否为const限定（const或const volatile）。            \\
+  is\_volatile            & C++11  & 是否为volatile限定（volatile或const volatile）。      \\
+  is\_trivial             & C++11  &
+  {是普通类型，还是cv限定变量。以下是简单类型：
+      \begin{itemize}[tableitem]
+        \item 标量类型或标量类型的数组
+        \item 具有简单的默认构造函数或此类数组的简单的可复制类。
+      \end{itemize}}
+  \\
+  is\_trivially\_copyable & C++11  &
+  {是否可复制。 以下是可复制的类型：
+      \begin{itemize}[tableitem]
+        \item 标量类型或标量类型的数组
+        \item 可复制的类或此类的数组
+      \end{itemize}}
+  \\
+  is\_standard\_layout    & C++11  &
+  {是标准布局类型，还是cv限定类型。以下是标准布局类型：
+      \begin{itemize}[tableitem]
+        \item 标量类型或标量类型的数组
+        \item 标准布局类或此类的数组
+      \end{itemize}}
+  \\
+  is\_empty               & C++11  & 是否为空类型。空类型是一种类类型（不是联合体），没有虚函数，没有虚基类，也没有非空基类。
+  \\
+  is\_polymorphic         & C++11  & 是否为多态类型。多态类型至少继承自有一个虚函数的类型（不是联合体）。
+  \\
+  is\_abstract            & C++11  & 是否为抽象类型。抽象类型至少继承自有一个虚纯函数的类型（不是联合体）。
+  \\
+  is\_final               & C++14  & 是否是使用final说明符声明的类型。                          \\
+  is\_aggregate           & C++17  & 是否为聚合类型。
+  \\
+  is\_signed              & C++11  & 是浮点类型，还是有符号整型。                               \\
+  is\_unsigned            & C++11  & 类型是无符号整型，还是bool类型。                           \\
+  is\_bounded\_array      & C++20  & 是否为已知边界的数组类型（比如int{[}5{]}）                   \\
+  is\_unbounded\_array    & C++20  & 是否为未知边界的数组类型（比如int{[}{]}）.                   \\
+  is\_scoped\_enum        & C++23  & 是否为范围枚举类型。                                   \\
+  {has\_unique\_object                                                            \\\_representation} &C++17 &是否可复制，并且该类型的两个具有相同值的对象也具有相同表现的形式。
+  \\
+\end{longtblr}
 
 其中大多数可能很容易理解，但有两个乍一看似乎是相同的，is\_trivial和\_trivial\_copyable。对于标量类型或标量类型数组，两者都成立，也适用于可复制的类或此类数组，但is\_trivial仅适用于具有普通默认构造函数的可复制类。
 
@@ -241,90 +226,65 @@ std::cout << std::is_trivially_copyable_v<tar>
 
 除了复制能力之外，还可以在其他类型特征的帮助下查询支持的操作。
 
-\subsubsection{5.5.3\hspace{0.2cm}查询支持的操作}
+\subsection{查询支持的操作}
 
 下面的类型特征可以查询类型支持的操作：
 
-\begin{table}[H]
-\centering
-	\begin{tabular}{|l|l|}
-		\hline
-		\textbf{名称} & \textbf{描述} \\ \hline
-		\begin{tabular}[c]{@{}l@{}}is\_constructible\\ is\_trivially\_constructible\\ is\_nothrow\_constructible\end{tabular} &
-		是否有可以接受特定参数的构造函数。 \\ \hline
-		\begin{tabular}[c]{@{}l@{}}is\_default\_constructible\\ is\_trivially\_default\_constructible\\ is\_nothrow\_default\_constructible\end{tabular} &
-		是否有默认构造函数。 \\ \hline
-		\end{tabular}
-\end{table}
-
-\begin{table}[H]
-\centering
-	\begin{tabular}{|l|l|}
-		\hline
-		\textbf{名称} &
-		\textbf{描述} \\ \hline
-		\begin{tabular}[c]{@{}l@{}}is\_copy\_constructible\\ is\_tribially\_copy\_constructible\\ is\_nothrow\_copy\_constructible\end{tabular} &
-		是否具有复制构造函数 \\ \hline
-		\begin{tabular}[c]{@{}l@{}}is\_move\_constructible\\ is\_trivially\_move\_constructible\\ is\_nothrow\_move\_constructible\end{tabular} &
-		是否具有移动构造函数。 \\ \hline
-		\begin{tabular}[c]{@{}l@{}}is\_assignable\\ is\_trivially\_assignable\\ is\_nothrow\_assignable\end{tabular} &
-		是否具有特定参数的赋值操作符。 \\ \hline
-		\begin{tabular}[c]{@{}l@{}}is\_copy\_assignable\\ is\_trivially\_copy\_assignable\\ is\_nothrow\_copy\_assignable\end{tabular} &
-		是否为复制赋值运算符。 \\ \hline
-		\begin{tabular}[c]{@{}l@{}}is\_move\_assignable\\ is\_trivially\_move\_assigneable\\ is\_nothrow\_move\_assignable\end{tabular} &
-		是否有移动赋值操作符。 \\ \hline
-		\begin{tabular}[c]{@{}l@{}}is\_destructible\\ is\_trivially\_destructible\\ is\_nothrow\_destructible\end{tabular} &
-		是否具有析构函数。 \\ \hline
-		has\_virtual\_destructor &
-		是否具有虚析构函数。 \\ \hline
-		\begin{tabular}[c]{@{}l@{}}is\_swappable\_with\\ is\_swappable\\ is\_nothrow\_swappable\_with\\ is\_nothrow\_swappable\end{tabular} &
-		\begin{tabular}[c]{@{}l@{}}是否可以交换相同类型的对象或\\ 不同类型的对象。\end{tabular} \\ \hline
-	\end{tabular}
-\end{table}
-
-\begin{center}
-表 5.3
-\end{center}
+\begin{longtblr}
+  { colspec = {|l|X|}, hlines, rowhead = 1, rows={m}, row{1} = {c, font=\bfseries} }
+  名称 & 描述                     \\
+  {is\_constructible          \\ is\_trivially\_constructible\\ is\_nothrow\_constructible}
+     & 是否有可以接受特定参数的构造函数。      \\
+  {is\_default\_constructible \\ is\_trivially\_default\_constructible\\ is\_nothrow\_default\_constructible}
+     & 是否有默认构造函数。             \\
+  {is\_copy\_constructible    \\ is\_tribially\_copy\_constructible\\ is\_nothrow\_copy\_constructible}
+     & 是否具有复制构造函数             \\
+  {is\_move\_constructible    \\ is\_trivially\_move\_constructible\\ is\_nothrow\_move\_constructible}
+     & 是否具有移动构造函数。            \\
+  {is\_assignable             \\ is\_trivially\_assignable\\ is\_nothrow\_assignable}
+     & 是否具有特定参数的赋值操作符。        \\
+  {is\_copy\_assignable       \\ is\_trivially\_copy\_assignable\\ is\_nothrow\_copy\_assignable}
+     & 是否为复制赋值运算符。            \\
+  {is\_move\_assignable       \\ is\_trivially\_move\_assigneable\\ is\_nothrow\_move\_assignable}
+     & 是否有移动赋值操作符。            \\
+  {is\_destructible           \\ is\_trivially\_destructible\\ is\_nothrow\_destructible}
+     & 是否具有析构函数。              \\
+  has\_virtual\_destructor
+     & 是否具有虚析构函数。             \\
+  {is\_swappable\_with        \\ is\_swappable\\ is\_nothrow\_swappable\_with\\ is\_nothrow\_swappable}
+     & 是否可以交换相同类型的对象或不同类型的对象。 \\
+\end{longtblr}
 
 除了最后一个是在C++17引入，其他都在C++11引入。每种类型特征都有多个版本，包括用于检查普通操作或使用noexcept说明符声明为无异常抛出操作的版本。
 
 现在来看看类型特征，以及如何查询类型之间的关系。
 
-\subsubsection{5.5.4\hspace{0.2cm}查询类型的关系}
+\subsection{查询类型的关系}
 
 这里，可以找到几个类型特征，可以查询类型之间的关系。这些类型特征如下所示：
 
-\begin{table}[H]
-\centering
-	\begin{tabular}{|l|l|l|}
-		\hline
-		\textbf{名称} &
-		\textbf{C++版本} &
-		\textbf{描述} \\ \hline
-		is\_same &
-		C++11 &
-		两个类型是否相同，包括可能的cv限定符。 \\ \hline
-		is\_base\_of &
-		C++11 &
-		一个类型是否派生自另一个类型。 \\ \hline
-		\begin{tabular}[c]{@{}l@{}}is\_convertible\\ is\_nothrow\_convertible\end{tabular} &
-		\begin{tabular}[c]{@{}l@{}}C++11\\ C++14\end{tabular} &
-		一种类型是否可以转换为另一种类型。 \\ \hline
-		\begin{tabular}[c]{@{}l@{}}is\_invocable\\ is\_invocable\_r\\ is\_nothrow\_invocable\\ is\_nothrow\_invocable\_r\end{tabular} &
-		C++17 &
-		是否可以调用一个类型与指定参数类型。 \\ \hline
-		is\_layout\_compatible &
-		C++20 &
-		\begin{tabular}[c]{@{}l@{}}检查两种类型是否具有兼容的布局。若两个类\\是相同类型  （忽略cv限定符），或者其公共初始\\ 序列包含所有非静态数据成员和位字段，或者是\\ 具有相同底层类型的枚举，则为布局兼容。\end{tabular} \\ \hline
-		\begin{tabular}[c]{@{}l@{}}is\_pointer\_\\ inconvertible\_base \_of\end{tabular} &
-		C++20 &
-		是否为另一类型的指针不可转换基类。 \\ \hline
-	\end{tabular}
-\end{table}
-
-\begin{center}
-表 5.4
-\end{center}
+\begin{longtblr}
+  { colspec = {|l|c|X|}, hlines, rowhead = 1, rows={m}, row{1} = {c, font=\bfseries} }
+  名称                     & C++ 版本 & 描述                   \\
+  is\_same               & C++11  & 两个类型是否相同，包括可能的cv限定符。 \\
+  is\_base\_of           & C++11  & 一个类型是否派生自另一个类型。      \\
+  {is\_convertible                                       \\ is\_nothrow\_convertible}
+                         &
+  {C++11                                                 \\ C++14}
+                         &
+  一种类型是否可以转换为另一种类型。                                      \\
+  {is\_invocable                                         \\
+  is\_invocable\_r                                       \\
+  is\_nothrow\_invocable                                 \\
+  is\_nothrow\_invocable\_r}
+                         & C++17  & 是否可以调用一个类型与指定参数类型。   \\
+  is\_layout\_compatible & C++20  &
+  检查两种类型是否具有兼容的布局。若两个类是相同类型  （忽略cv限定符），或者其公共初始序列包含所有非静态数据成员和位字段，或者是具有相同底层类型的枚举，则为布局兼容。
+  \\
+  {is\_pointer                                           \\
+  \_inconvertible\_base\_of}
+                         & C++20  & 是否为另一类型的指针不可转换基类。    \\
+\end{longtblr}
 
 这里，使用最多的可能是std::is\_same。这种类型特征在判断两种类型是否相同时非常有用，不过这种类型的特征需要考虑const和volatile限定符，所以int和int const不是同一类型。
 
@@ -350,77 +310,74 @@ std::cout << as_string(false) << '\n'; // prints false
 
 目前看到的所有类型特征，都用于查询关于类型的某种信息。下一节中，将看到对类型执行进行修改的类型特征。
 
-\subsubsection{5.5.5\hspace{0.2cm}修改cv限定符、引用、指针或符号}
+\subsection{修改cv限定符、引用、指针或符号}
 
 类型上执行转换的类型特征也称为元函数。这些类型特征提供了一个称为type的成员类型(typedef)，表示转换后的类型。这些类型特征包括：
 
-\begin{table}[H]
-\centering
-	\begin{tabular}{|l|l|}
-		\hline
-		\textbf{名称} &
-		\textbf{描述} \\ \hline
-		\begin{tabular}[c]{@{}l@{}}add\_cv\\ add\_const\\ add\_volatile\end{tabular} &
-		将const、volatile或两者都添加到类型中。 \\ \hline
-		\begin{tabular}[c]{@{}l@{}}remove\_cv\\ remove\_const\\ remove\_volatile\end{tabular} &
-		从类型中删除const、volatile或同时删标识符。 \\ \hline
-		\begin{tabular}[c]{@{}l@{}}add\_lvalue\_reference\\ add\_rvalue\_reference\end{tabular} &
-		向类型添加左值或右值引用。 \\ \hline
-		remove\_reference &
-		从类型中删除引用（左值或右值）。 \\ \hline
-		remove\_cvref &
-		\begin{tabular}[c]{@{}l@{}}从类型中删除const和volatile限定符以及左值或右值引用。\\ 融合了remove\_cv和remove\_reference。\end{tabular} \\ \hline
-		add\_pointer                                                                  & 添加指向类型的指针。                     \\ \hline
-		remove\_pointer                                                               & 从类型中移除指针。                \\ \hline
-		\begin{tabular}[c]{@{}l@{}}make\_signed\\ make\_unsigned\end{tabular} &
-		\begin{tabular}[c]{@{}l@{}}创建有符号或无符号的整型（bool类型除外）或枚举类型。\\ 支持的整数类型有short, int, long, long long, char, wchar\_t, \\ char8\_t, char16\_t和 char32\_t。\end{tabular} \\ \hline
-		\begin{tabular}[c]{@{}l@{}}remove\_extent\\ remove\_all\_extents\end{tabular} & 从数组类型中移除一个范围或所有范围。 \\ \hline
-	\end{tabular}
-\end{table}
 
-\begin{center}
-表 5.5
-\end{center}
+\begin{longtblr}
+  { colspec = {|l|X|}, hlines, rowhead = 1, rows={m}, row{1} = {c, font=\bfseries} }
+  名称 & 描述                            \\
+  {add\_cv                           \\ add\_const\\ add\_volatile}
+     & 将const、volatile或两者都添加到类型中。    \\
+  {remove\_cv                        \\ remove\_const\\ remove\_volatile}
+     & 从类型中删除const、volatile或同时删标识符。  \\
+  {add\_lvalue\_reference            \\ add\_rvalue\_reference}
+     & 向类型添加左值或右值引用。                 \\
+  remove\_reference
+     & 从类型中删除引用（左值或右值）。              \\
+  remove\_cvref
+     &
+  {从类型中删除const和volatile限定符以及左值或右值引用。 \\ 融合了remove\_cv和remove\_reference。}
+  \\
+  add\_pointer
+     & 添加指向类型的指针。                    \\
+  remove\_pointer
+     & 从类型中移除指针。                     \\
+  {make\_signed                      \\ make\_unsigned}
+     &
+  {创建有符号或无符号的整型（bool类型除外）或枚举类型。支持的整数类型有short, int, long, long long, char, wchar\_t, char8\_t, char16\_t和 char32\_t。}
+  \\
+  {remove\_extent                    \\ remove\_all\_extents}
+     & 从数组类型中移除一个范围或所有范围。            \\
+\end{longtblr}
 
 除了remove\_cvref是在C++20中添加的，本表中列出的所有其他类型特征在C++11中可用。这些并不是标准库中的所有元函数，更多的将在下一节中看到。
 
-\subsubsection{5.5.6\hspace{0.2cm}各种转换}
+\subsection{各种转换}
 
 除了前面列出的元函数之外，还有其他执行类型转换的类型特征。其中常用的如下表所示：
 
-\begin{table}[H]
-\centering
-	\begin{tabular}{|l|l|l|}
-		\hline
-		\textbf{名称} &
-		\textbf{C++版本} &
-		\textbf{描述} \\ \hline
-		enable\_if &
-		C++11 &
-		启用从重载解析中删除函数重载或模板特化。 \\ \hline
-		conditional &
-		C++11 &
-		\begin{tabular}[c]{@{}l@{}}通过基于编译时布尔条件进行选择，\\ 将type成员类型定义为两种可能类型之一。\end{tabular} \\ \hline
-		decay &
-		C++11 &
-		\begin{tabular}[c]{@{}l@{}}在类型上应用转换（数组类型为数组到指针，\\ 引用类型为左值到右值，函数类型为指针），\\ 删除const和volatile限定符，并使用结果成员\\ 类型定义类型作为其自己的成员类型定义类型。\end{tabular} \\ \hline
-		common\_type &
-		C++11 &
-		从一组类型中确定公共类型。 \\ \hline
-		common\_reference &
-		C++20 &
-		从一组类型中确定公共引用类型。 \\ \hline
-		underlaying\_type &
-		C++11 &
-		确定枚举类型的基础类型。 \\ \hline
-		void\_t &
-		C++17 &
-		将类型序列映射到void类型的类型别名。 \\ \hline
-		type\_identity &
-		C++20 &
-		提供成员typedef类型作为类型参数T的别名。 \\ \hline
-	\end{tabular}
-\end{table}
+\begin{longtblr}
+  { colspec = {|l|c|X|}, hlines, rowhead = 1, rows={m}, row{1} = {c, font=\bfseries} }
+  名称                & C++ 版本 & 描述 \\
+  enable\_if        &
+  C++11             &
+  启用从重载解析中删除函数重载或模板特化。            \\
+  conditional       &
+  C++11             &
+  通过基于编译时布尔条件进行选择， 将type成员类型定义为两种可能类型之一。
+  \\
+  decay             &
+  C++11             &
+  在类型上应用转换（数组类型为数组到指针， 引用类型为左值到右值，函数类型为指针），删除const和volatile限定符，并使用结果成员类型定义类型作为其自己的成员类型定义类型。
+  \\
+  common\_type      &
+  C++11             &
+  从一组类型中确定公共类型。                   \\
+  common\_reference &
+  C++20             &
+  从一组类型中确定公共引用类型。                 \\
+  underlaying\_type &
+  C++11             &
+  确定枚举类型的基础类型。                    \\
+  void\_t           &
+  C++17             &
+  将类型序列映射到void类型的类型别名。            \\
+  type\_identity    &
+  C++20             &
+  提供成员typedef类型作为类型参数T的别名。        \\
+\end{longtblr}
 
 列表中，已经讨论了enable\_if，还有一些需要举例说明的类型特征。先来看看std::decay，考虑一下as\_string函数的另一种实现方式：
 
@@ -482,7 +439,7 @@ template <typename T>
 std::string as_string(T&& value)
 {
 	using value_type = std::decay_t<T>;
-	
+
 	if constexpr (std::is_null_pointer_v<value_type>)
 		return "null";
 	else if constexpr (std::is_same_v<value_type, bool>)
@@ -533,30 +490,3 @@ static_assert(std::is_same_v<list_t<int, 2>,
 \end{cpp}
 
 举例说明每个标准类型特征的使用超出了本书的范畴。本章的下一节提供了更复杂的例子，需要使用几个标准的类型特征。
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

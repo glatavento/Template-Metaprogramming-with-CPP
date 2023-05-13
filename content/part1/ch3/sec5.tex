@@ -38,54 +38,41 @@ int main()
 
 折叠方式有四种：
 
-\begin{table}[H]
-\centering
-	\begin{tabular}{|l|l|l|}
-		\hline
-		\textbf{折叠方式}    & \textbf{语法} & \textbf{展开方式}                  \\ \hline
-		一元右折叠 & (pack op ...)   & (arg1 op (... op (argN-1 op argN))) \\ \hline
-		一元左折叠  & (... op pack)   & (((arg1 op arg2) op ...) op argN)   \\ \hline
-		二元右折叠 &
-		\begin{tabular}[c]{@{}l@{}}(pack op ... op\\ init)\end{tabular} &
-		\begin{tabular}[c]{@{}l@{}}(arg1 op (... op (argN-1 op (argN\\ op init))))\end{tabular} \\ \hline
-		二元左折叠 &
-		\begin{tabular}[c]{@{}l@{}}(init op ... op\\ pack)\end{tabular} &
-		\begin{tabular}[c]{@{}l@{}}((((init op arg1) op arg2) op ...)\\ op argN)\end{tabular} \\ \hline
-	\end{tabular}
+\begin{table}[!htbp]
+  \centering
+  \begin{talltblr}
+    { colspec = {|l|X[1]|X[2]|}, hlines, rows={m}, row{1} = {c, font=\bfseries} }
+    折叠方式  & 语法                    & 展开方式                                          \\
+    一元右折叠 & (pack op ...)         & (arg1 op (... op (argN-1 op argN)))           \\
+    一元左折叠 & (... op pack)         & (((arg1 op arg2) op ...) op argN)             \\
+    二元右折叠 & (pack op ... op init) & (arg1 op (... op (argN-1 op (argN op init)))) \\
+    二元左折叠 & (init op ... op pack) & ((((init op arg1) op arg2) op ...) op argN)   \\
+  \end{talltblr}
 \end{table}
-
-\begin{center}
-表 3.1
-\end{center}
 
 该表中，使用了以下名词：
 
 \begin{itemize}
-\item
-pack是一个包含未展开形参包的表达式，arg1、arg2、argN-1和argN是这个包中包含的参数。
-
-\item
-op下面是一个二元操作符 : +, -, *, /, \%, \^, \&, |, =, <, >, <{}<, >{}>, +=, -=, *=, /=, \%=, \^=, \&=, |=, <{}<=, >{}>=, ==, !=, <=, >=, \&\&, ||, ,（逗号表达式）, .*, ->*.
-
-\item
-init不包含未展开参数包的表达式。
+  \item pack是一个包含未展开形参包的表达式，arg1、arg2、argN-1和argN是这个包中包含的参数。
+  \item op下面是一个二元操作符： +, -, *, /, \%, \^, \&, |, =, <, >, <{}<, >{}>, +=, -=, *=, /=, \%=, \^=, \&=, |=, <{}<=, >{}>=, ==, !=, <=, >=, \&\&, ||, ,（逗号表达式）, .*, ->*.
+  \item init不包含未展开参数包的表达式。
 \end{itemize}
 
 一元折叠中，若参数包不包含任何元素，则只允许使用某些操作符。下表列出了这些值，以及空参数包的值：
 
-\begin{table}[H]
-\centering
-	\begin{tabular}{|l|l|}
-		\hline
-		\textbf{操作符}  & \textbf{空参数包的值} \\ \hline
-		\&\& （逻辑 AND） & true                             \\ \hline
-		|| （逻辑 OR）    & false                            \\ \hline
-		, （逗号操作符） & void()                           \\ \hline
-	\end{tabular}
+\begin{table}[!htbp]
+  \centering
+  \begin{talltblr}
+    { colspec = {|l|l|}, hlines, rows={m}, row{1} = {c, font=\bfseries} }
+    操作符           & 空参数包的值 \\
+    \&\& （逻辑 AND） & true   \\
+    || （逻辑 OR）    & false  \\
+    , （逗号操作符）     & void() \\
+  \end{talltblr}
 \end{table}
 
 \begin{center}
-表 3.2
+  表 3.2
 \end{center}
 
 一元折叠和二元折叠的不同之处在于初始化值的使用，初始化值只适用于二元折叠。二元折叠将二元操作符重复两次（必须是同一个操作符）。通过包含初始化值，可以将可变函数模板和从使用一元右折叠表达式转换为使用二元右折叠表达式。这里有一个例子：
@@ -149,14 +136,11 @@ push_back_many(v, 1, 2, 3, 4, 5); // v = {1, 2, 3, 4, 5}
 与使用递归实现可变参数模板相比，折叠表达式有几个优点：
 
 \begin{itemize}
-\item
-代码更少、更简单。
+  \item 代码更少、更简单。
 
-\item
-更快的编译时间，更少的模板实例化。
+  \item 更快的编译时间，更少的模板实例化。
 
-\item
-可能更快的代码，因为多个函数调用替换为单个表达式。不过，这一点有待验证，至少在启用优化时不是。我们已经看到编译器会通过删除这些函数来优化代码。
+  \item 可能更快的代码，因为多个函数调用替换为单个表达式。不过，这一点有待验证，至少在启用优化时不是。我们已经看到编译器会通过删除这些函数来优化代码。
 \end{itemize}
 
 现在已经了解了如何创建可变参数函数模板、可变参数类模板，以及如何使用折叠表达式，接下来将讨论其他类型的可变参数模板：别名模板和变量模板。
