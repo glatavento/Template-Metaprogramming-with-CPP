@@ -1,5 +1,5 @@
 \section{约束非模板成员函数}
-作为类模板成员的非模板函数，可以用相应的方式进行约束，模板类只能为满足某些需求的类型定义成员函数。下面的例子中，operator==是受约束的:
+作为类模板成员的非模板函数，可以用相应的方式进行约束，模板类只能为满足某些需求的类型定义成员函数。下面的例子中，operator==是受约束的：
 
 \begin{cpp}
 template <typename T>
@@ -15,7 +15,7 @@ struct wrapper
 };
 \end{cpp}
 
-wrapper类保存一个T类型的值，并仅为可转换为std::string\_view的类型定义operator==成员:
+wrapper类保存一个T类型的值，并仅为可转换为std::string\_view的类型定义operator==成员：
 
 \begin{cpp}
 wrapper<int> a{ 42 };
@@ -27,7 +27,7 @@ if(b == "42") {} // OK
 
 这里有wrapper类的两个实例化，一个用于int，一个用于char const*。尝试将a对象与字面值42进行比较会产生编译器错误，因为没为这种类型定义operator==。但将b对象与字符串字面值"42"进行比较是可能的，因为相等操作符是为可以隐式转换为std::string\_view的类型定义的，char const*就是这样一种类型。
 
-约束非模板成员很有用，相较于强制成员为模板并使用SFINAE，这是一种更清晰的解决方案。为了更好地进行理解，看看如下wrapper类的实现:
+约束非模板成员很有用，相较于强制成员为模板并使用SFINAE，这是一种更清晰的解决方案。为了更好地进行理解，看看如下wrapper类的实现：
 
 \begin{cpp}
 template <typename T>
@@ -39,7 +39,7 @@ struct wrapper
 };
 \end{cpp}
 
-这个类模板可以进行如下的实例化:
+这个类模板可以进行如下的实例化：
 
 \begin{cpp}
 wrapper<int> a = 42; //OK
@@ -65,7 +65,7 @@ struct wrapper
 };
 \end{cpp}
 
-当试图从std::unique\_ptr<int>值初始化wrapper<std::unique\_ptr<int>{}>时，也会收获一个错误，但错误是不同的。例如，下面是Clang生成的错误消息:
+当试图从std::unique\_ptr<int>值初始化wrapper<std::unique\_ptr<int>{}>时，也会收获一个错误，但错误是不同的。例如，下面是Clang生成的错误消息：
 
 \begin{shell}
 prog.cc:19:35: error: no viable conversion from 'typename __
@@ -94,7 +94,7 @@ std::unique_ptr<int>]
         ^
 \end{shell}
 
-帮助理解问题原因的最重要的信息是最后一条，说U替换为std::unique\_ptr<int>的要求不满足布尔条件。C++20中，可以更好地实现对T模板参数的相同限制。这一次，我们可以使用约束，复制构造函数不再需要是模板。C++20中的实现如下所示:
+帮助理解问题原因的最重要的信息是最后一条，说U替换为std::unique\_ptr<int>的要求不满足布尔条件。C++20中，可以更好地实现对T模板参数的相同限制。这一次，我们可以使用约束，复制构造函数不再需要是模板。C++20中的实现如下所示：
 
 \begin{cpp}
 template <typename T>
@@ -108,7 +108,7 @@ struct wrapper
 };
 \end{cpp}
 
-不仅代码更少，不需要复杂的SFINAE机制，而且更简单，更容易理解，还可能生成更好的错误消息。Clang的情况下，前面的错误信息会替换为以下内容:
+不仅代码更少，不需要复杂的SFINAE机制，而且更简单，更容易理解，还可能生成更好的错误消息。Clang的情况下，前面的错误信息会替换为以下内容：
 
 \begin{shell}
 prog.cc:9:5: note: candidate constructor not viable:
@@ -132,7 +132,7 @@ void handle(long v)
 { /* do something else */ }
 \end{cpp}
 
-这个代码片段中，我们有两个handle函数的重载。第一个重载采用int，第二个重载采用long。这些重载函数体并不重要，但当long的大小与int的大小不同时，就应该做不同的事情。标准规定int的大小至少是16位，尽管在大多数平台上它是32位，long长度至少为32位。但有一些平台，比如LP64，其中int是32位，long是64位。这些平台上，两个重载都应该是可用的。在所有其他平台上，两种类型具有相同的大小，只有第一个重载可用。可以用前面所示的形式定义，在C++17中使用constexpr也可以实现同样的功能:
+这个代码片段中，我们有两个handle函数的重载。第一个重载采用int，第二个重载采用long。这些重载函数体并不重要，但当long的大小与int的大小不同时，就应该做不同的事情。标准规定int的大小至少是16位，尽管在大多数平台上它是32位，long长度至少为32位。但有一些平台，比如LP64，其中int是32位，long是64位。这些平台上，两个重载都应该是可用的。在所有其他平台上，两种类型具有相同的大小，只有第一个重载可用。可以用前面所示的形式定义，在C++17中使用constexpr也可以实现同样的功能：
 
 \begin{cpp}
 void handle(long v)

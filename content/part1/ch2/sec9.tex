@@ -1,5 +1,5 @@
 \section{通用Lambda和Lambda模板}
-Lambda在形式上称为Lambda表达式，是对于定义函数对象的一种简化方法，通常包括传递给算法的谓词或比较函数。我们不会讨论Lambda表达式，但先来看看下面的例子:
+Lambda在形式上称为Lambda表达式，是对于定义函数对象的一种简化方法，通常包括传递给算法的谓词或比较函数。我们不会讨论Lambda表达式，但先来看看下面的例子：
 
 \begin{cpp}
 int arr[] = { 1,6,3,8,4,2,9 };
@@ -13,7 +13,7 @@ auto count = std::count_if(
 	[pivot](int const a) {return a > pivot; });
 \end{cpp}
 
-Lambda表达式是语法糖，是定义匿名函数对象的一种简化方式。遇到Lambda表达式时，编译器会生成一个带有函数调用操作符的类。对于前面的例子，如下所示:
+Lambda表达式是语法糖，是定义匿名函数对象的一种简化方式。遇到Lambda表达式时，编译器会生成一个带有函数调用操作符的类。对于前面的例子，如下所示：
 
 \begin{cpp}
 struct __lambda_1
@@ -40,7 +40,7 @@ private:
 
 这里的名称很随意，每个编译器将生成不同的名称。另外，实现细节可能有所不同，这里看到的是编译器应该生成的最小值。注意，第一个Lambda和第二个Lambda的区别在于，后者包含通过值捕获的状态。
 
-Lambda表达式是在C++11中引入的，该标准的后续版本中进行了多次更新。值得注意的是，本章将讨论两个问题:
+Lambda表达式是在C++11中引入的，该标准的后续版本中进行了多次更新。值得注意的是，本章将讨论两个问题：
 
 \begin{itemize}
 \item 
@@ -50,7 +50,7 @@ Lambda表达式是在C++11中引入的，该标准的后续版本中进行了多
 模板Lambda：在C++20中引入，模板Lambda可以使用模板语法显式指定模板化的函数调用操作符。
 \end{itemize}
 
-为了理解它们之间的区别，以及泛型Lambda和模板Lambda的作用，来看看以下示例:
+为了理解它们之间的区别，以及泛型Lambda和模板Lambda的作用，来看看以下示例：
 
 \begin{cpp}
 auto l1 = [](int a) {return a + a; }; // C++11, regular
@@ -74,9 +74,9 @@ auto v9 = l3(42.0); // OK
 auto v10 = l3(std::string{ "42" }); // OK
 \end{cpp}
 
-这里有三个不同的Lambda表达式: l1是一个常规Lambda, l2是一个泛型Lambda，因为至少有一个参数用auto定义，l3是一个模板Lambda，用模板语法定义，但没有使用template关键字。
+这里有三个不同的Lambda表达式： l1是一个常规Lambda, l2是一个泛型Lambda，因为至少有一个参数用auto定义，l3是一个模板Lambda，用模板语法定义，但没有使用template关键字。
 
-可以用一个整数调用l1，也可以使用double类型调用，但这一次编译器将产生一个关于可能丢失数据的警告。尝试用字符串参数调用会产生编译错误，因为std::string不能转换为int。另一方面，l2是泛型。编译器继续为它调用的所有参数类型实例化其特化版本，本例中是int、double和std::string。下面的代码展示了生成的函数的外观(至少在概念上):
+可以用一个整数调用l1，也可以使用double类型调用，但这一次编译器将产生一个关于可能丢失数据的警告。尝试用字符串参数调用会产生编译错误，因为std::string不能转换为int。另一方面，l2是泛型。编译器继续为它调用的所有参数类型实例化其特化版本，本例中是int、double和std::string。下面的代码展示了生成的函数的外观（至少在概念上）：
 
 \begin{cpp}
 struct __lambda_3
@@ -107,7 +107,7 @@ struct __lambda_3
 };
 \end{cpp}
 
-可以在这里看到函数调用操作符的主模板，以及提到的三个特化。毫不奇怪，编译器将为第三个Lambda表达式l3生成相同的代码，这是一个模板Lambda，仅在C++20中可用。由此产生的问题是，通用Lambda和Lambda模板有什么不同?为了回答这个问题，稍微修改一下前面的例子:
+可以在这里看到函数调用操作符的主模板，以及提到的三个特化。毫不奇怪，编译器将为第三个Lambda表达式l3生成相同的代码，这是一个模板Lambda，仅在C++20中可用。由此产生的问题是，通用Lambda和Lambda模板有什么不同?为了回答这个问题，稍微修改一下前面的例子：
 
 \begin{cpp}
 auto l1 = [](int a, int b) {return a + b; };
@@ -130,7 +130,7 @@ auto v10 = l3(std::string{ "42" }, '1'); // OK
 auto v11 = l3(std::string{ "42" }, std::string{ "42" }); // OK
 \end{cpp}
 
-新Lambda表达式有两个参数，可以用两个整数或一个int和一个double(尽管这同样会产生警告)调用l1，但不能用字符串和char调用，但可以用泛型Lambda l2和模板Lambda l3来完成所有这些。从语义上看，编译器生成的代码对于l2和l3是相同的:
+新Lambda表达式有两个参数，可以用两个整数或一个int和一个double（尽管这同样会产生警告）调用l1，但不能用字符串和char调用，但可以用泛型Lambda l2和模板Lambda l3来完成所有这些。从语义上看，编译器生成的代码对于l2和l3是相同的：
 
 \begin{cpp}
 struct __lambda_4
@@ -169,7 +169,7 @@ struct __lambda_4
 };
 \end{cpp}
 
-我们看到了函数调用操作符的主模板，以及几个完全显式的特化:两个int值，一个double和一个int，一个字符串和一个char，以及两个字符串对象。但若想将泛型Lambda l2的使用限制为相同类型的参数呢?这是不可能的。编译器无法推断我们的意图，所以将为参数列表中出现的auto，生成不同类型的模板参数。然而，C++20的Lambda模板允许指定函数调用操作符的形式。来看看下面的例子:
+我们看到了函数调用操作符的主模板，以及几个完全显式的特化：两个int值，一个double和一个int，一个字符串和一个char，以及两个字符串对象。但若想将泛型Lambda l2的使用限制为相同类型的参数呢?这是不可能的。编译器无法推断我们的意图，所以将为参数列表中出现的auto，生成不同类型的模板参数。然而，C++20的Lambda模板允许指定函数调用操作符的形式。来看看下面的例子：
 
 \begin{cpp}
 auto l5 = []<typename T>(T a, T b) { return a + b; };
@@ -187,13 +187,13 @@ auto v6 = l5(std::string{ "42" }, '1'); // error
 
 使用两个不同类型的参数调用Lambda模板是不可能的，即使可以隐式转换，例如从int转换为double。编译器将会报错。调用模板Lambda时，不可能显式地提供模板参数，例如：l5<double>(42,1.0)会产生一个编译错误。
 
-decltype类型说明符允许告知编译器从表达式推导出类型。C++14中，可以在泛型Lambda中使用它，来说明前面泛型Lambda表达式中的第二个参数具有与第一个参数相同的类型。看起来如下所示:
+decltype类型说明符允许告知编译器从表达式推导出类型。C++14中，可以在泛型Lambda中使用它，来说明前面泛型Lambda表达式中的第二个参数具有与第一个参数相同的类型。看起来如下所示：
 
 \begin{cpp}
 auto l4 = [](auto a, decltype(a) b) {return a + b; };
 \end{cpp}
 
-所以第二个参数b的类型必须转换为第一个参数a的类型，并且可以进行以下方式的调用:
+所以第二个参数b的类型必须转换为第一个参数a的类型，并且可以进行以下方式的调用：
 
 \begin{cpp}
 auto v1 = l4(42.0, 1); // OK
@@ -203,7 +203,7 @@ auto v3 = l4(std::string{ "42" }, '1'); // error
 
 因为int可以隐式转换为double，所以第一次调用编译时没有问题。第二个调用编译时发出警告，因为从double转换为int可能会导致数据丢失。但第三个调用会报错，因为char不能隐式转换为std::string。l4 Lambda比前面看到的泛型Lambda l2有所改进，但若参数类型不同，仍然不能帮助完全限制调用。这仅适用于前面所示的Lambda模板。
 
-下一段代码中显示了Lambda模板的另一个示例。这个Lambda只有一个参数std::array，但数组元素的类型和数组的大小指定为Lambda模板的模板参数:
+下一段代码中显示了Lambda模板的另一个示例。这个Lambda只有一个参数std::array，但数组元素的类型和数组的大小指定为Lambda模板的模板参数：
 
 \begin{cpp}
 auto l = []<typename T, size_t N>(
@@ -217,7 +217,7 @@ auto v1 = l(1); // error
 auto v2 = l(std::array<int, 3>{1, 2, 3}); // OK
 \end{cpp}
 
-试图用std::array对象以外的对象调用这个Lambda会产生编译器错误。编译器生成的函数对象可能如下所示:
+试图用std::array对象以外的对象调用这个Lambda会产生编译器错误。编译器生成的函数对象可能如下所示：
 
 \begin{cpp}
 struct __lambda_5
@@ -240,7 +240,7 @@ struct __lambda_5
 };
 \end{cpp}
 
-泛型Lambda相对于常规Lambda的好处是递归Lambda。Lambda是匿名的，因此不能直接递归调用。必须定义一个std::function对象，将Lambda表达式赋给它，并在捕获列表中通过引用捕获它。下面是一个递归Lambda的例子，用来计算数字的阶乘:
+泛型Lambda相对于常规Lambda的好处是递归Lambda。Lambda是匿名的，因此不能直接递归调用。必须定义一个std::function对象，将Lambda表达式赋给它，并在捕获列表中通过引用捕获它。下面是一个递归Lambda的例子，用来计算数字的阶乘：
 
 \begin{cpp}
 std::function<int(int)> factorial;
@@ -252,7 +252,7 @@ factorial = [&factorial](int const n) {
 factorial(5);
 \end{cpp}
 
-这可以通过使用泛型Lambdas来简化，不需要std::function及其捕获。递归泛型Lambda的实现如下所示:
+这可以通过使用泛型Lambdas来简化，不需要std::function及其捕获。递归泛型Lambda的实现如下所示：
 
 \begin{cpp}
 auto factorial = [](auto f, int const n) {
@@ -263,7 +263,7 @@ auto factorial = [](auto f, int const n) {
 factorial(factorial, 5);
 \end{cpp}
 
-若理解起来很难，编译器生成的代码应该能帮助搞清楚这是如何进行工作的:
+若理解起来很难，编译器生成的代码应该能帮助搞清楚这是如何进行工作的：
 
 \begin{cpp}
 struct __lambda_6

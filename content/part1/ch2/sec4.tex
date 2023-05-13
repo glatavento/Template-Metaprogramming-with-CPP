@@ -4,7 +4,7 @@
 
 \subsubsection{2.4.1\hspace{0.2cm}类型模板参数}
 
-如前所述，这些参数表示模板实例化期间作为参数提供的类型，由typename或class关键字引入。使用这两个关键字没什么区别。类型模板参数可以有一个默认值，即类型。这与为函数形参指定默认值的方式相同:
+如前所述，这些参数表示模板实例化期间作为参数提供的类型，由typename或class关键字引入。使用这两个关键字没什么区别。类型模板参数可以有一个默认值，即类型。这与为函数形参指定默认值的方式相同：
 
 \begin{cpp}
 template <typename T>
@@ -14,7 +14,7 @@ template <typename T = int>
 class wrapper { /* ... */ };
 \end{cpp}
 
-类型模板参数的名称可以省略，这在转发声明时很有用:
+类型模板参数的名称可以省略，这在转发声明时很有用：
 
 \begin{cpp}
 template <typename>
@@ -24,7 +24,7 @@ template <typename = int>
 class wrapper;
 \end{cpp}
 
-C++11引入了可变参数模板，这些模板的参数数量可变。接受零个或多个参数的模板形参称为形参包，类型模板参数包具有以下形式:
+C++11引入了可变参数模板，这些模板的参数数量可变。接受零个或多个参数的模板形参称为形参包，类型模板参数包具有以下形式：
 
 \begin{cpp}
 template <typename... T>
@@ -33,7 +33,7 @@ class wrapper { /* ... */ };
 
 可变参数模板将在第3章中讨论，这里不会详细讨论这类参数。
 
-C++20引入了概念和约束。约束指定了对模板参数的要求，一系列命名的约束称为概念。概念可以指定为类型模板参数，但语法有点不同。使用概念的名称(若有的话，后面跟着尖括号中的模板参数列表)来代替typename或class关键字。具有默认值和约束类型模板参数包的概念:
+C++20引入了概念和约束。约束指定了对模板参数的要求，一系列命名的约束称为概念。概念可以指定为类型模板参数，但语法有点不同。使用概念的名称（若有的话，后面跟着尖括号中的模板参数列表）来代替typename或class关键字。具有默认值和约束类型模板参数包的概念：
 
 \begin{cpp}
 template <WrappableType T>
@@ -51,29 +51,29 @@ class wrapper { /* ... */ };
 
 \subsubsection{2.4.2\hspace{0.2cm}非类型模板参数}
 
-模板参数并不总是必须表示类型，也可以是编译时表达式，例如常量、外部函数，或对象的地址或静态类成员的地址。编译时表达式提供的参数称为非类型模板参数，这类参数只能有结构类型。以下是结构类型的描述:
+模板参数并不总是必须表示类型，也可以是编译时表达式，例如常量、外部函数，或对象的地址或静态类成员的地址。编译时表达式提供的参数称为非类型模板参数，这类参数只能有结构类型。以下是结构类型的描述：
 
 \begin{itemize}
 \item 
 整数类型
 
 \item 
-浮点类型(始于C++20)
+浮点类型（始于C++20）
 
 \item 
 枚举类型
 
 \item 
-指针类型(指向对象或函数)
+指针类型（指向对象或函数）
 
 \item 
-指向成员类型的指针(指向成员对象或成员函数)
+指向成员类型的指针（指向成员对象或成员函数）
 
 \item 
-左值引用类型(指向对象或函数)
+左值引用类型（指向对象或函数）
 
 \item 
-字面量类类型，需要满足以下要求:
+字面量类类型，需要满足以下要求：
 \begin{itemize}
 \item 
 所有基类都是public且不可变的。
@@ -86,7 +86,7 @@ class wrapper { /* ... */ };
 \end{itemize}
 \end{itemize}
 
-这些类型的cv限定形式也可以用于非类型模板参数。非类型模板参数可以以不同的方式指定，可能的形式如下所示:
+这些类型的cv限定形式也可以用于非类型模板参数。非类型模板参数可以以不同的方式指定，可能的形式如下所示：
 
 \begin{cpp}
 template <int V>
@@ -123,26 +123,26 @@ public:
 };
 \end{cpp}
 
-这个buffer类包含S个T类型元素的内部数组，所以S需要是一个编译类型的值。这个类可以进行如下的实例化:
+这个buffer类包含S个T类型元素的内部数组，所以S需要是一个编译类型的值。这个类可以进行如下的实例化：
 
 \begin{cpp}
 buffer<int, 10> b1;
 buffer<int, 2*5> b2;
 \end{cpp}
 
-这两个定义相同，b1和b2都是两个存储10个整数的buffer。此外，其具有相同的类型，因为2*5和10是两个表达式，其计算值为相同的编译时值。可以用下面的语句进行检查:
+这两个定义相同，b1和b2都是两个存储10个整数的buffer。此外，其具有相同的类型，因为2*5和10是两个表达式，其计算值为相同的编译时值。可以用下面的语句进行检查：
 
 \begin{cpp}
 static_assert(std::is_same_v<decltype(b1), decltype(b2)>);
 \end{cpp}
 
-现在不再是这样了，b3对象的类型声明如下:
+现在不再是这样了，b3对象的类型声明如下：
 
 \begin{cpp}
 buffer<int, 3*5> b3;
 \end{cpp}
 
-b3是一个包含15个整数的buffer，这与前面示例中包含10个整数的buffer类型不同。从概念上讲，编译器会生成以下代码:
+b3是一个包含15个整数的buffer，这与前面示例中包含10个整数的buffer类型不同。从概念上讲，编译器会生成以下代码：
 
 \begin{cpp}
 template <typename T, size_t S>
@@ -164,7 +164,7 @@ public:
 };
 \end{cpp}
 
-这是主模板的代码，下面显示了一些特化:
+这是主模板的代码，下面显示了一些特化：
 
 \begin{cpp}
 template<>
@@ -190,13 +190,13 @@ public:
 };
 \end{cpp}
 
-这个示例中，可以看到的特化的概念(本章后续的内容中详细介绍)。目前，应该注意到这两种不同的buffer类型，可以用下面的语句验证b1和b3的类型是否相同:
+这个示例中，可以看到的特化的概念（本章后续的内容中详细介绍）。目前，应该注意到这两种不同的buffer类型，可以用下面的语句验证b1和b3的类型是否相同：
 
 \begin{cpp}
 static_assert(!std::is_same_v<decltype(b1), decltype(b3)>);
 \end{cpp}
 
-实践中，结构类型(如整数、浮点数或枚举类型)的使用比其他类型更常见。理解其用法，并找到相应的例子可能更容易，也有使用指针或引用的场景。下面的例子中，将研究如何使用指向函数参数的指针。先来看看代码:
+实践中，结构类型（如整数、浮点数或枚举类型）的使用比其他类型更常见。理解其用法，并找到相应的例子可能更容易，也有使用指针或引用的场景。下面的例子中，将研究如何使用指向函数参数的指针。先来看看代码：
 
 \begin{cpp}
 struct device
@@ -215,7 +215,7 @@ struct smart_device : device
 };
 \end{cpp}
 
-device是一个基类，具有一个名为output的纯虚函数(以及一个虚析构函数)。这是名为smart\_device的类模板的基类，该类模板通过函数指针调用函数来实现output虚函数，此函数的指针会作为传递给类模板的非类型模板的实参。下面的示例展示了如何使用:
+device是一个基类，具有一个名为output的纯虚函数（以及一个虚析构函数）。这是名为smart\_device的类模板的基类，该类模板通过函数指针调用函数来实现output虚函数，此函数的指针会作为传递给类模板的非类型模板的实参。下面的示例展示了如何使用：
 
 \begin{cpp}
 void say_hello_in_english()
@@ -237,13 +237,13 @@ auto w2 =
 w2->output();
 \end{cpp}
 
-w1和w2是两个unique\_ptr对象，指向相同类型的对象，但事实并非如此。因为smart\_device<\&say\_hello\_in\_english>和smart\_device<\&say\_hello\_in\_spanish>是不同的类型，所以它们的函数指针实例化不同。这可以很容易确定:
+w1和w2是两个unique\_ptr对象，指向相同类型的对象，但事实并非如此。因为smart\_device<\&say\_hello\_in\_english>和smart\_device<\&say\_hello\_in\_spanish>是不同的类型，所以它们的函数指针实例化不同。这可以很容易确定：
 
 \begin{cpp}
 static_assert(!std::is_same_v<decltype(w1), decltype(w2)>);
 \end{cpp}
 
-另一方面，若用std::unique\_ptr<device>替换auto，那么w1和w2是指向基类device的智能指针，因此具有相同的类型:
+另一方面，若用std::unique\_ptr<device>替换auto，那么w1和w2是指向基类device的智能指针，因此具有相同的类型：
 
 \begin{cpp}
 std::unique_ptr<device> w1 =
@@ -257,7 +257,7 @@ w2->output();
 static_assert(std::is_same_v<decltype(w1), decltype(w2)>);
 \end{cpp}
 
-虽然这个例子使用的是指向函数的指针，但也可以假设一个类似的例子，用于指向成员函数的指针。前面的例子可以转换为以下(仍然使用相同的基类设备)方式:
+虽然这个例子使用的是指向函数的指针，但也可以假设一个类似的例子，用于指向成员函数的指针。前面的例子可以转换为以下（仍然使用相同的基类设备）方式：
 
 \begin{cpp}
 template <typename Command, void (Command::*action)()>
@@ -287,7 +287,7 @@ struct hello_command
 };
 \end{cpp}
 
-这些类的使用方式如下所示:
+这些类的使用方式如下所示：
 
 \begin{cpp}
 hello_command cmd;
@@ -303,7 +303,7 @@ auto w2 = std::make_unique<
 w2->output();
 \end{cpp}
 
-C++17中，引入了一种指定非类型模板参数的新形式，使用auto(包括auto*和auto\&)或decltype(auto)来代替类型名，编译器可以从作为实参提供的表达式中推断参数的类型。若派生的类型不允许用于非类型模板参数，编译器将生成错误的类型。让我们来看一个例子:
+C++17中，引入了一种指定非类型模板参数的新形式，使用auto（包括auto*和auto\&）或decltype(auto)来代替类型名，编译器可以从作为实参提供的表达式中推断参数的类型。若派生的类型不允许用于非类型模板参数，编译器将生成错误的类型。让我们来看一个例子：
 
 \begin{cpp}
 template <auto x>
@@ -311,7 +311,7 @@ struct foo
 { /* … */ };
 \end{cpp}
 
-这个类模板可以这样用:
+这个类模板可以这样用：
 
 \begin{cpp}
 foo<42> f1;   // foo<int>
@@ -322,7 +322,7 @@ foo<"42"> f3; // error
 
 第一个例子中，对于f1，编译器将实参的类型推断为int。第二个例子中，对于f2，编译器将类型推断为double，但需要支持C++20。以前的C++版本中，这一行会产生错误。C++20之前，浮点类型不允许作为非类型模板参数。所以，最后一行会出错，因为“42”是一个字符串字面量，不能用作非类型模板参数。
 
-然而，最后一个例子可以在C++20中通过将字面值字符串，包装在结构字面值类中来解决。这个类将字符串字面值的字符存储在一个固定长度的数组中:
+然而，最后一个例子可以在C++20中通过将字面值字符串，包装在结构字面值类中来解决。这个类将字符串字面值的字符存储在一个固定长度的数组中：
 
 \begin{cpp}
 template<size_t N>
@@ -347,7 +347,7 @@ struct foo
 
 C++20中，foo<"42"> f;的声明将在编译时通过。
 
-auto也可以与非类型模板参数包一起使用，类型为每个模板参数独立推导。模板参数的类型不需要相同:
+auto也可以与非类型模板参数包一起使用，类型为每个模板参数独立推导。模板参数的类型不需要相同：
 
 \begin{cpp}
 template<auto... x>
@@ -365,7 +365,7 @@ foo<42, 42.0, false, 'x'> f;
 
 尽管这个名字有点奇怪，指的是一类模板参数，这些参数本身就是模板。这些参数可以像类型模板参数一样指定，带或不带名称，带或不带默认值，以及作为带或不带名称的参数包。C++17起，关键字class和typename都可以用来引入双重模板参数。此版本之前，只能使用class关键字。
 
-为了展示双重模板参数的使用，先来看一下下面两个类模板:
+为了展示双重模板参数的使用，先来看一下下面两个类模板：
 
 \begin{cpp}
 template <typename T>
@@ -395,7 +395,7 @@ private:
 };
 \end{cpp}
 
-simple\_wrapper类是一个简单的类模板，保存类型模板参数T的值。另一方面，fancy\_wrapper是一个更复杂的包装器实现，隐藏了包装的值，并公开了用于数据访问的成员函数。接下来，我们实现一个名为wrapped\_pair的类模板，包含两个包装类型的值。这可以是simple\_wrapper，fancy\_wrapper，或任何类似的类型:
+simple\_wrapper类是一个简单的类模板，保存类型模板参数T的值。另一方面，fancy\_wrapper是一个更复杂的包装器实现，隐藏了包装的值，并公开了用于数据访问的成员函数。接下来，我们实现一个名为wrapped\_pair的类模板，包含两个包装类型的值。这可以是simple\_wrapper，fancy\_wrapper，或任何类似的类型：
 
 \begin{cpp}
 template <typename T, typename U,
@@ -413,7 +413,7 @@ public:
 };
 \end{cpp}
 
-wrapping\_pair类模板有三个参数。前两个是类型模板形参，名为T和U。第三个形参是模板模板参数为W，有一个默认值，即fancy\_wrapper类型。可以使用这个类模板，如下所示:
+wrapping\_pair类模板有三个参数。前两个是类型模板形参，名为T和U。第三个形参是模板模板参数为W，有一个默认值，即fancy\_wrapper类型。可以使用这个类模板，如下所示：
 
 \begin{cpp}
 wrapping_pair<int, double> p1(42, 42.0);
@@ -431,7 +431,7 @@ std::cout << p2.item1.value << ' '
 
 \subsubsection{2.4.4\hspace{0.2cm}默认模板参数}
 
-默认模板参数的指定与默认函数参数类似，在参数列表中的等号后面。以下规则适用于默认模板参数:
+默认模板参数的指定与默认函数参数类似，在参数列表中的等号后面。以下规则适用于默认模板参数：
 
 \begin{itemize}
 \item 
@@ -456,7 +456,7 @@ std::cout << p2.item1.value << ' '
 不允许在函数模板或成员函数模板的显式特化的声明或定义中出现。
 \end{itemize}
 
-下面展示了使用默认模板参数的示例:
+下面展示了使用默认模板参数的示例：
 
 \begin{cpp}
 template <typename T = int>
@@ -466,7 +466,7 @@ template <typename T = int, typename U = double>
 class bar { /*...*/ };
 \end{cpp}
 
-声明类模板时，带默认实参的模板参数不能后面跟着不带默认实参的形参，但此限制不适用于函数模板:
+声明类模板时，带默认实参的模板参数不能后面跟着不带默认实参的形参，但此限制不适用于函数模板：
 
 \begin{cpp}
 template <typename T = int, typename U>
@@ -476,7 +476,7 @@ template <typename T = int, typename U>
 void func() {} // OK
 \end{cpp}
 
-一个模板可以有多个声明(但只有一个定义)，来自所有声明和定义的默认模板参数可以进行合并(与合并默认函数参数的方式相同):
+一个模板可以有多个声明（但只有一个定义），来自所有声明和定义的默认模板参数可以进行合并（与合并默认函数参数的方式相同）：
 
 \begin{cpp}
 template <typename T, typename U = double>
@@ -493,7 +493,7 @@ struct foo
 };
 \end{cpp}
 
-语义上等价于:
+语义上等价于：
 
 \begin{cpp}
 template <typename T = int, typename U = double>
@@ -504,7 +504,7 @@ struct foo
 };
 \end{cpp}
 
-但这些具有不同默认模板参数的多个声明不能按任何顺序提供，前面提到的规则仍然适用。若类模板声明的第一个形参有默认实参，而后面的形参没有默认实参即是非法:
+但这些具有不同默认模板参数的多个声明不能按任何顺序提供，前面提到的规则仍然适用。若类模板声明的第一个形参有默认实参，而后面的形参没有默认实参即是非法：
 
 \begin{cpp}
 template <typename T = int, typename U>
@@ -514,7 +514,7 @@ template <typename T, typename U = double>
 struct foo;
 \end{cpp}
 
-对默认模板实参的另一个限制是，同一个模板形参不能在同一个作用域中赋予多个默认值。因此，下面的例子将在编译时报错:
+对默认模板实参的另一个限制是，同一个模板形参不能在同一个作用域中赋予多个默认值。因此，下面的例子将在编译时报错：
 
 \begin{cpp}
 template <typename T = int>
@@ -525,7 +525,7 @@ template <typename T = int> // error redefinition
 struct foo {};
 \end{cpp}
 
-当默认模板实参使用来自类名时，成员访问限制会在声明时进行检查，而不是在模板实例化时:
+当默认模板实参使用来自类名时，成员访问限制会在声明时进行检查，而不是在模板实例化时：
 
 \begin{cpp}
 template <typename T>

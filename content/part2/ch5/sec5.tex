@@ -1,10 +1,10 @@
 \section{探索标准类型特征}
 
-标准库提供了一系列类型特征，用于查询类型的属性以及对类型执行转换。这些类型特征可以在<type\_traits>头文件中作为类型支持库使用。类型特征有以下几种:
+标准库提供了一系列类型特征，用于查询类型的属性以及对类型执行转换。这些类型特征可以在<type\_traits>头文件中作为类型支持库使用。类型特征有以下几种：
 
 \begin{itemize}
 \item
-查询类型类别(主或复合类型)
+查询类型类别（主或复合类型）
 
 \item
 查询类型属性
@@ -22,11 +22,11 @@
 各种转换
 \end{itemize}
 
-尽管研究每一种类型的特征超出了本书的范畴，但将探讨这些类别，看看它们包含什么。下面的小节中，将列出构成这些类别的类型特征(或大部分类型特征)。这些列表以及关于每种类型特征的详细信息可以在C++标准中找到(参见本章末尾的扩展阅读，以获得标准草案版本的链接)或cppreference.com网站\url{https://en.cppreference.com/w/cpp/header/type_traits}(许可链接:\url{http://creativecommons.org/licenses/by-sa/3.0/})。
+尽管研究每一种类型的特征超出了本书的范畴，但将探讨这些类别，看看它们包含什么。下面的小节中，将列出构成这些类别的类型特征（或大部分类型特征）。这些列表以及关于每种类型特征的详细信息可以在C++标准中找到（参见本章末尾的扩展阅读，以获得标准草案版本的链接）或cppreference.com网站\url{https://en.cppreference.com/w/cpp/header/type_traits}（许可链接：\url{http://creativecommons.org/licenses/by-sa/3.0/}）。
 
 \subsubsection{5.5.1\hspace{0.2cm}查询类型类别}
 
-之前已经使用了几个类型特征，例如std::is\_integral，std::is\_floating\_point，以及std::is\_arithmetic。这些用于查询主类型和复合类型类别的一些标准类型特征。下表列出了所有这些类型的特征:
+之前已经使用了几个类型特征，例如std::is\_integral，std::is\_floating\_point，以及std::is\_arithmetic。这些用于查询主类型和复合类型类别的一些标准类型特征。下表列出了所有这些类型的特征：
 
 \begin{table}[H]
 \centering
@@ -39,7 +39,7 @@
 		is\_null\_pointer &
 		一个类型是否为std::nullptr\_t类型。 \\ \hline
 		is\_integral &
-		\begin{tabular}[c]{@{}l@{}}类型是否为整型，包括有符号、无符号和cv限定变量。整型类型为:\\ ·bool, char, char8\_t(C++20), char16\_t, char32\_t, wchar\_t, short, \\ int, long和long long\\ ·任何扩展整数类型\end{tabular} \\ \hline
+		\begin{tabular}[c]{@{}l@{}}类型是否为整型，包括有符号、无符号和cv限定变量。整型类型为：\\ ·bool, char, char8\_t(C++20), char16\_t, char32\_t, wchar\_t, short, \\ int, long和long long\\ ·任何扩展整数类型\end{tabular} \\ \hline
 		is\_floating\_point &
 		\begin{tabular}[c]{@{}l@{}}类型是否为浮点类型，包括cv限定变量。T可能的类型有\\ float，double和long double.\end{tabular}\\ \hline
 		is\_array &
@@ -79,7 +79,7 @@
 		is\_fundamental &
 		\begin{tabular}[c]{@{}l@{}}类型是否为基本类型。基本类型为算术类型， \\ void类型和std::nullptr\_t类型。.\end{tabular} \\ \hline
 		is\_scalar &
-		\begin{tabular}[c]{@{}l@{}}类型是标量类型还是标量类型的cv-限定符版本。 标量类型包括:\\ ·算术类型\\ ·指针类型\\ ·指向成员类型的指针\\ ·枚举类型\\ ·std::nullptr\_t\end{tabular} \\ \hline
+		\begin{tabular}[c]{@{}l@{}}类型是标量类型还是标量类型的cv-限定符版本。 标量类型包括：\\ ·算术类型\\ ·指针类型\\ ·指向成员类型的指针\\ ·枚举类型\\ ·std::nullptr\_t\end{tabular} \\ \hline
 		is\_object &
 		\begin{tabular}[c]{@{}l@{}}类型是否为cv-qualifier版本的对象类型。\\ 对象类型不是函数类型、引用类型或void类型。\end{tabular} \\ \hline
 		is\_compound &
@@ -91,7 +91,7 @@
 表 5.1
 \end{center}
 
-这些类型特征在C++11中可用。从C++17开始，每个变量都有一个变量模板来简化对布尔成员value的访问。对于名称为is\_abc的类型特征，则存在名为is\_abc\_v的变量模板。对于所有具有名为value的布尔成员的类型特征都是如此，这些变量的定义很简单。下面的代码展示了is\_arithmentc\_v变量模板的定义:
+这些类型特征在C++11中可用。从C++17开始，每个变量都有一个变量模板来简化对布尔成员value的访问。对于名称为is\_abc的类型特征，则存在名为is\_abc\_v的变量模板。对于所有具有名为value的布尔成员的类型特征都是如此，这些变量的定义很简单。下面的代码展示了is\_arithmentc\_v变量模板的定义：
 
 \begin{cpp}
 template< class T >
@@ -99,7 +99,7 @@ inline constexpr bool is_arithmetic_v =
 	is_arithmetic<T>::value;
 \end{cpp}
 
-下面是使用这些类型特征的例子:
+下面是使用这些类型特征的例子：
 
 \begin{cpp}
 template <typename T>
@@ -123,28 +123,28 @@ std::cout << as_string("42") << '\n'; // error
 
 函数模板as\_string返回一个包含pass值作为参数的字符串。它只适用于算术类型，并且适用于nullptr\_t，将为其返回值“null”。
 
-聪明的读者一定注意到了static\_assert(always\_false<T>)，并想知道这个always\_false<T>表达式到底是什么。其是一个bool类型的变量模板，计算结果为false。其定义简单如下:
+聪明的读者一定注意到了static\_assert(always\_false<T>)，并想知道这个always\_false<T>表达式到底是什么。其是一个bool类型的变量模板，计算结果为false。其定义简单如下：
 
 \begin{cpp}
 template<class T>
 constexpr bool always_false = std::false_type::value;
 \end{cpp}
 
-static\_assert(false)会使程序格式不正确。原因是它的条件不依赖于模板参数，而是求值为false。若模板中不能为constexpr if语句的子语句生成有效的特化，则程序是格式错误的(不需要诊断)。为了避免这种情况，static\_assert的条件必须依赖于模板参数。对于static\_assert(always\_false<T>)，编译器在模板实例化之前，不知道这将计算为true还是false。
+static\_assert(false)会使程序格式不正确。原因是它的条件不依赖于模板参数，而是求值为false。若模板中不能为constexpr if语句的子语句生成有效的特化，则程序是格式错误的（不需要诊断）。为了避免这种情况，static\_assert的条件必须依赖于模板参数。对于static\_assert(always\_false<T>)，编译器在模板实例化之前，不知道这将计算为true还是false。
 
 我们探索的下一类类型特征，是查询类型的属性。
 
 \subsubsection{5.5.2\hspace{0.2cm}查询类型属性}
 
-能够查询类型属性的类型特征如下所示:
+能够查询类型属性的类型特征如下所示：
 
 \begin{table}[H]
 \centering
 	\begin{tabular}{|l|l|l|}
 		\hline
 		\textbf{名称} & \textbf{C++版本} & \textbf{描述}                                                                                                      \\ \hline
-		is\_const     & C++11                & \begin{tabular}[c]{@{}l@{}}是否为const限定(const或const volatile)。\end{tabular}       \\ \hline
-		is\_volatile  & C++11                & \begin{tabular}[c]{@{}l@{}}是否为volatile限定(volatile或const volatile)。\end{tabular} \\ \hline
+		is\_const     & C++11                & \begin{tabular}[c]{@{}l@{}}是否为const限定（const或const volatile）。\end{tabular}       \\ \hline
+		is\_volatile  & C++11                & \begin{tabular}[c]{@{}l@{}}是否为volatile限定（volatile或const volatile）。\end{tabular} \\ \hline
 	\end{tabular}
 \end{table}
 
@@ -157,22 +157,22 @@ static\_assert(false)会使程序格式不正确。原因是它的条件不依�
 		\textbf{描述} \\ \hline
 		is\_trivial &
 		C++11 &
-		\begin{tabular}[c]{@{}l@{}}是普通类型，还是cv限定变量。以下是简单类型:\\  ·标量类型或标量类型的数组\\ ·具有简单的默认构造函数\\   或此类数组的简单的可复制类。\end{tabular} \\ \hline
+		\begin{tabular}[c]{@{}l@{}}是普通类型，还是cv限定变量。以下是简单类型：\\  ·标量类型或标量类型的数组\\ ·具有简单的默认构造函数\\   或此类数组的简单的可复制类。\end{tabular} \\ \hline
 		\begin{tabular}[c]{@{}l@{}}is\_trivially\_\\ copyable\end{tabular} &
 		C++11 &
-		\begin{tabular}[c]{@{}l@{}}是否可复制。 以下是可复制的类型:\\ ·标量类型或标量类型的数组\\ ·可复制的类或此类的数组\end{tabular} \\ \hline
+		\begin{tabular}[c]{@{}l@{}}是否可复制。 以下是可复制的类型：\\ ·标量类型或标量类型的数组\\ ·可复制的类或此类的数组\end{tabular} \\ \hline
 		\begin{tabular}[c]{@{}l@{}}is\_standard\_\\ layout\end{tabular} &
 		C++11 &
 		\begin{tabular}[c]{@{}l@{}}是标准布局类型，还是cv限定类型\\ ·标量类型或标量类型的数组\\ ·标准布局类或此类的数组\end{tabular} \\ \hline
 		is\_empty &
 		C++11 &
-		\begin{tabular}[c]{@{}l@{}}是否为空类型。空类型是一种类类型(不是联合体)，\\ 是否为空类型。空类型是一种类类型(不是联合体)，\\ 没有虚函数，没有虚基类，也没有非空基类。\end{tabular} \\ \hline
+		\begin{tabular}[c]{@{}l@{}}是否为空类型。空类型是一种类类型（不是联合体），\\ 是否为空类型。空类型是一种类类型（不是联合体），\\ 没有虚函数，没有虚基类，也没有非空基类。\end{tabular} \\ \hline
 		is\_polymorphic &
 		C++11 &
-		\begin{tabular}[c]{@{}l@{}}是否为多态类型。多态类型至少继承\\ 自有一个虚函数的类型(不是联合体)。\end{tabular} \\ \hline
+		\begin{tabular}[c]{@{}l@{}}是否为多态类型。多态类型至少继承\\ 自有一个虚函数的类型（不是联合体）。\end{tabular} \\ \hline
 		is\_abstract &
 		C++11 &
-		\begin{tabular}[c]{@{}l@{}}是否为抽象类型。抽象类型至少继承\\ 自有一个虚纯函数的类型(不是联合体)。\end{tabular} \\ \hline
+		\begin{tabular}[c]{@{}l@{}}是否为抽象类型。抽象类型至少继承\\ 自有一个虚纯函数的类型（不是联合体）。\end{tabular} \\ \hline
 		is\_final &
 		C++14 &
 		\begin{tabular}[c]{@{}l@{}}是否是使用final说明符声明的类型。\end{tabular} \\ \hline
@@ -187,10 +187,10 @@ static\_assert(false)会使程序格式不正确。原因是它的条件不依�
 		类型是无符号整型，还是bool类型。 \\ \hline
 		\begin{tabular}[c]{@{}l@{}}is\_bounded\_\\ array\end{tabular} &
 		C++20 &
-		\begin{tabular}[c]{@{}l@{}}是否为已知边界的数组类型(比如int{[}5{]})\end{tabular} \\ \hline
+		\begin{tabular}[c]{@{}l@{}}是否为已知边界的数组类型（比如int{[}5{]}）\end{tabular} \\ \hline
 		\begin{tabular}[c]{@{}l@{}}is\_unbounded\_\\ array\end{tabular} &
 		C++20 &
-		\begin{tabular}[c]{@{}l@{}}是否为未知边界的数组类型(比如int{[}{]}).\end{tabular} \\ \hline
+		\begin{tabular}[c]{@{}l@{}}是否为未知边界的数组类型（比如int{[}{]}）.\end{tabular} \\ \hline
 		is\_scoped\_enum &
 		C++23 &
 		是否为范围枚举类型。 \\ \hline
@@ -206,7 +206,7 @@ static\_assert(false)会使程序格式不正确。原因是它的条件不依�
 
 其中大多数可能很容易理解，但有两个乍一看似乎是相同的，is\_trivial和\_trivial\_copyable。对于标量类型或标量类型数组，两者都成立，也适用于可复制的类或此类数组，但is\_trivial仅适用于具有普通默认构造函数的可复制类。
 
-根据C++20标准§11.4.4.1，若默认构造函数不是用户提供的，那么默认构造函数是普通的，类没有虚成员函数，没有虚基类，没有具有默认初始化式的非静态成员，其每个直接基类都有一个普通的默认构造函数，类的每个非静态成员也都有一个普通的默认构造函数。为了更好地理解这一点，来看看下面的例子:
+根据C++20标准§11.4.4.1，若默认构造函数不是用户提供的，那么默认构造函数是普通的，类没有虚成员函数，没有虚基类，没有具有默认初始化式的非静态成员，其每个直接基类都有一个普通的默认构造函数，类的每个非静态成员也都有一个普通的默认构造函数。为了更好地理解这一点，来看看下面的例子：
 
 \begin{cpp}
 struct foo
@@ -243,7 +243,7 @@ std::cout << std::is_trivially_copyable_v<tar>
 
 \subsubsection{5.5.3\hspace{0.2cm}查询支持的操作}
 
-下面的类型特征可以查询类型支持的操作:
+下面的类型特征可以查询类型支持的操作：
 
 \begin{table}[H]
 \centering
@@ -292,7 +292,7 @@ std::cout << std::is_trivially_copyable_v<tar>
 
 \subsubsection{5.5.4\hspace{0.2cm}查询类型的关系}
 
-这里，可以找到几个类型特征，可以查询类型之间的关系。这些类型特征如下所示:
+这里，可以找到几个类型特征，可以查询类型之间的关系。这些类型特征如下所示：
 
 \begin{table}[H]
 \centering
@@ -315,7 +315,7 @@ std::cout << std::is_trivially_copyable_v<tar>
 		是否可以调用一个类型与指定参数类型。 \\ \hline
 		is\_layout\_compatible &
 		C++20 &
-		\begin{tabular}[c]{@{}l@{}}检查两种类型是否具有兼容的布局。若两个类\\是相同类型  (忽略cv限定符)，或者其公共初始\\ 序列包含所有非静态数据成员和位字段，或者是\\ 具有相同底层类型的枚举，则为布局兼容。\end{tabular} \\ \hline
+		\begin{tabular}[c]{@{}l@{}}检查两种类型是否具有兼容的布局。若两个类\\是相同类型  （忽略cv限定符），或者其公共初始\\ 序列包含所有非静态数据成员和位字段，或者是\\ 具有相同底层类型的枚举，则为布局兼容。\end{tabular} \\ \hline
 		\begin{tabular}[c]{@{}l@{}}is\_pointer\_\\ inconvertible\_base \_of\end{tabular} &
 		C++20 &
 		是否为另一类型的指针不可转换基类。 \\ \hline
@@ -328,7 +328,7 @@ std::cout << std::is_trivially_copyable_v<tar>
 
 这里，使用最多的可能是std::is\_same。这种类型特征在判断两种类型是否相同时非常有用，不过这种类型的特征需要考虑const和volatile限定符，所以int和int const不是同一类型。
 
-可以使用这个类型特征来扩展前面所示的as\_string函数的实现，若用true或false参数调用，则会输出1或0，而不是true/false。可以为bool类型添加一个显式检查，并返回一个包含这两个值之一的字符串:
+可以使用这个类型特征来扩展前面所示的as\_string函数的实现，若用true或false参数调用，则会输出1或0，而不是true/false。可以为bool类型添加一个显式检查，并返回一个包含这两个值之一的字符串：
 
 \begin{cpp}
 template <typename T>
@@ -352,7 +352,7 @@ std::cout << as_string(false) << '\n'; // prints false
 
 \subsubsection{5.5.5\hspace{0.2cm}修改cv限定符、引用、指针或符号}
 
-类型上执行转换的类型特征也称为元函数。这些类型特征提供了一个称为type的成员类型(typedef)，表示转换后的类型。这些类型特征包括:
+类型上执行转换的类型特征也称为元函数。这些类型特征提供了一个称为type的成员类型(typedef)，表示转换后的类型。这些类型特征包括：
 
 \begin{table}[H]
 \centering
@@ -367,13 +367,13 @@ std::cout << as_string(false) << '\n'; // prints false
 		\begin{tabular}[c]{@{}l@{}}add\_lvalue\_reference\\ add\_rvalue\_reference\end{tabular} &
 		向类型添加左值或右值引用。 \\ \hline
 		remove\_reference &
-		从类型中删除引用(左值或右值)。 \\ \hline
+		从类型中删除引用（左值或右值）。 \\ \hline
 		remove\_cvref &
 		\begin{tabular}[c]{@{}l@{}}从类型中删除const和volatile限定符以及左值或右值引用。\\ 融合了remove\_cv和remove\_reference。\end{tabular} \\ \hline
 		add\_pointer                                                                  & 添加指向类型的指针。                     \\ \hline
 		remove\_pointer                                                               & 从类型中移除指针。                \\ \hline
 		\begin{tabular}[c]{@{}l@{}}make\_signed\\ make\_unsigned\end{tabular} &
-		\begin{tabular}[c]{@{}l@{}}创建有符号或无符号的整型(bool类型除外)或枚举类型。\\ 支持的整数类型有short, int, long, long long, char, wchar\_t, \\ char8\_t, char16\_t和 char32\_t。\end{tabular} \\ \hline
+		\begin{tabular}[c]{@{}l@{}}创建有符号或无符号的整型（bool类型除外）或枚举类型。\\ 支持的整数类型有short, int, long, long long, char, wchar\_t, \\ char8\_t, char16\_t和 char32\_t。\end{tabular} \\ \hline
 		\begin{tabular}[c]{@{}l@{}}remove\_extent\\ remove\_all\_extents\end{tabular} & 从数组类型中移除一个范围或所有范围。 \\ \hline
 	\end{tabular}
 \end{table}
@@ -386,7 +386,7 @@ std::cout << as_string(false) << '\n'; // prints false
 
 \subsubsection{5.5.6\hspace{0.2cm}各种转换}
 
-除了前面列出的元函数之外，还有其他执行类型转换的类型特征。其中常用的如下表所示:
+除了前面列出的元函数之外，还有其他执行类型转换的类型特征。其中常用的如下表所示：
 
 \begin{table}[H]
 \centering
@@ -403,7 +403,7 @@ std::cout << as_string(false) << '\n'; // prints false
 		\begin{tabular}[c]{@{}l@{}}通过基于编译时布尔条件进行选择，\\ 将type成员类型定义为两种可能类型之一。\end{tabular} \\ \hline
 		decay &
 		C++11 &
-		\begin{tabular}[c]{@{}l@{}}在类型上应用转换(数组类型为数组到指针，\\ 引用类型为左值到右值，函数类型为指针)，\\ 删除const和volatile限定符，并使用结果成员\\ 类型定义类型作为其自己的成员类型定义类型。\end{tabular} \\ \hline
+		\begin{tabular}[c]{@{}l@{}}在类型上应用转换（数组类型为数组到指针，\\ 引用类型为左值到右值，函数类型为指针），\\ 删除const和volatile限定符，并使用结果成员\\ 类型定义类型作为其自己的成员类型定义类型。\end{tabular} \\ \hline
 		common\_type &
 		C++11 &
 		从一组类型中确定公共类型。 \\ \hline
@@ -422,7 +422,7 @@ std::cout << as_string(false) << '\n'; // prints false
 	\end{tabular}
 \end{table}
 
-列表中，已经讨论了enable\_if，还有一些需要举例说明的类型特征。先来看看std::decay，考虑一下as\_string函数的另一种实现方式:
+列表中，已经讨论了enable\_if，还有一些需要举例说明的类型特征。先来看看std::decay，考虑一下as\_string函数的另一种实现方式：
 
 \begin{cpp}
 template <typename T>
@@ -439,7 +439,7 @@ std::string as_string(T&& value)
 }
 \end{cpp}
 
-其中的变化是将参数传递给函数的方式。不是按值传递，而是按右值引用传递，这是一个转发引用。可以通过传递右值(例如字面量)进行调用，但传递左值会触发编译器错误:
+其中的变化是将参数传递给函数的方式。不是按值传递，而是按右值引用传递，这是一个转发引用。可以通过传递右值（例如字面量）进行调用，但传递左值会触发编译器错误：
 
 \begin{cpp}
 std::cout << as_string(true) << '\n'; // OK
@@ -452,7 +452,7 @@ int n = 42;
 std::cout << as_string(n) << '\n'; // error
 \end{cpp}
 
-最后两个调用将导致static\_assert失败，实际的类型模板参数是bool\&和int\&。因此std::is\_same<bool, bool\&>将用false初始化值member，std::is\_arithmetic<int\&>也会做同样的事情。为了求值这些类型，需要忽略引用以及const和volatile限定符。这里使用的类型特征是std::decay，其会执行几个转换。其执行的概念如下所示:
+最后两个调用将导致static\_assert失败，实际的类型模板参数是bool\&和int\&。因此std::is\_same<bool, bool\&>将用false初始化值member，std::is\_arithmetic<int\&>也会做同样的事情。为了求值这些类型，需要忽略引用以及const和volatile限定符。这里使用的类型特征是std::decay，其会执行几个转换。其执行的概念如下所示：
 
 \begin{cpp}
 template <typename T>
@@ -475,7 +475,7 @@ public:
 
 可以看到std::decay是在其他元函数的帮助下实现的，包括std::conditional，是基于编译时表达式在一种类型或另一种类型之间进行选择的关键。这种类型特征会多次使用，若需要根据多个条件进行选择，那么可以这样做。
 
-在std::decay的帮助下，可以修改as\_string函数、剥离引用和cv-限定符:
+在std::decay的帮助下，可以修改as\_string函数、剥离引用和cv-限定符：
 
 \begin{cpp}
 template <typename T>
@@ -496,7 +496,7 @@ std::string as_string(T&& value)
 
 通过修改实现，可使消除前面对as\_string的编译错误。
 
-std::decay的实现中，多次使用了std::conditional。这是一个相当好用的元函数，可以简化许多实现。第2章中，我们看到了一个例子，构建了一个名为list\_t的列表类型。有一个名为type的成员别名模板，若列表的大小为1，则该模板类型为T，若列表的大小大于1，则该模板类型为std::vector<T>。再来回顾一下:
+std::decay的实现中，多次使用了std::conditional。这是一个相当好用的元函数，可以简化许多实现。第2章中，我们看到了一个例子，构建了一个名为list\_t的列表类型。有一个名为type的成员别名模板，若列表的大小为1，则该模板类型为T，若列表的大小大于1，则该模板类型为std::vector<T>。再来回顾一下：
 
 \begin{cpp}
 template <typename T, size_t S>
@@ -515,7 +515,7 @@ template <typename T, size_t S>
 using list_t = typename list<T, S>::type;
 \end{cpp}
 
-在std::conditional的帮助下，这个实现可以进行简化:
+在std::conditional的帮助下，这个实现可以进行简化：
 
 \begin{cpp}
 template <typename T, size_t S>
@@ -524,7 +524,7 @@ using list_t =
 					1, T, std::vector<T>>::type;
 \end{cpp}
 
-没有必要依赖类模板特化来定义这样的列表类型，整个解决方案可以简化为定义一个别名模板。可以用一些static\_assert来验证它是否如预期的那样工作:
+没有必要依赖类模板特化来定义这样的列表类型，整个解决方案可以简化为定义一个别名模板。可以用一些static\_assert来验证它是否如预期的那样工作：
 
 \begin{cpp}
 static_assert(std::is_same_v<list_t<int, 1>, int>);

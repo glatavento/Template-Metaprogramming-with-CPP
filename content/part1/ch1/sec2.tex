@@ -1,7 +1,7 @@
 \section{编写模板}
 本节中，我们将从三个简单的示例开始编写C++模板，每个示例对应前面给出的代码片段。
 
-前面max函数的模板如下所示:
+前面max函数的模板如下所示：
 
 \begin{cpp}
 template <typename T>
@@ -11,9 +11,9 @@ T max(T const a, T const b)
 }
 \end{cpp}
 
-这里的类型名称(例如int或double)被T(代表类型)取代。T称为类型模板形参，并通过语法template<typename T>或typename<class T>引入。T是一个参数，可以使用任意的名称。
+这里的类型名称（例如int或double）被T（代表类型）取代。T称为类型模板形参，并通过语法template<typename T>或typename<class T>引入。T是一个参数，可以使用任意的名称。
 
-此时，源码中的模板只是一个蓝图，编译器将根据其使用情况生成代码，并将为使用模板的每种类型实例化一个函数重载:
+此时，源码中的模板只是一个蓝图，编译器将根据其使用情况生成代码，并将为使用模板的每种类型实例化一个函数重载：
 
 \begin{cpp}
 struct foo{};
@@ -29,7 +29,7 @@ int main()
 
 代码中，首先使用两个整数调用max，operator>可用于int类型。这将生成一个重载int max(int const a, int const b)。其次，用两个double值调用max，这也没关系，因为operator>适用于double值。因此，编译器将生成另一个重载，double max(double const a, double const b)。第三次调用max将生成一个编译器错误，因为foo类型没有重载operator>。
 
-这里不讨论太多细节，使用max函数的方式如下所示:
+这里不讨论太多细节，使用max函数的方式如下所示：
 
 \begin{cpp}
 max<int>(1, 2);
@@ -39,7 +39,7 @@ max<foo>(f1, f2);
 
 编译器能够推断推导参数的类型，因此写上去就是是多余的。但在某些情况下，编译器无法推导参数类型，所以需要使用以下语法显式指定类型。
 
-第二个例子涉及前一节中的函数，是处理void*参数的quicksort()实现，可以很容易地改为模板版本:
+第二个例子涉及前一节中的函数，是处理void*参数的quicksort()实现，可以很容易地改为模板版本：
 
 \begin{cpp}
 template <typename T>
@@ -82,7 +82,7 @@ void quicksort(T arr[], int const low, int const high)
 }
 \end{cpp}
 
-快速排序函数模板的使用与前面的非常类似，并且不需要将指针传递给回调函数了:
+快速排序函数模板的使用与前面的非常类似，并且不需要将指针传递给回调函数了：
 
 \begin{cpp}
 int main()
@@ -93,7 +93,7 @@ int main()
 }
 \end{cpp}
 
-前一节中看到的第三个例子是vector类，其模板版本如下所示:
+前一节中看到的第三个例子是vector类，其模板版本如下所示：
 
 \begin{cpp}
 template <typename T>
@@ -121,7 +121,7 @@ private:
 };
 \end{cpp}
 
-max函数那种情况，变化很小。类的模板声明中，元素的int类型可以使用类型模板形参T取代。实现方式如下:
+max函数那种情况，变化很小。类的模板声明中，元素的int类型可以使用类型模板形参T取代。实现方式如下：
 
 \begin{cpp}
 int main()
@@ -132,16 +132,16 @@ int main()
 }
 \end{cpp}
 
-声明变量v时必须指定元素的类型。代码中，v的元素是int，否则编译器将无法推断它们的类型。C++17中，有些情况下可以不声明类型，可将其称为\textbf{类模板参数推导}(将在第4章中讨论)。
+声明变量v时必须指定元素的类型。代码中，v的元素是int，否则编译器将无法推断它们的类型。C++17中，有些情况下可以不声明类型，可将其称为\textbf{类模板参数推导}（将在第4章中讨论）。
 
-第四个也是最后一个例子，只有类型不同的情况下声明几个变量。可以用一个模板替换所有这些变量，如下所示:
+第四个也是最后一个例子，只有类型不同的情况下声明几个变量。可以用一个模板替换所有这些变量，如下所示：
 
 \begin{cpp}
 template<typename T>
 constexpr T NewLine = T('\n');
 \end{cpp}
 
-该模板的使用方式如下:
+该模板的使用方式如下：
 
 \begin{cpp}
 int main()
