@@ -45,22 +45,18 @@
 % \setenumerate  { nosep }
 % \setitemize    { nosep }
 % \setdescription{ nosep }
+\SetEnumitemKey { tableitem } { leftmargin=0cm, itemindent=.5cm, labelwidth=\itemindent }
 
-% Set tblr
+% Setup tblr
 \UseTblrLibrary { varwidth }
 \DefTblrTemplate { contfoot-text } { normal } { 续下页  }
 \DefTblrTemplate { conthead-text } { normal } { （续表） }
 \SetTblrTemplate { caption-sep   } { empty  } 
 \SetTblrTemplate { contfoot-text } { normal } 
 \SetTblrTemplate { conthead-text } { normal } 
-\SetEnumitemKey{tableitem}{leftmargin=0cm,itemindent=.5cm,labelwidth=\itemindent}
 
 % Setup minted
 \setminted { obeytabs, tabsize=2, breaklines=true, fontsize=\footnotesize, frame=single }
-
-% Def \filename
-\NewDocumentCommand { \filename } { m } 
-{ \noindent \textit { #1 } \vspace*{ -1ex } \nopagebreak[4] }
 
 % Def \inlcpp
 \NewDocumentCommand { \inlcpp }   { m } 
