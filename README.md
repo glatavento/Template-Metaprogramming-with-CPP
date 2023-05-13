@@ -14,7 +14,7 @@
 >
 > <p align="right"> — 云风，程序员修炼之道第2版译者</p>
 
-PDF可在本库的[Release页面](https://github.com/xiaoweiChen/Template-Metaprogramming-with-CPP/releases)获取。
+PDF可在本库的[Release页面](https://github.com/glatavento/Template-Metaprogramming-with-CPP/releases)获取。
 
 ## 本书概述
 
