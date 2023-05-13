@@ -110,9 +110,7 @@ std::vector迭代器的类别类型是随机访问。另一方面，std::list的
 
 C++17之前，标记分派的唯一替代方案是SFINAE和enable\_if。这是一种相当传统的技术，在现代C++中有更好的替代方案——constexpr if和概念。
 
-\noindent
-\hspace*{\fill} \\ %插入空行
-\textbf{constexpr if}
+\subsubsection{constexpr if}
 
 C++11引入了constexpr值的概念，其是编译时已知的值，也是可以在编译时求值的函数（若所有输入都是编译时的值）。C++14、C++17和C++20中，许多标准库函数或标准库类的成员函数更改为constexpr。其中之一是std::advance，它在C++17中的实现基于constexpr if特性，也在C++17中添加的。
 
@@ -171,9 +169,7 @@ constexpr void advance(It& it, Distance n)
 
 然而，在C++20中有一个更好的选择。接下来让我们来探索一下。
 
-\noindent
-\hspace*{\fill} \\ %插入空行
-\textbf{概念}
+\subsubsection{概念}
 
 前一章专门介绍C++20中引入的约束和概念，不仅看到了这些特性是如何工作的，还看到了标准库在几个头文件中定义的一些概念，如<concepts>和<iterator>。其中一些概念指定类型是某个迭代器类别。例如，std::input\_iterator指定类型为输入迭代器。类似地，还定义了以下概念：std::output\_iterator、std::forward\_iterator、std::bidirectional\_iterator、std::random\_access\_iterator和std::contiguous\_iterator（最后一个表示迭代器是随机访问迭代器，指的是连续存储在内存中的元素）。
 
