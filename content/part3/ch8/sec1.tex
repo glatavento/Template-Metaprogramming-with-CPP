@@ -309,7 +309,7 @@ std::copy(std::begin(a), std::end(a),
 		  std::ostream_iterator<int>(std::cout, " "));
 \end{cpp}
 
-若没有这些函数，将要写成std::copy(a, a + 5，…)，也许这些函数的好处是，使我们能够使用基于范围的for循环的数组：
+若没有这些函数，将要写成std::copy(a, a + 5，...)，也许这些函数的好处是，使我们能够使用基于范围的for循环的数组：
 
 \begin{cpp}
 std::vector<int> v{ 1,2,3,4,5 };

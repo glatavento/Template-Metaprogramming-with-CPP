@@ -10,9 +10,9 @@
 对于模板形参包，参数的最大数量取决于模板形参的限制，建议至少为1024个。
 \end{itemize}
 
-参数包中的参数数量，可以在编译时使用sizeof…操作符检索。该操作符返回std::size\_t类型的constexpr值。
+参数包中的参数数量，可以在编译时使用sizeof...操作符检索。该操作符返回std::size\_t类型的constexpr值。
 
-第一个示例中，sizeof…操作符用于借助constexpr if语句实现可变参数函数模板sum的递归模式的结束。若形参包中的参数数量为零（函数只有一个参数），则处理的是最后一个参数，因此只返回值。否则，将第一个参数与其余参数进行加和。实现如下所示：
+第一个示例中，sizeof...操作符用于借助constexpr if语句实现可变参数函数模板sum的递归模式的结束。若形参包中的参数数量为零（函数只有一个参数），则处理的是最后一个参数，因此只返回值。否则，将第一个参数与其余参数进行加和。实现如下所示：
 
 \begin{cpp}
 template <typename T, typename... Args>
@@ -41,7 +41,7 @@ T sum(T a, Args... args)
 }
 \end{cpp}
 
-注意sizeof…(args)（函数形参包）和sizeof…(Args)（模板形参包）返回相同的值。另一方面，sizeof…(args)和sizeof(args)…不是一回事。前者是用于参数包args的sizeof操作符，后者是sizeof操作符上参数包args的扩展：
+注意sizeof...(args)（函数形参包）和sizeof...(Args)（模板形参包）返回相同的值。另一方面，sizeof...(args)和sizeof(args)...不是一回事。前者是用于参数包args的sizeof操作符，后者是sizeof操作符上参数包args的扩展：
 
 \begin{cpp}
 template<typename... Ts>
@@ -54,7 +54,7 @@ constexpr auto get_type_sizes()
 auto sizes = get_type_sizes<short, int, long, long long>();
 \end{cpp}
 
-这段代码中，sizeof…(Ts)在编译时计算为4，而sizeof(Ts)…展开为以下以逗号分隔的参数包：sizeof(short)、sizeof(int)、sizeof(long)、sizeof(long long)。所以，前面的函数模板get\_type\_sizes相当于下面的函数模板，有四个模板形参：
+这段代码中，sizeof...(Ts)在编译时计算为4，而sizeof(Ts)...展开为以下以逗号分隔的参数包：sizeof(short)、sizeof(int)、sizeof(long)、sizeof(long long)。所以，前面的函数模板get\_type\_sizes相当于下面的函数模板，有四个模板形参：
 
 \begin{cpp}
 template<typename T1, typename T2,
@@ -392,7 +392,7 @@ int sum(T... args)
 \end{cpp}
 
 \item
-sizeof…操作符：本节前面已经展示了示例。这里再来一个例子：
+sizeof...操作符：本节前面已经展示了示例。这里再来一个例子：
 
 \begin{cpp}
 template <typename... T>

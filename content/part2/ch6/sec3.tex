@@ -239,7 +239,7 @@ prog.cc:13:20: note: because 'func(t)' may throw an exception
                        ^
 \end{shell}
 
-因为g<int>可能抛出异常，导致nonthrows <F, T…>计算为false，所以invoke(g<int>,42)无效。
+因为g<int>可能抛出异常，导致nonthrows <F, T...>计算为false，所以invoke(g<int>,42)无效。
 
 对于第二个示例，我们将定义一个概念，为timer类提供需求。它要求存在一个名为start的函数，可以在没有参数的情况下调用它，并且它返回void。还要求存在第二个名为stop的函数，可以在没有任何参数的情况下调用，并且返回一个可以转换为long long的值。概念定义如下：
 
@@ -303,7 +303,7 @@ requires constraint-expression;
 所有的参数都有相同的类型。
 
 \item
-表达式arg1 + arg2 +…+ argn是有效的。
+表达式arg1 + arg2 +...+ argn是有效的。
 \end{itemize}
 
 这里，我们定义了一个名为HomogenousRange的概念，如下所示：
@@ -322,7 +322,7 @@ concept HomogenousRange = requires(T... t)
 };
 \end{cpp}
 
-这个概念包含一个简单的需求和两个嵌套的需求。一个嵌套需求使用are\_same\_v变量模板，其值由一个或多个类型特征(std::is\_same)连接决定的，另一个是编译时布尔表达式size…(T) > 1。
+这个概念包含一个简单的需求和两个嵌套的需求。一个嵌套需求使用are\_same\_v变量模板，其值由一个或多个类型特征(std::is\_same)连接决定的，另一个是编译时布尔表达式size...(T) > 1。
 
 使用这个概念，可以这样定义add可变函数模板：
 
