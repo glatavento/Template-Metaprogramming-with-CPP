@@ -1,12 +1,13 @@
 
 \documentclass[11pt, onecolumn, oneside]{ctexbook}
 
-\usepackage{xpatch}
+\usepackage{xpatch,mathtools}
 \usepackage[a5paper, scale=0.8]{geometry}
-\usepackage{subfiles,graphicx,enumitem,titlesec,pdfpages,tcolorbox}
-\usepackage{tabularx,booktabs}
+\usepackage{subfiles,graphicx,enumitem,titlesec,pdfpages}
+\usepackage{tabularx,booktabs,multirow}
+\usepackage[most]{tcolorbox}
 \usepackage[pdfusetitle]{hyperref}
-\usepackage{bookmark,url}
+\usepackage{bookmark,xurl}
 \usepackage{minted}
 
 \title{Template Metaprogramming with C++ \large \\ Learn everything about C++ templates and unlock the power of template metaprogramming \\ 详细的了解C++模板，释放模板元编程的力量} 
@@ -68,8 +69,12 @@
   \begin { minted } { text } } 
 { \end   { minted } }
 
-\NewDocumentEnvironment { notice } { }
-{ \begin { tcolorbox } [ colback = green!5!white, colframe=green!75!black ] } 
+\NewDocumentEnvironment { note } { }
+{ \begin { tcolorbox } [breakable,enhanced~jigsaw,colback=blue!5!white,colframe=blue!75!black,title={Note}] } 
+{ \end   { tcolorbox } }
+
+\NewDocumentEnvironment { important } { }
+{ \begin { tcolorbox } [breakable,enhanced~jigsaw,colback=blue!5!white,colframe=blue!75!black,title={重要的Note}] } 
 { \end   { tcolorbox } }
 
 \ExplSyntaxOff
@@ -94,22 +99,23 @@
     \tableofcontents
 
     % % 正文部分
-    % \mainmatter
-    % \setcounter{secnumdepth}{2}
+    \mainmatter
+    \setcounter{secnumdepth}{2}
 
-    % \subfile{content/part1.tex}
-    % \subfile{content/part2.tex}
-    % \subfile{content/part3.tex}
+    \subfile{content/part1.tex}
+    \subfile{content/part2.tex}
+    \subfile{content/part3.tex}
     
     % % 附录
     % \appendix
     % \subfile{backmatter/Appendix.tex}
     
-    % % 后记部分
-    % \backmatter
-    % \bookmarksetup{startatroot}
-    % \subfile{backmatter/Bibliography.tex}
-    % \subfile{backmatter/Glossary.tex}
+    % 后记部分
+    \backmatter
+    \bookmarksetup{startatroot}
+    \setcounter{secnumdepth}{0}
+    \subfile{backmatter/Closing-Notes.tex}
+    \subfile{backmatter/Assignment-Answers.tex}
 
 \end{document}
 

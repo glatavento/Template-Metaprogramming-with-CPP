@@ -414,46 +414,46 @@
 \subfile{content/3/chapter9/7.tex}
 \newpage
 
-\section*{\zihao{1}结束语}
-\addcontentsline{toc}{section}{结束语}
-\subfile{content/4/0.tex}
-\newpage
+% \section*{\zihao{1}结束语}
+% \addcontentsline{toc}{section}{结束语}
+% \subfile{content/4/0.tex}
+% \newpage
 
-\section*{\zihao{1}参考答案}
-\addcontentsline{toc}{section}{参考答案}
+% \section*{\zihao{1}参考答案}
+% \addcontentsline{toc}{section}{参考答案}
 
-\subsection*{\zihao{2} 第1章，模板简介}
-\addcontentsline{toc}{subsection}{第1章，模板简介}
-\subfile{content/5/1.tex}
+% \subsection*{\zihao{2} 第1章，模板简介}
+% \addcontentsline{toc}{subsection}{第1章，模板简介}
+% \subfile{content/5/1.tex}
 
-\subsection*{\zihao{2} 第2章，了解模板}
-\addcontentsline{toc}{subsection}{第2章，了解模板}
-\subfile{content/5/2.tex}
+% \subsection*{\zihao{2} 第2章，了解模板}
+% \addcontentsline{toc}{subsection}{第2章，了解模板}
+% \subfile{content/5/2.tex}
 
-\subsection*{\zihao{2} 第3章，可变参数模板}
-\addcontentsline{toc}{subsection}{第3章，可变参数模板}
-\subfile{content/5/3.tex}
+% \subsection*{\zihao{2} 第3章，可变参数模板}
+% \addcontentsline{toc}{subsection}{第3章，可变参数模板}
+% \subfile{content/5/3.tex}
 
-\subsection*{\zihao{2} 第4章，高级模板概念}
-\addcontentsline{toc}{subsection}{第4章，高级模板概念}
-\subfile{content/5/4.tex}
+% \subsection*{\zihao{2} 第4章，高级模板概念}
+% \addcontentsline{toc}{subsection}{第4章，高级模板概念}
+% \subfile{content/5/4.tex}
 
-\subsection*{\zihao{2} 第5章，类型特征和条件编译}
-\addcontentsline{toc}{subsection}{第5章，类型特征和条件编译}
-\subfile{content/5/5.tex}
+% \subsection*{\zihao{2} 第5章，类型特征和条件编译}
+% \addcontentsline{toc}{subsection}{第5章，类型特征和条件编译}
+% \subfile{content/5/5.tex}
 
-\subsection*{\zihao{2} 第6章，概念和约束}
-\addcontentsline{toc}{subsection}{第6章，概念和约束}
-\subfile{content/5/6.tex}
+% \subsection*{\zihao{2} 第6章，概念和约束}
+% \addcontentsline{toc}{subsection}{第6章，概念和约束}
+% \subfile{content/5/6.tex}
 
-\subsection*{\zihao{2} 第7章，模式和习语}
-\addcontentsline{toc}{subsection}{第7章，模式和习语}
-\subfile{content/5/7.tex}
+% \subsection*{\zihao{2} 第7章，模式和习语}
+% \addcontentsline{toc}{subsection}{第7章，模式和习语}
+% \subfile{content/5/7.tex}
 
-\subsection*{\zihao{2} 第8章，范围和算法}
-\addcontentsline{toc}{subsection}{第8章，范围和算法}
-\subfile{content/5/8.tex}
+% \subsection*{\zihao{2} 第8章，范围和算法}
+% \addcontentsline{toc}{subsection}{第8章，范围和算法}
+% \subfile{content/5/8.tex}
 
-\subsection*{\zihao{2} 第9章，范围库}
-\addcontentsline{toc}{subsection}{第9章，范围库}
-\subfile{content/5/9.tex}
+% \subsection*{\zihao{2} 第9章，范围库}
+% \addcontentsline{toc}{subsection}{第9章，范围库}
+% \subfile{content/5/9.tex}
