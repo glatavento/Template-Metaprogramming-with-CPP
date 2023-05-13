@@ -1,7 +1,7 @@
 \section{混入(Mixins)}
 Mixins是一种小型类，用于向其他类添加功能。若读过关于Mixins的文章，会发现在C++中使用奇异递归模板模式来实现Mxins，但这是一个不正确的说法。CRTP有助于实现与Mixins类似的目标，但它们是不同的技术。Mixins的关键在于，向类添加功能，而不是作为类的基类。而作为基类，是CRTP模式的关键。相反，Mixins应该从它们添加功能的类继承，属于逆CRTP。
 
-还记得前面关于骑士和法师的例子吗?可以使用step\_forth和step\_back成员函数来回移动。骑士和法师的职业是从movable\_unit类模板派生出来的，该模板添加了advance和retreat的功能，这使得单位可以向前或向后移动几步。同样的例子可以以相反的顺序使用Mixins来实现。以下是具体实现：
+还记得前面关于骑士和法师的例子吗？可以使用step\_forth和step\_back成员函数来回移动。骑士和法师的职业是从movable\_unit类模板派生出来的，该模板添加了advance和retreat的功能，这使得单位可以向前或向后移动几步。同样的例子可以以相反的顺序使用Mixins来实现。以下是具体实现：
 
 \begin{cpp}
 struct knight

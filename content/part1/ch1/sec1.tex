@@ -19,7 +19,7 @@ double max(double const a, double const b)
 }
 \end{cpp}
 
-然而，int和double并不是唯一的数字类型。有char, short, long, long和相应的unsigned版本，unsigned char, unsigned short, unsigned long, unsigned long。还有浮点型和长双精度型，以及其他类型，如int8\_t, int16\_t, int32\_t和int64\_t。可以比较其他类型，例如bigint、Matrix、point2d和任何支持大于运算符的自定义类型。通用库如何为这些类型提供诸如max这样的通用函数呢?它可以重载所有内置类型和其他库类型的函数，但不能重载自定义类型。
+然而，int和double并不是唯一的数字类型。有char, short, long, long和相应的unsigned版本，unsigned char, unsigned short, unsigned long, unsigned long。还有浮点型和长双精度型，以及其他类型，如int8\_t, int16\_t, int32\_t和int64\_t。可以比较其他类型，例如bigint、Matrix、point2d和任何支持大于运算符的自定义类型。通用库如何为这些类型提供诸如max这样的通用函数呢？它可以重载所有内置类型和其他库类型的函数，但不能重载自定义类型。
 
 使用不同参数重载函数的另一种方法是使用void*来传递不同类型的参数，但这很糟糕。下面的示例只是在没有模板的情况下作为一种可能的替代方案。这里，我们设计了一个排序函数，该函数将对任何可能类型的元素数组运行快速排序，该数组提供严格的弱排序。快速排序算法的详细信息可以在网上查询，例如：\url{https://en.wikipedia.org/wiki/Quicksort}。
 

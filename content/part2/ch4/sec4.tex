@@ -210,7 +210,7 @@ std::vector v2{ v1, v1 };
 std::vector v3{ v1 };
 \end{cpp}
 
-v1的推导类型是std::vector<int>，v2的推导类型是std::vector<std::vector<int>{}>。但编译器应该为v3类型推断出什么?有两个选项：std::vector<std::vector<int>{}>和std::vector<int>。若期望是前者，那么将失望地发现编译器实际上推导出后者。这是因为推导依赖于参数的数量和类型。
+v1的推导类型是std::vector<int>，v2的推导类型是std::vector<std::vector<int>{}>。但编译器应该为v3类型推断出什么？有两个选项：std::vector<std::vector<int>{}>和std::vector<int>。若期望是前者，那么将失望地发现编译器实际上推导出后者。这是因为推导依赖于参数的数量和类型。
 
 当参数数量大于1时，将使用接受初始化列表的构造函数。对于v2变量，即std::initializer\_list<std::vector<int>{}>。当参数的数量为1时，则考虑参数的类型。若参数的类型是std::vector的（特化）-考虑到这种显式情况-则使用复制构造函数，推导的类型是实参的声明类型。这就是变量v3的情况，其中推导出的类型是std::vector<int>。否则，使用接受初始化列表（包含单个元素）的构造函数，例如变量v1，其推导出的类型为std::vector<int>。在cppinsights.io可视化工具的帮助下，可以显示生成的代码（对于前面的代码段）。为了简单起见，删除了allocator参数：
 
