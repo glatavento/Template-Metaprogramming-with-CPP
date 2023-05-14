@@ -82,7 +82,7 @@ template <typename T, size_t S>
 using list_t = typename list<T, S>::type;
 \end{cpp}
 
-list<T,S>是一个类模板，其成员类型别名为T。主模板中，是std::vector<T>的别名。偏特化列表<T,1>中，是T的别名,list\_t定义为list<T, S>::type的别名模板。下面的断言证明了这种机制的有效性：
+list<T,S>是一个类模板，其成员类型别名为T。主模板中，是std::vector<T>的别名。偏特化列表<T,1>中，是T的别名，list\_t定义为list<T, S>::type的别名模板。下面的断言证明了这种机制的有效性：
 
 \begin{cpp}
 static_assert(std::is_same_v<list_t<int, 1>, int>);

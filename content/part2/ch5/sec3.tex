@@ -2,11 +2,8 @@
 C++标准库中，类型库是其子库之一。这个库定义了std::size\_t、std::nullptr\_t和std::byte等类型，运行时类型标识支持std::type\_info等类型，以及类型特征的集合。类型特征有两类：
 
 \begin{itemize}
-\item
-类型特征能够在编译时查询类型的属性。
-
-\item
-能够在编译时执行类型转换的类型特征（添加或删除const限定符，或从类型中添加或删除指针或引用），这些类型特征也称为元功能。
+  \item 类型特征能够在编译时查询类型的属性。
+  \item 能够在编译时执行类型转换的类型特征（添加或删除const限定符，或从类型中添加或删除指针或引用），这些类型特征也称为元功能。
 \end{itemize}
 
 来自第二类的一个类型特征是std::enable\_if，这用于启用SFINAE并从函数的重载集中删除候选。一个可能的实现如下所示：
@@ -48,14 +45,9 @@ void serialize(std::ostream& os, T const& value)
 enable\_if元函数可以在以下几种情况下使用：
 
 \begin{itemize}
-\item
-定义具有默认参数的模板参数
-
-\item
-定义具有默认参数的函数参数
-
-\item
-指定函数的返回类型
+  \item 定义具有默认参数的模板参数
+  \item 定义具有默认参数的函数参数
+  \item 指定函数的返回类型
 \end{itemize}
 
 出于这个原因，所以在前面提供serialize重载实现只是一种可能。类似的使用enable\_if来定义一个带有默认参数的函数参数，如下所示：
@@ -137,16 +129,13 @@ struct floating_wrapper
 这个实现中，可以看到：
 
 \begin{itemize}
-\item
-别名模板std::enable\_if\_t，这是访问std::enable\_if<B, T>::type成员类型的方法。其定义如下：
+  \item 别名模板std::enable\_if\_t，这是访问std::enable\_if<B, T>::type成员类型的方法。其定义如下：
 
 \begin{cpp}
 template <bool B, typename T = void>
 using enable_if_t = typename enable_if<B,T>::type;
 \end{cpp}
-
-\item
-两个变量模板std::is\_integral\_v和std::is\_floating\_point\_v是访问数据成员的方法，std::is\_integral<T>::value和std::is\_floating\_point<T>::value。std::is\_integral和std::is\_float\_point类是标准类型特征，分别检查类型是整型还是浮点型。
+  \item 两个变量模板std::is\_integral\_v和std::is\_floating\_point\_v是访问数据成员的方法，std::is\_integral<T>::value和std::is\_floating\_point<T>::value。std::is\_integral和std::is\_float\_point类是标准类型特征，分别检查类型是整型还是浮点型。
 \end{itemize}
 
 前面展示的两个wrapper类模板可以按如下方式使用：

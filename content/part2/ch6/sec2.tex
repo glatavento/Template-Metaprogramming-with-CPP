@@ -39,14 +39,9 @@ concept arithmetic = requires { std::is_arithmetic_v<T>; };
 考虑这样一种情况，想要定义一个模板时，只接受容器类型作为参数。在概念出现之前，这个问题可以通过类型特征和SFINAE或static\_assert来解决，就像在本章开头看到的那样。不过，容器类型实际上不容易定义，可以基于标准容器的一些属性来实现：
 
 \begin{itemize}
-\item
-其成员类型有value\_type、size\_type、allocator\_type、iterator和const\_iterator。
-
-\item
-具有成员函数size，该函数返回容器中元素的数量。
-
-\item
-具有成员函数begin/end和cbegin/cend，返回指向容器中第一个和倒数一个元素的迭代器和常量迭代器。
+  \item 其成员类型有value\_type、size\_type、allocator\_type、iterator和const\_iterator。
+  \item 具有成员函数size，该函数返回容器中元素的数量。
+  \item 具有成员函数begin/end和cbegin/cend，返回指向容器中第一个和倒数一个元素的迭代器和常量迭代器。
 \end{itemize}
 
 根据第5章的知识，可以这样定义is\_container类型特征：

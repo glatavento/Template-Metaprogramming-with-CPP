@@ -36,7 +36,7 @@
   一个类型是否为std::nullptr\_t类型。                                \\
   is\_integral                  &
   {类型是否为整型，包括有符号、无符号和cv限定变量。整型类型为：
-      \begin{itemize}[tableitem]
+      \begin{itemize}[noindent]
         \item bool, char, char8\_t(C++20), char16\_t, char32\_t, wchar\_t, short, int, long和long long
         \item 任何扩展整数类型
       \end{itemize}}
@@ -71,7 +71,7 @@
   类型是否为基本类型。基本类型为算术类型， void类型和std::nullptr\_t类型。           \\
   is\_scalar                    &
   {类型是标量类型还是标量类型的cv-限定符版本。 标量类型包括：
-      \begin{itemize}[tableitem]
+      \begin{itemize}[noindent]
         \item 算术类型
         \item 指针类型
         \item 指向成员类型的指针
@@ -83,7 +83,7 @@
   类型是否为cv-qualifier版本的对象类型。对象类型不是函数类型、引用类型或void类型。         \\
   is\_compound                  &
   {类型是复合类型还是复合类型的cv变体。复合类型不是基本类型，它们是
-      \begin{itemize}[tableitem]
+      \begin{itemize}[noindent]
         \item 数组
         \item 函数
         \item 类
@@ -150,21 +150,21 @@ static\_assert(false)会使程序格式不正确。原因是它的条件不依�
   is\_volatile            & C++11  & 是否为volatile限定（volatile或const volatile）。      \\
   is\_trivial             & C++11  &
   {是普通类型，还是cv限定变量。以下是简单类型：
-      \begin{itemize}[tableitem]
+      \begin{itemize}[noindent]
         \item 标量类型或标量类型的数组
         \item 具有简单的默认构造函数或此类数组的简单的可复制类。
       \end{itemize}}
   \\
   is\_trivially\_copyable & C++11  &
   {是否可复制。 以下是可复制的类型：
-      \begin{itemize}[tableitem]
+      \begin{itemize}[noindent]
         \item 标量类型或标量类型的数组
         \item 可复制的类或此类的数组
       \end{itemize}}
   \\
   is\_standard\_layout    & C++11  &
   {是标准布局类型，还是cv限定类型。以下是标准布局类型：
-      \begin{itemize}[tableitem]
+      \begin{itemize}[noindent]
         \item 标量类型或标量类型的数组
         \item 标准布局类或此类的数组
       \end{itemize}}

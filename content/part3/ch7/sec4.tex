@@ -286,8 +286,7 @@ fight(v);
 若想知道这个模式在实际代码中现在哪里使用，标准库中就有两个例子：
 
 \begin{itemize}
-\item
-std::function: 这是一个通用的多态函数包装器，能够存储、复制和调用可调用的东西，例如函数、Lambda表达式、绑定表达式、函数对象、指向成员函数的指针和指向数据成员的指针。下面是一个使用std::function的例子：
+  \item std::function: 这是一个通用的多态函数包装器，能够存储、复制和调用可调用的东西，例如函数、Lambda表达式、绑定表达式、函数对象、指向成员函数的指针和指向数据成员的指针。下面是一个使用std::function的例子：
 
 \begin{cpp}
 class async_bool
@@ -316,9 +315,7 @@ if (b1) { std::cout << "b1 is true\n"; }
 if (b2) { std::cout << "b2 is true\n"; }
 if (b3) { std::cout << "b3 is true\n"; }
 \end{cpp}
-
-\item
-std::any: 这是一个将容器表示为可复制构造类型值的类。下面的代码中使用了一个例子：
+  \item std::any: 这是一个将容器表示为可复制构造类型值的类。下面的代码中使用了一个例子：
 
 \begin{cpp}
 std::any u;

@@ -40,14 +40,12 @@
 % Setup hyperlinks
 \hypersetup { breaklinks=true }
 
-% Setup enumerate, itemize and description
-\setlist { nosep }
-\setitemize{ labelsep=0pt,
-             label=\makebox[1em]{\textbullet},
-             leftmargin=3em,
-             itemindent=0em,
-             labelwidth=1em }
-\SetEnumitemKey { tableitem } { leftmargin=0cm }
+% Setup lists
+\SetLabelAlign { EmCenter } { \makebox [ 1em ] { #1 } }
+\setlist [ itemize    ] { nosep, labelsep=0pt, labelwidth=1em, leftmargin=1em, align=EmCenter }
+\setlist [ itemize, 1 ] { leftmargin=3em }
+\setlist [ itemize, 2 ] { label=◦ }
+\SetEnumitemKey { noindent } { leftmargin=1em }
 
 % Setup tblr
 \UseTblrLibrary { varwidth }

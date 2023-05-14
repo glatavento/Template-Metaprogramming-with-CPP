@@ -11,30 +11,18 @@ requires (parameter-list) { requirement-seq }
 requirements-seq是一系列需求，每个这样的需求都必须以分号结束。这里，有四种类型的需求：
 
 \begin{itemize}
-\item
-简单需求
-
-\item
-类型需求
-
-\item
-复合需求
-
-\item
-嵌套需求
+  \item 简单需求
+  \item 类型需求
+  \item 复合需求
+  \item 嵌套需求
 \end{itemize}
 
 这些需求的参考如下：
 
 \begin{itemize}
-\item
-模板范围内的参数
-
-\item
-requires表达式的参数列表中可以引入局部参数
-
-\item
-封闭上下文中可见的其他声明
+  \item 模板范围内的参数
+  \item requires表达式的参数列表中可以引入局部参数
+  \item 封闭上下文中可见的其他声明
 \end{itemize}
 
 下面的小节中，将探讨所有提到的需求类型。
@@ -112,14 +100,9 @@ log_error(sl); // error
 类型需求是通过关键字typename，后面跟着类型名称引入的。定义容器约束时，已经看到了几个例子。类型名必须有效，需求才为真。类型需求可用于以下几个目的：
 
 \begin{itemize}
-\item
-验证嵌套类型是否存在（例如typename T::value\_type;）
-
-\item
-验证类模板特化是否命名了类型
-
-\item
-验证别名模板特化是否命名了类型
+  \item 验证嵌套类型是否存在（例如typename T::value\_type;）
+  \item 验证类模板特化是否命名了类型
+  \item 验证别名模板特化是否命名了类型
 \end{itemize}
 
 看几个例子来学习如何使用类型需求。第一个例子中，检查一个类型是否包含内部类型，key\_type和value\_type:
@@ -180,14 +163,9 @@ static_assert(!containerizeable<std::string>);
 noexcept规范和type\_constraint（前导为->）都是可选的。替换过程和约束的检查如下所示：
 
 \begin{enumerate}
-\item
-替换表达式中的模板参数。
-
-\item
-若指定了noexcept，则表达式不能抛出异常；否则，需求为false。
-
-\item
-若存在类型约束，则模板参数也会替换为type\_constraint，并且decltype((expression))必须满足type\_constraint所施加的条件；否则，需求为false。
+  \item 替换表达式中的模板参数。
+  \item 若指定了noexcept，则表达式不能抛出异常；否则，需求为false。
+  \item 若存在类型约束，则模板参数也会替换为type\_constraint，并且decltype((expression))必须满足type\_constraint所施加的条件；否则，需求为false。
 \end{enumerate}
 
 这里讨论几个示例，来学习如何使用复合需求。第一个例子中，检查函数是否标为noexcept:
@@ -296,14 +274,9 @@ requires constraint-expression;
 下面的例子中，要定义一个函数，对可变数量的参数执行加法。但我们想提一些条件：
 
 \begin{itemize}
-\item
-有多个参数。
-
-\item
-所有的参数都有相同的类型。
-
-\item
-表达式arg1 + arg2 +...+ argn是有效的。
+  \item 有多个参数。
+  \item 所有的参数都有相同的类型。
+  \item 表达式arg1 + arg2 +...+ argn是有效的。
 \end{itemize}
 
 这里，我们定义了一个名为HomogenousRange的概念，如下所示：

@@ -94,14 +94,9 @@ int main()
 通过这些更改，编译器需要实例化以下内容：
 
 \begin{itemize}
-\item 
-当声明x变量时，实例化foo<int>
-
-\item 
-当x.f()调用发生时，实例化foo<int>::f()
-
-\item 
-当q->g()调用发生时，实例化foo<double>和foo<double>::g()。
+  \item 当声明x变量时，实例化foo<int>
+  \item 当x.f()调用发生时，实例化foo<int>::f()
+  \item 当q->g()调用发生时，实例化foo<double>和foo<double>::g()。
 \end{itemize}
 
 另外，当声明指针p时，编译器不需要实例化foo<int>；当声明指针q时，也不需要实例化foo<double>。然而，当涉及到指针转换时，编译器确实需要隐式实例化类模板特化：
@@ -166,14 +161,11 @@ int main()
 显式实例化定义可以出现在程序中的任何地方，但不能出现在所引用的模板定义之后。显式模板实例化定义的语法采用以下形式：
 
 \begin{itemize}
-\item 
-类模板的语法如下：
+  \item 类模板的语法如下：
 \begin{cpp}
 template class-key template-name <argument-list>
 \end{cpp}
-
-\item 
-函数模板的语法如下：
+  \item 函数模板的语法如下：
 \begin{cpp}
 template return-type name<argument-list>(parameter-list);
 template return-type name(parameter-list);
@@ -266,14 +258,11 @@ template int foo<int>::f(foo<int>::bar);
 显式实例化声明（C++11中提供）可以告诉编译器模板实例化的定义在不同的翻译单元中，并且不应该生成新的定义。语法与显式实例化定义相同，除了关键字extern可用在声明前：
 
 \begin{itemize}
-\item 
-类模板的语法如下所示：
+  \item 类模板的语法如下所示：
 \begin{cpp}
 extern template class-key template-name <argument-list>
 \end{cpp}
-
-\item 
-函数模板的语法如下所示：
+  \item 函数模板的语法如下所示：
 \begin{cpp}
 extern template return-type name<argumentlist>(parameter-list);
 extern template return-type name(parameter-list);
@@ -328,14 +317,9 @@ int main()
 这个例子中，可以看到：
 
 \begin{itemize}
-\item 
-wrapper.h头文件包含一个名为wrapper<T>的类模板。[1]中，wrapper<int>有一个显式的实例化声明，告诉编译器在编译包含此头文件的源文件（翻译单元）时，不要为该实例化生成定义。
-
-\item 
-source1.cpp文件包含wrapper.h，并且[2]中包含wrapper<int>的显式实例化定义。这是整个程序中这个实例化的唯一定义。
-
-\item 
-源文件source2.cpp和main.cpp都使用了wrapper<int>，但是没有显式的实例化定义或声明。当头文件包含在每个文件中时，wrapper.h的显式声明是可见的。
+  \item wrapper.h头文件包含一个名为wrapper<T>的类模板。[1]中，wrapper<int>有一个显式的实例化声明，告诉编译器在编译包含此头文件的源文件（翻译单元）时，不要为该实例化生成定义。
+  \item source1.cpp文件包含wrapper.h，并且[2]中包含wrapper<int>的显式实例化定义。这是整个程序中这个实例化的唯一定义。
+  \item 源文件source2.cpp和main.cpp都使用了wrapper<int>，但是没有显式的实例化定义或声明。当头文件包含在每个文件中时，wrapper.h的显式声明是可见的。
 \end{itemize}
 
 或者，可以从头文件中取出显式实例化声明，但随后必须将其添加到包含头文件的每个源文件中，而这很可能被遗忘。

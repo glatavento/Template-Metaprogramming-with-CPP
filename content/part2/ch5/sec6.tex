@@ -30,30 +30,18 @@ constexpr OutputIt copy(InputIt first, InputIt last,
 但在某些情况下，这种实现可以通过简单地复制内存来优化。为了达到这个目的，必须满足一些条件：
 
 \begin{itemize}
-\item
-两种迭代器类型InputIt和OutputIt都必须是指针。
-
-\item
-两个模板参数InputIt和OutputIt必须指向相同的类型（忽略cv-限定符）。
-
-\item
-InputIt所指向的类型，具有普通的复制赋值操作符。
+  \item 两种迭代器类型InputIt和OutputIt都必须是指针。
+  \item 两个模板参数InputIt和OutputIt必须指向相同的类型（忽略cv-限定符）。
+  \item InputIt所指向的类型，具有普通的复制赋值操作符。
 \end{itemize}
 
 可以用以下标准类型特征来检查这些条件：
 
 \begin{itemize}
-\item
-std::is\_same（和std::is\_same\_v变量）来检查两种类型是否相同。
-
-\item
-std::is\_pointer（和std::is\_pointer\_v变量）来检查一个类型是否是指针类型。
-
-\item
-std::is\_trivially\_copy\_assignable（和std::is\_trivially\_copy\_assignable\_v变量）检查类型是否具有普通的复制赋值操作符。
-
-\item
-std::remove\_cv（和std::remove\_cv\_t别名模板）从类型中删除cv-限定符。
+  \item std::is\_same（和std::is\_same\_v变量）来检查两种类型是否相同。
+  \item std::is\_pointer（和std::is\_pointer\_v变量）来检查一个类型是否是指针类型。
+  \item std::is\_trivially\_copy\_assignable（和std::is\_trivially\_copy\_assignable\_v变量）检查类型是否具有普通的复制赋值操作符。
+  \item std::remove\_cv（和std::remove\_cv\_t别名模板）从类型中删除cv-限定符。
 \end{itemize}
 
 来看看如何实现。首先，需要有一个带有泛型实现的主模板，然后有一个带有优化实现的指针类型特化。可以使用带有成员函数模板的类模板来实现，如下所示：

@@ -3,11 +3,8 @@
 模板或函数形参包可以接受零个、一个或多个参数。该标准没有指定参数数量的上限，但编译器可能会进行设定。该标准所做的是为这些限制推荐最小值，但不要求遵守这些限定值。这些限制如下：
 
 \begin{itemize}
-\item
-对于函数形参包，参数的最大数量取决于函数调用的参数的限制，建议至少为256个。
-
-\item
-对于模板形参包，参数的最大数量取决于模板形参的限制，建议至少为1024个。
+  \item 对于函数形参包，参数的最大数量取决于函数调用的参数的限制，建议至少为256个。
+  \item 对于模板形参包，参数的最大数量取决于模板形参的限制，建议至少为1024个。
 \end{itemize}
 
 参数包中的参数数量，可以在编译时使用sizeof...操作符检索。该操作符返回std::size\_t类型的constexpr值。
@@ -125,17 +122,10 @@ multipacks<int, int, int>(1, 2, 3, 4.0, 5.0, 6.0); // OK
 多参数包并不特定于可变参数函数模板，也可以用于偏特化中的可变类模板，前提是编译器可以推断模板参数。为了说明，我们考虑用一对函数指针表示类模板的情况，实现应该允许存储指向任何函数的指针。所以，我们定义了一个主模板，称为func\_pair，以及带有四个模板参数的偏特化：
 
 \begin{itemize}
-\item
-第一个函数的返回类型的类型模板参数
-
-\item
-第一个函数的参数类型的模板参数包
-
-\item
-第二个函数的返回类型的第二个类型模板参数
-
-\item
-第二个模板形参包，用于第二个函数的形参类型
+  \item 第一个函数的返回类型的类型模板参数
+  \item 第一个函数的参数类型的模板参数包
+  \item 第二个函数的返回类型的第二个类型模板参数
+  \item 第二个模板形参包，用于第二个函数的形参类型
 \end{itemize}
 
 func\_pair类模板如下所示：
@@ -184,8 +174,7 @@ funcs.g(42, 12, 10.0);
 参数包可以出现在不同的上下文中，扩展形式可能取决于这一背景。前面列出了这些可能的上下文和示例：
 
 \begin{itemize}
-\item
-模板参数(parameter)列表：为模板指定参数时：
+  \item 模板参数(parameter)列表：为模板指定参数时：
 
 \begin{cpp}
 template <typename... T>
@@ -197,9 +186,7 @@ struct outer
 
 outer<int, double, char[5]> a;
 \end{cpp}
-
-\item
-模板参数(argument)列表：为模板指定参数时：
+  \item 模板参数(argument)列表：为模板指定参数时：
 
 \begin{cpp}
 template <typename... T>
@@ -214,9 +201,7 @@ void tagger()
 	tag<U, T, Args...> t4;
 }
 \end{cpp}
-
-\item
-函数参数(parameter)列表：为函数模板指定参数时：
+  \item 函数参数(parameter)列表：为函数模板指定参数时：
 
 \begin{cpp}
 template <typename... Args>
@@ -225,9 +210,7 @@ void make_it(Args... args)
 make_it(42);
 make_it(42, 'a');
 \end{cpp}
-
-\item
-函数参数(argument)列表：展开包出现在函数调用的圆括号内时，省略号左侧表达式或大括号初始化列表就是展开模式：
+  \item 函数参数(argument)列表：展开包出现在函数调用的圆括号内时，省略号左侧表达式或大括号初始化列表就是展开模式：
 
 \begin{cpp}
 template <typename T>
@@ -257,9 +240,7 @@ void do_sums(T... args)
 
 do_sums(1, 2, 3, 4);
 \end{cpp}
-
-\item
-圆括号初始化式：展开包出现在直接初始化式、函数样式强制转换、成员初始化式、new表达式和其他类似上下文的圆括号内时，规则与函数实参列表的上下文相同：
+  \item 圆括号初始化式：展开包出现在直接初始化式、函数样式强制转换、成员初始化式、new表达式和其他类似上下文的圆括号内时，规则与函数实参列表的上下文相同：
 
 \begin{cpp}
 template <typename... T>
@@ -288,9 +269,7 @@ void parenthesized(T... args)
 }
 parenthesized(1, 2, 3, 4);
 \end{cpp}
-
-\item
-大括号初始化式：使用大括号符号进行初始化时：
+  \item 大括号初始化式：使用大括号符号进行初始化时：
 
 \begin{cpp}
 template <typename... T>
@@ -305,9 +284,7 @@ void brace_enclosed(T... args)
 
 brace_enclosed(1, 2, 3, 4);
 \end{cpp}
-
-\item
-基类说明符和成员初始化程序列表：包展开可以在类声明中指定基类的列表。此外，也可能出现在成员初始化器列表中，因为调用基类的构造函数可能需要这样做：
+  \item 基类说明符和成员初始化程序列表：包展开可以在类声明中指定基类的列表。此外，也可能出现在成员初始化器列表中，因为调用基类的构造函数可能需要这样做：
 
 \begin{cpp}
 struct A {};
@@ -326,9 +303,7 @@ B b;
 C c;
 X x(a, b, c);
 \end{cpp}
-
-\item
-使用声明：从一组基类派生的上下文中，能够将基类中的名称引入派生类的定义中也是有用的，所以包展开也可能出现在using声明中：
+  \item 使用声明：从一组基类派生的上下文中，能够将基类中的名称引入派生类的定义中也是有用的，所以包展开也可能出现在using声明中：
 
 \begin{cpp}
 struct A
@@ -364,9 +339,7 @@ x.A::execute();
 x.B::execute();
 x.C::execute();
 \end{cpp}
-
-\item
-Lambda捕获：Lambda表达式的捕获子句可能包含包展开：
+  \item Lambda捕获：Lambda表达式的捕获子句可能包含包展开：
 
 \begin{cpp}
 template <typename... T>
@@ -379,9 +352,7 @@ void captures(T... args)
 
 captures(1, 2, 3, 4);
 \end{cpp}
-
-\item
-折叠表达式：
+  \item 折叠表达式：
 
 \begin{cpp}
 template <typename... T>
@@ -390,9 +361,7 @@ int sum(T... args)
 	return (... + args);
 }
 \end{cpp}
-
-\item
-sizeof...操作符：本节前面已经展示了示例。这里再来一个例子：
+  \item sizeof...操作符：本节前面已经展示了示例。这里再来一个例子：
 
 \begin{cpp}
 template <typename... T>
@@ -404,9 +373,7 @@ auto make_array(T... args)
 
 auto arr = make_array(1, 2, 3, 4);
 \end{cpp}
-
-\item
-对齐说明符：对齐说明符中的包展开与将多个对齐说明符应用于同一声明具有相同的效果。参数包可以是类型包，也可以是非类型包。下面列出了这两种情况的示例：
+  \item 对齐说明符：对齐说明符中的包展开与将多个对齐说明符应用于同一声明具有相同的效果。参数包可以是类型包，也可以是非类型包。下面列出了这两种情况的示例：
 
 \begin{cpp}
 template <typename... T>
@@ -424,9 +391,7 @@ struct alignment2
 alignment1<int, double> al1;
 alignment2<1, 4, 8> al2;
 \end{cpp}
-
-\item
-属性列表：目前还没有编译器支持。
+  \item 属性列表：目前还没有编译器支持。
 \end{itemize}
 
 现在，已经了解了更多关于参数包及其扩展的知识，可以继续探索可变参数类模板。

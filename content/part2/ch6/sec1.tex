@@ -37,17 +37,14 @@ T add(T const a, T const b)
 首先，可读性下降了。第二，类模板参数难以阅读，需要对模板有很好的了解才能理解，但[3]和[4]行上的调用都产生了编译器错误。不同的编译器会产生不同的错误消息。下面是三个主要编译器的代码：
 
 \begin{itemize}
-\item
-VC++ 17:
+  \item VC++ 17:
 
 \begin{shell}
 error C2672: 'add': no matching overloaded function found
 error C2783: 'T add(const T,const T)': could not deduce
 template argument for '<unnamed-symbol>'
 \end{shell}
-
-\item
-GCC 12:
+  \item GCC 12:
 \begin{shell}
 prog.cc: In function 'int main()':
 prog.cc:15:8: error: no matching function for call
@@ -85,9 +82,7 @@ void>'
 2603 | using enable_if_t = typename enable_if<_Cond, _Tp>::type;
      |            ^~~~~~~~~~~
 \end{shell}
-
-\item
-Clang 13:
+  \item Clang 13:
 \begin{shell}
 prog.cc:15:5: error: no matching function for call to
 'add'
@@ -118,8 +113,7 @@ T add(T const a, T const b)
 这个实现中，回到了最初的问题，即仅通过查看函数的声明，不知道它会接受什么样的参数，没有任何限制。另一方面，错误信息如下所示：
 
 \begin{itemize}
-\item
-VC++ 17:
+  \item VC++ 17:
 
 \begin{shell}
 error C2338: Arithmetic type required
@@ -131,9 +125,7 @@ T)' being compiled
          T=std::string
      ]
 \end{shell}
-
-\item
-GCC 12:
+  \item GCC 12:
 
 \begin{shell}
 prog.cc: In instantiation of 'T add(T, T) [with T =
@@ -147,9 +139,7 @@ type required
 prog.cc:7:24: note: 'std::is_arithmetic_v<std::__
 cxx11::basic_string<char> >' evaluates to false
 \end{shell}
-
-\item
-Clang 13:
+  \item Clang 13:
 
 \begin{shell}
 prog.cc:7:5: error: static_assert failed due to
@@ -192,17 +182,14 @@ requires std::is_arithmetic_v<T>
 这两种语法可以根据个人喜好进行选择，但这两种情况，可读性都比C++20之前的实现好得多。通过阅读声明，就知道T类型模板参数必须是算术类型。此外，函数只是两个数字的相加，不需要看定义就能知道。当调用带有无效参数的函数时，错误消息为：
 
 \begin{itemize}
-\item
-VC++ 17:
+  \item VC++ 17:
 
 \begin{shell}
 error C2672: 'add': no matching overloaded function found
 error C7602: 'add': the associated constraints are not
 satisfied
 \end{shell}
-
-\item
-GCC 12:
+  \item GCC 12:
 
 \begin{shell}
 prog.cc: In function 'int main()':
@@ -231,9 +218,7 @@ traits<char>, std::allocator<char> >]' evaluated to 'false'
     5 | requires std::is_arithmetic_v<T>
       |               ~~~~~^~~~~~~~~~~~~~~~~~
 \end{shell}
-
-\item
-Clang 13:
+  \item Clang 13:
 
 \begin{shell}
 prog.cc:15:5: error: no matching function for call to

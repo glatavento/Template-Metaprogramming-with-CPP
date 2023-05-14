@@ -146,11 +146,8 @@ public:
 这个类模板有一个重载调用操作符和两个私有辅助函数：
 
 \begin{itemize}
-\item
-apply, 将类型列表的I索引中的函子应用到game\_unit对象上。
-
-\item
-apply\_all, 通过在包扩展中使用apply函数，将类型列表中的所有函子应用到game\_unit对象。
+  \item apply, 将类型列表的I索引中的函子应用到game\_unit对象上。
+  \item apply\_all, 通过在包扩展中使用apply函数，将类型列表中的所有函子应用到game\_unit对象。
 \end{itemize}
 
 可以像下面这样使用upgrade\_unit函数：
@@ -172,29 +169,14 @@ std::cout << std::format("{},{}\n", u.attack, u.defense);
 类型列表是一种在编译时只携带有value信息的类型，类型列表可充当其他类型的容器。使用类型列表时，需要执行各种操作，例如计算列表中的类型，在给定索引处访问类型，在列表的开头或结尾添加类型，或者反向操作，从列表的开头或结尾删除类型等。仔细想想，这些都是容器中的典型操作，比如vector容器。所以在本节中，我们将讨论如何实现以下操作：
 
 \begin{itemize}
-\item
-size: 列表的长度
-
-\item
-front: 检索列表中的第一个类型
-
-\item
-back: 检索列表中的最后一个类型
-
-\item
-at: 检索列表中指定索引处的类型
-
-\item
-push\_back: 将新类型添加到列表末尾
-
-\item
-push\_front: 将一个新类型添加到列表开头
-
-\item
-pop\_back: 删除列表末尾的类型
-
-\item
-pop\_front: 删除列表开头的类型
+  \item size: 列表的长度
+  \item front: 检索列表中的第一个类型
+  \item back: 检索列表中的最后一个类型
+  \item at: 检索列表中指定索引处的类型
+  \item push\_back: 将新类型添加到列表末尾
+  \item push\_front: 将一个新类型添加到列表开头
+  \item pop\_back: 删除列表末尾的类型
+  \item pop\_front: 删除列表开头的类型
 \end{itemize}
 
 类型列表是编译时构造，是一个不可改变的实体。因此，添加或删除类型的操作不会修改类型列表，而是创建一个新的类型列表。首先，从最简单的操作开始，即检索类型列表的长度。

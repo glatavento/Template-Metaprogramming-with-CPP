@@ -32,11 +32,8 @@ struct is_floating_point<long double>
 有两件事需要注意：
 
 \begin{itemize}
-\item
-定义了一个主模板，以及几个完整的特化，每个类型对应一个浮点类型。
-
-\item
-主模板有一个用false值初始化的静态const布尔成员，全特化将该成员的值设置为true。
+  \item 定义了一个主模板，以及几个完整的特化，每个类型对应一个浮点类型。
+  \item 主模板有一个用false值初始化的静态const布尔成员，全特化将该成员的值设置为true。
 \end{itemize}
 
 is\_float\_point<T>是一种类型特征，告诉我们一种类型是否是浮点类型。可以这样使用：
