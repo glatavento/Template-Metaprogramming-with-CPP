@@ -49,7 +49,7 @@
 
 % Setup tblr
 \UseTblrLibrary { varwidth }
-\SetTblrInner [ talltblr, longtblr ] { hlines, rows={m}, row{1} = {c, font=\bfseries} }
+\SetTblrInner [ talltblr, longtblr ] { hlines, rows={m}, row{1} = {c, font=\bfseries, cmd={}} }
 \SetTblrInner [ longtblr ] { rowhead=1, measure=vbox }
 \DefTblrTemplate { contfoot-text } { normal } { 续下页  }
 \DefTblrTemplate { conthead-text } { normal } { （接前页） }
@@ -57,26 +57,27 @@
 \SetTblrTemplate { conthead-text } { normal }
 \SetTblrTemplate { caption-sep   } { empty  } % Remove : after table number
 
+% Macros to escape subscript
+\NewDocumentCommand { \makesubletter } {}
+{ \catcode`_=11 }
+\NewDocumentCommand { \makesubsub } {}
+{ \catcode`_=8 }
+
 % Setup minted
 \setminted { obeytabs, tabsize=2, breaklines=true, fontsize=\footnotesize, frame=single }
-\setmintedinline { breaklines=true, fontsize=\normalsize }
+\setmintedinline { breaklines=true, breakbefore=_ }
+\newminted { cpp } { linenos=true }
+\newminted [ shell ] { text } { linenos=true }
+\newmintinline { cpp } {}
+\newmintinline { text } {}
+\NewDocumentCommand { \cppcomma } { m }
+{ \seq_set_from_clist:Nn \l_tmpa_seq { #1 }
+  \int_set:Nn \l_tmpa_int { \seq_count:N \l_tmpa_seq }
+  \int_step_inline:nnn { 1 } { \l_tmpa_int - 1 }
+  { \exp_args:Nx \cppinline { \seq_item:Nn \l_tmpa_seq { ##1 } } \\ }
+  \exp_args:Nx \cppinline { \seq_item:Nn \l_tmpa_seq { \l_tmpa_int } } }
 
-% Def \inlcpp
-\NewDocumentCommand { \inlcpp }   { m }
-{ \mintinline { cpp } { #1 } }
-
-% Def cpp environment
-\NewDocumentEnvironment { cpp } { }
-{ \VerbatimEnvironment
-  \begin { minted } [ linenos=true ] { cpp } }
-{ \end   { minted } }
-
-% Def shell environment
-\NewDocumentEnvironment { shell } { }
-{ \VerbatimEnvironment
-  \begin { minted } { text } }
-{ \end   { minted } }
-
+% Def note & important note
 \NewDocumentEnvironment { note } { }
 { \begin { tcolorbox } [breakable,enhanced~jigsaw,colback=blue!5!white,colframe=blue!75!black,title={Note}] }
 { \end   { tcolorbox } }
@@ -88,6 +89,8 @@
 \ExplSyntaxOff
 
 \begin{document}
+
+\makesubletter
 
 \includepdf{cover.pdf}
 \maketitle
@@ -120,6 +123,8 @@
 \setcounter{secnumdepth}{0}
 \subfile{backmatter/Closing-Notes.tex}
 \subfile{backmatter/Assignment-Answers.tex}
+
+\makesubsub
 
 \end{document}
 

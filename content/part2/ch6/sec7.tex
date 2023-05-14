@@ -1,7 +1,7 @@
 \section{约束类模板}
 类模板和类模板特化也可以像函数模板一样受到约束。首先，考虑wrapper类模板，但这一次要求它只适用于整型的模板参数。这可以在C++20中简单地进行指定：
 
-\begin{cpp}
+\begin{cppcode}
 template <std::integral T>
 struct wrapper
 {
@@ -10,13 +10,13 @@ struct wrapper
 
 wrapper<int> a{ 42 }; // OK
 wrapper<double> b{ 42.0 }; // error
-\end{cpp}
+\end{cppcode}
 
 为int实例化模板是可以的，但对double无效，因为其不是整型。
 
 同样用requires子句和类模板特化指定的需求也可以约束。为了展示这一点，考虑这样一个场景：希望特化包装器类模板，但只针对大小为4字节的类型。可以这样实现：
 
-\begin{cpp}
+\begin{cppcode}
 template <std::integral T>
 struct wrapper
 {
@@ -39,11 +39,11 @@ struct wrapper<T>
 		};
 	};
 };
-\end{cpp}
+\end{cppcode}
 
 如何使用这个类模板，如下所示：
 
-\begin{cpp}
+\begin{cppcode}
 wrapper<short> a{ 42 };
 std::cout << a.value << '\n';
 
@@ -53,7 +53,7 @@ std::cout << std::hex << (int)b.byte1 << '\n';
 std::cout << std::hex << (int)b.byte2 << '\n';
 std::cout << std::hex << (int)b.byte3 << '\n';
 std::cout << std::hex << (int)b.byte4 << '\n';
-\end{cpp}
+\end{cppcode}
 
 对象a是wrapper<short>;，所以使用主模板。另一方面，对象b是wrapper<int>的实例。由于int的大小为4字节（在大多数平台上），因此使用了特化，我们可以通过byte1、byte2、byte3和byte4成员访问包装值的各个类型。
 

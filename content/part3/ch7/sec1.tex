@@ -21,7 +21,7 @@
 
 来看一个动态多态性的例子。以下是代表游戏中不同单位的类的结构，这些单元可能会攻击其他单元，因此有一个基类，带有一个称为attack的纯虚函数，还有几个派生类实现了特定的单元，这些单元覆盖了这个虚函数，做不同的事情（为了简单起见，这里只将消息输出到控制台）。如下所示：
 
-\begin{cpp}
+\begin{cppcode}
 struct game_unit
 {
 	virtual void attack() = 0;
@@ -38,11 +38,11 @@ struct mage : game_unit
 	void attack() override
 	{ std::cout << "spell magic curse\n"; }
 };
-\end{cpp}
+\end{cppcode}
 
-基于这种类的层次结构（根据标准称为多态类），可以编写如下所示的函数fight。这接受一个指向基本game\_unit类型对象的指针序列，并调用attack成员函数。下面是其实现：
+基于这种类的层次结构（根据标准称为多态类），可以编写如下所示的函数fight。这接受一个指向基本game_unit类型对象的指针序列，并调用attack成员函数。下面是其实现：
 
-\begin{cpp}
+\begin{cppcode}
 void fight(std::vector<game_unit*> const & units)
 {
 	for (auto unit : units)
@@ -50,26 +50,26 @@ void fight(std::vector<game_unit*> const & units)
 		unit->attack();
 	}
 }
-\end{cpp}
+\end{cppcode}
 
 这个函数不需要知道每个对象的实际类型，由于动态多态性，可以像处理相同（基本）类型一样处理。下面是一个用例：
 
-\begin{cpp}
+\begin{cppcode}
 knight k;
 mage m;
 fight({&k, &m});
-\end{cpp}
+\end{cppcode}
 
 但现在，假设可以结合一个法师和一个骑士，并创造一个新的单位，一个拥有特殊能力的骑士法师。能够编写如下代码：
 
-\begin{cpp}
+\begin{cppcode}
 knight_mage km = k + m;
 km.attack();
-\end{cpp}
+\end{cppcode}
 
 这不是现成的，但是语言支持重载操作符，可以对用户定义的类型这样做。为了使上一行成为可能，需要以下内容：
 
-\begin{cpp}
+\begin{cppcode}
 struct knight_mage : game_unit
 {
 	void attack() override
@@ -80,36 +80,36 @@ knight_mage operator+(knight const& k, mage const& m)
 {
 	return knight_mage{};
 }
-\end{cpp}
+\end{cppcode}
 
-这些只是一些简单的代码片段，没有任何复杂的代码。但是把一个knight和一个mage加在一起来创建一个knight\_mage的能力就像把两个整数加在一起一样，或者一个double和一个int，或者两个std::string对象。这是因为加法运算符有很多重载（内置类型和用户定义类型都有），编译器会根据操作数选择适当的重载，所以这个算子可以有很多种形式。对于所有可以重载的操作符都是如此，加法运算符只是一个典型的例子。这是多态性的编译时版本，称为静态多态性。
+这些只是一些简单的代码片段，没有任何复杂的代码。但是把一个knight和一个mage加在一起来创建一个knight_mage的能力就像把两个整数加在一起一样，或者一个double和一个int，或者两个std::string对象。这是因为加法运算符有很多重载（内置类型和用户定义类型都有），编译器会根据操作数选择适当的重载，所以这个算子可以有很多种形式。对于所有可以重载的操作符都是如此，加法运算符只是一个典型的例子。这是多态性的编译时版本，称为静态多态性。
 
 运算符并不是唯一可以重载的函数，函数都可以重载。来再看一个例子：
 
-\begin{cpp}
+\begin{cppcode}
 struct attack { int value; };
 struct defense { int value; };
 
 void increment(attack& a) { a.value++; }
 void increment(defense& d) { d.value++; }
-\end{cpp}
+\end{cppcode}
 
 这段代码中，increment函数对attack和defense类型都进行了重载，所以可以编写如下代码：
 
-\begin{cpp}
+\begin{cppcode}
 attack a{ 42 };
 defense d{ 50 };
 
 increment(a);
 increment(d);
-\end{cpp}
+\end{cppcode}
 
 可以用一个函数模板替换这两个增量重载。更改是最小的，如下所示：
 
-\begin{cpp}
+\begin{cppcode}
 template <typename T>
 void increment(T& t) { t.value++; }
-\end{cpp}
+\end{cppcode}
 
 前面的代码继续工作，但有一个显著的区别：前面的示例中，有两个重载，一个用于attack，一个用于defense，因此可以使用这些类型的对象调用函数，但不能使用其他类型的对象。后者有一个模板，可为类型T定义了一组重载函数，该类型T有一个名为value的数据成员，其类型支持后增量操作符。我们可以为这样的函数模板定义约束，这是我们在本书前两章中看到的内容，但关键是重载函数和模板是C++中实现静态多态的一种机制。
 

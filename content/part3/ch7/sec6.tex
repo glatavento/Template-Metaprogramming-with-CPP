@@ -4,12 +4,12 @@
 
 了解表达式模板之前，先了解它们可以解决什么问题。假设想要对矩阵进行一些操作，实现了基本的操作，加法、减法和乘法（两个矩阵或一个标量和一个矩阵）。可以有以下表达式：
 
-\begin{cpp}
+\begin{cppcode}
 auto r1 = m1 + m2;
 auto r2 = m1 + m2 + m3;
 auto r3 = m1 * m2 + m3 * m4;
 auto r4 = m1 + 5 * m2;
-\end{cpp}
+\end{cppcode}
 
 m1, m2, m3和m4是矩阵；类似地，r1, r2, r3和r4是由右边的操作得到的矩阵。第一个操作没有任何问题：m1和m2相加，结果赋值给r1。第二个操作是不同的，因为有三个矩阵相加。所以首先操作m1和m2，并创建一个临时对象，然后将其添加到m3，并将结果分配给r2。
 
@@ -27,7 +27,7 @@ m1, m2, m3和m4是矩阵；类似地，r1, r2, r3和r4是由右边的操作得�
 
 代码如下所示：
 
-\begin{cpp}
+\begin{cppcode}
 template<typename T>
 struct vector
 {
@@ -53,11 +53,11 @@ struct vector
 private:
 	std::vector<T> data_;
 };
-\end{cpp}
+\end{cppcode}
 
 这看起来非常类似于std::vector标准容器，其在内部会使用这个容器来保存数据，但这与我们要解决的问题无关。这里，使用的是vector，而不是矩阵，因为用几行代码来表示它更容易。有了这个类，就可以定义必要的操作：两个向量之间，以及标量与向量之间的加法和乘法：
 
-\begin{cpp}
+\begin{cppcode}
 template<typename T, typename U>
 auto operator+ (vector<T> const & a, vector<U> const & b)
 {
@@ -96,18 +96,18 @@ auto operator* (S const& s, vector<T> const& v)
 	}
 	return result;
 }
-\end{cpp}
+\end{cppcode}
 
 这些实现相对简单，在这一点上不应该构成理解问题。+和*运算符都取两个可能类型不同的vector，例如vector<int>和vector<double>，并返回一个包含结果类型元素的向量，是由使用std::declval将模板类型T和U的两个值相加的结果决定的。对于标量和向量相乘，也可以使用类似的实现。有了这些操作符，可以编写如下代码：
 
-\begin{cpp}
+\begin{cppcode}
 vector<int> v1{ 1,2,3 };
 vector<int> v2{ 4,5,6 };
 double a{ 1.5 };
 
 vector<double> v3 = v1 + a * v2; // {7.0, 9.5, 12.0}
 vector<int> v4 = v1 * v2 + v1 + v2; // {9, 17, 27}
-\end{cpp}
+\end{cppcode}
 
 如前所述，这将在计算v3时创建一个临时对象，在计算v4时创建两个临时对象。下面的图表举例说明了这一点。第一个是第一个计算，v3 = v1 + a * v2:
 
@@ -133,7 +133,7 @@ vector<int> v4 = v1 * v2 + v1 + v2; // {9, 17, 27}
 
 从向量实现开始：
 
-\begin{cpp}
+\begin{cppcode}
 template<typename T, typename C = std::vector<T>>
 struct vector
 {
@@ -183,7 +183,7 @@ struct vector
 private:
 	C data_;
 };
-\end{cpp}
+\end{cppcode}
 
 除了初始实现中可用的操作外，还定义了以下操作：
 
@@ -197,7 +197,7 @@ private:
 
 表达式模板是一个简单的类模板，其存储两个操作数，并提供了一种执行操作求值的方法。本例中，需要实现两个向量相加、两个向量相乘，以及标量与向量相乘的表达式。来看看两个向量相加的表达式模板的实现：
 
-\begin{cpp}
+\begin{cppcode}
 template<typename L, typename R>
 struct vector_add
 {
@@ -217,7 +217,7 @@ private:
 	L const & lhv;
 	R const & rhv;
 };
-\end{cpp}
+\end{cppcode}
 
 该类存储对两个向量的常量引用（或者，任何重载下标操作符，并提供size成员函数的类型）。表达式的求值发生在重载下标操作符中，而不是整个向量，只添加指定索引处的元素。
 
@@ -225,7 +225,7 @@ private:
 
 两个操作的乘法表达式模板，以类似的方式实现：
 
-\begin{cpp}
+\begin{cppcode}
 template<typename L, typename R>
 struct vector_mul
 {
@@ -267,11 +267,11 @@ private:
 	S const & scalar;
 	R const & rhv;
 };
-\end{cpp}
+\end{cppcode}
 
 更改的最后一部分是重载的+和*操作符的定义：
 
-\begin{cpp}
+\begin{cppcode}
 template<typename T, typename L, typename U, typename R>
 auto operator+(vector<T, L> const & a,
 vector<U, R> const & b)
@@ -300,7 +300,7 @@ auto operator*(S const& a, vector<T, E> const& v)
 	return vector<result_type, vector_scalar_mul<S, E>>(
 		vector_scalar_mul<S, E>(a, v.data()));
 }
-\end{cpp}
+\end{cppcode}
 
 尽管在实现此模式时代码更加复杂，但调用端代码不需要更改。这段代码没有任何修改，但以一种懒惰的方式实现。每个元素的求值，由vector类的复制构造函数和复制赋值操作符中的下标操作符触发。
 
@@ -314,7 +314,7 @@ C++20的主要特性之一是范围库，其是容器的泛化——允许迭代
 
 C++的范围库是基于Eric Niebler创建的range-v3库。这个库可以在\url{https://github.com/ericniebler/range-v3/}上获取。使用range-v3，可以编写以下代码来执行操作v1 + a * v2:
 
-\begin{cpp}
+\begin{cppcode}
 namespace rv = ranges::views;
 std::vector<int> v1{ 1, 2, 3 };
 std::vector<int> v2{ 4, 5, 6 };
@@ -323,13 +323,13 @@ double a { 1.5 };
 auto sv2 = v2 |
 		   rv::transform([&a](int val) {return a * val; });
 auto v3 = rv::zip_with(std::plus<>{}, v1, sv2);
-\end{cpp}
+\end{cppcode}
 
 vector类不需要自定义实现，这只适用于std::vector容器，也不需要重载任何操作符。代码应该很容易理解，若对范围库比较熟悉的话。首先，创建一个视图，通过将每个元素与标量相乘来转换v2向量的元素。然后，创建第二个视图，将加号运算符应用于v1范围的元素和前一个操作生成的视图。
 
-但这段代码不能使用标准库在C++20中编写，因为zip\_with视图没有包含在C++20中。但这个视图将在C++23中以zip\_view的名称提供。所以在C++23中，可以这样实现：
+但这段代码不能使用标准库在C++20中编写，因为zip_with视图没有包含在C++20中。但这个视图将在C++23中以zip_view的名称提供。所以在C++23中，可以这样实现：
 
-\begin{cpp}
+\begin{cppcode}
 namespace rv = std::ranges::views;
 std::vector<int> v1{ 1, 2, 3 };
 std::vector<int> v2{ 4, 5, 6 };
@@ -338,7 +338,7 @@ double a { 1.5 };
 auto sv2 = v2 |
            rv::transform([&a](int val) {return a * val; });
 auto v3 = rv::zip_wiew(std::plus<>{}, v1, sv2);
-\end{cpp}
+\end{cppcode}
 
 为了结束对表达式模板模式的讨论，应该记住以下要点：该模式旨在为代价高昂的操作提供惰性求值，而这样做的代价是必须编写更多的代码（也可以说是更麻烦）和增加编译时间（因为沉重的模板代码将对此产生影响）。然而，从C++20开始，这个模式的替代可由范围库完成。
 

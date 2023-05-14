@@ -1,13 +1,13 @@
 \section{标记分派}
 
-标记分派是一种技术，能够在编译时选择一个或另一个函数重载，是std::enable\_if和SFINAE的替代方案，易于理解和使用。术语标记描述了一个没有成员（数据）或函数（行为）的空类。这样的类仅用于定义函数的形参（通常是最后一个），以决定是否在编译时选择它，这取决于提供的参数。
+标记分派是一种技术，能够在编译时选择一个或另一个函数重载，是std::enable_if和SFINAE的替代方案，易于理解和使用。术语标记描述了一个没有成员（数据）或函数（行为）的空类。这样的类仅用于定义函数的形参（通常是最后一个），以决定是否在编译时选择它，这取决于提供的参数。
 
 标准库包含一个名为std::advance的实用函数：
 
-\begin{cpp}
+\begin{cppcode}
 template<typename InputIt, typename Distance>
 void advance(InputIt& it, Distance n);
-\end{cpp}
+\end{cppcode}
 
 C++17中，这也是constexpr（稍后会详细介绍）。该函数将给定的迭代器增加n个元素。但迭代器有几种类型（输入、输出、向前、双向和随机），所以这样的操作可以以不同的方式计算：
 
@@ -19,7 +19,7 @@ C++17中，这也是constexpr（稍后会详细介绍）。该函数将给定的
 
 所以，可以有三种不同的实现，可以在编译时选择与所调用迭代器的类别最匹配的实现。一种解决方案是标记分派，首先要做的是定义标记，标记是空类。因此，对应于这5种迭代器类型的标记可进行如下定义：
 
-\begin{cpp}
+\begin{cppcode}
 struct input_iterator_tag {};
 struct output_iterator_tag {};
 struct forward_iterator_tag : input_iterator_tag {};
@@ -27,11 +27,11 @@ struct bidirectional_iterator_tag :
 	forward_iterator_tag {};
 struct random_access_iterator_tag :
 	bidirectional_iterator_tag {};
-\end{cpp}
+\end{cppcode}
 
 这正是C++标准库中std名称空间中定义它们的方式，这些标记用于为std::advance的每次重载定义一个附加参数：
 
-\begin{cpp}
+\begin{cppcode}
 namespace std
 {
 	namespace details
@@ -68,13 +68,13 @@ namespace std
 		}
 	}
 }
-\end{cpp}
+\end{cppcode}
 
 这些重载定义在std命名空间的单独（内部）命名空间中，这样标准命名空间就不会被不必要的定义所污染。这里可以看到，每个重载都有三个参数：对迭代器的引用、要递增（或递减）的元素数量和标记。
 
 最后要做的是提供一个用于直接使用的高级函数的定义。这个函数没有第三个形参，但是通过确定调用迭代器的类别来调用这些重载中的一个。其实现可能如下所示：
 
-\begin{cpp}
+\begin{cppcode}
 namespace std
 {
 	template <typename Iter, typename Distance>
@@ -85,11 +85,11 @@ namespace std
 								iterator_category{});
 	}
 }
-\end{cpp}
+\end{cppcode}
 
-std::iterator\_traits类为迭代器类型定义了一种接口，包含几个成员类型，其中一个是iterator\_category。这将解析为前面定义的一个迭代器标记，例如std::input\_iterator\_tag用于输入迭代器，std::random\_access\_iterator\_tag用于随机迭代器。基于所提供的迭代器的类别，实例化这些标记类，在编译时从details命名空间确定适当的重载选择。就可以像下面这样使用std::advance函数了：
+std::iterator_traits类为迭代器类型定义了一种接口，包含几个成员类型，其中一个是iterator_category。这将解析为前面定义的一个迭代器标记，例如std::input_iterator_tag用于输入迭代器，std::random_access_iterator_tag用于随机迭代器。基于所提供的迭代器的类别，实例化这些标记类，在编译时从details命名空间确定适当的重载选择。就可以像下面这样使用std::advance函数了：
 
-\begin{cpp}
+\begin{cppcode}
 std::vector<int> v{ 1,2,3,4,5 };
 auto sv = std::begin(v);
 std::advance(sv, 2);
@@ -97,13 +97,13 @@ std::advance(sv, 2);
 std::list<int> l{ 1,2,3,4,5 };
 auto sl = std::begin(l);
 std::advance(sl, 2);
-\end{cpp}
+\end{cppcode}
 
 std::vector迭代器的类别类型是随机访问。另一方面，std::list的迭代器类别类型是双向的。但可以利用标记调度技术使用依赖于不同优化实现的单个函数。
 
 \subsection{标签分派的替代方案}
 
-C++17之前，标记分派的唯一替代方案是SFINAE和enable\_if。这是一种相当传统的技术，在现代C++中有更好的替代方案——constexpr if和概念。
+C++17之前，标记分派的唯一替代方案是SFINAE和enable_if。这是一种相当传统的技术，在现代C++中有更好的替代方案——constexpr if和概念。
 
 \subsubsection{constexpr if}
 
@@ -111,7 +111,7 @@ C++11引入了constexpr值的概念，其是编译时已知的值，也是可以
 
 下面是C++17中的可能实现：
 
-\begin{cpp}
+\begin{cppcode}
 template<typename It, typename Distance>
 constexpr void advance(It& it, Distance n)
 {
@@ -146,9 +146,9 @@ constexpr void advance(It& it, Distance n)
 		}
 	}
 }
-\end{cpp}
+\end{cppcode}
 
-虽然这个实现仍然使用前面的迭代器标记，但不再用于调用不同的重载函数，而是用于确定一些编译时表达式的值。std::is\_base\_of类型特性（通过std::is\_base\_of\_v变量模板）用于在编译时确定迭代器类别的类型。
+虽然这个实现仍然使用前面的迭代器标记，但不再用于调用不同的重载函数，而是用于确定一些编译时表达式的值。std::is_base_of类型特性（通过std::is_base_of_v变量模板）用于在编译时确定迭代器类别的类型。
 
 这个实现有几个优点：
 
@@ -163,11 +163,11 @@ constexpr void advance(It& it, Distance n)
 
 \subsubsection{概念}
 
-前一章专门介绍C++20中引入的约束和概念，不仅看到了这些特性是如何工作的，还看到了标准库在几个头文件中定义的一些概念，如<concepts>和<iterator>。其中一些概念指定类型是某个迭代器类别。例如，std::input\_iterator指定类型为输入迭代器。类似地，还定义了以下概念：std::output\_iterator、std::forward\_iterator、std::bidirectional\_iterator、std::random\_access\_iterator和std::contiguous\_iterator（最后一个表示迭代器是随机访问迭代器，指的是连续存储在内存中的元素）。
+前一章专门介绍C++20中引入的约束和概念，不仅看到了这些特性是如何工作的，还看到了标准库在几个头文件中定义的一些概念，如<concepts>和<iterator>。其中一些概念指定类型是某个迭代器类别。例如，std::input_iterator指定类型为输入迭代器。类似地，还定义了以下概念：std::output_iterator、std::forward_iterator、std::bidirectional_iterator、std::random_access_iterator和std::contiguous_iterator（最后一个表示迭代器是随机访问迭代器，指的是连续存储在内存中的元素）。
 
-std::input\_iterator概念的定义如下：
+std::input_iterator概念的定义如下：
 
-\begin{cpp}
+\begin{cppcode}
 template<class I>
 	concept input_iterator =
 		std::input_or_output_iterator<I> &&
@@ -175,18 +175,18 @@ template<class I>
 		requires { typename /*ITER_CONCEPT*/<I>; } &&
 		std::derived_from</*ITER_CONCEPT*/<I>,
 						  std::input_iterator_tag>;
-\end{cpp}
+\end{cppcode}
 
 值得注意的是，这个概念是一组约束，用于验证以下内容：
 
 \begin{itemize}
   \item 迭代器是可解引用的（支持*i）和可递增的（支持++i和i++）
-  \item 迭代器类别派生自std::input\_iterator\_tag。
+  \item 迭代器类别派生自std::input_iterator_tag。
 \end{itemize}
 
 类别检查是在约束内执行的，所以这些概念仍然基于迭代器标记，但技术上与标记调度有很大不同。因此，在C++20中可以有std::advance算法的另一个实现，如下所示：
 
-\begin{cpp}
+\begin{cppcode}
 template <std::random_access_iterator Iter, class Distance>
 void advance(Iter& it, Distance n)
 {
@@ -214,7 +214,7 @@ void advance(Iter& it, Distance n)
 		++it;
 	}
 }
-\end{cpp}
+\end{cppcode}
 
 有几点需要注意：
 

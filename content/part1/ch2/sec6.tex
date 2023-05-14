@@ -19,7 +19,7 @@
 
 看一下下面的例子：
 
-\begin{cpp}
+\begin{cppcode}
 template <typename T>
 struct is_floating_point
 {
@@ -43,23 +43,23 @@ struct is_floating_point<long double>
 {
 	constexpr static bool value = true;
 };
-\end{cpp}
+\end{cppcode}
 
-is\_float\_point是主模板，包含一个名为value的constexpr静态布尔数据成员，用false值初始化。然后，对这个主模板有三种完全的特化，分别用于float、double和long double类型。这些新定义改变了使用true，而不是false初始化值的方式，所以可以使用这个模板编写如下代码：
+is_float_point是主模板，包含一个名为value的constexpr静态布尔数据成员，用false值初始化。然后，对这个主模板有三种完全的特化，分别用于float、double和long double类型。这些新定义改变了使用true，而不是false初始化值的方式，所以可以使用这个模板编写如下代码：
 
-\begin{cpp}
+\begin{cppcode}
 std::cout << is_floating_point<int>::value << '\n';
 std::cout << is_floating_point<float>::value << '\n';
 std::cout << is_floating_point<double>::value << '\n';
 std::cout << is_floating_point<long double>::value << '\n';
 std::cout << is_floating_point<std::string>::value << '\n';
-\end{cpp}
+\end{cppcode}
 
-第一行和最后一行打印0，即false;其他行输出1，即true。这个例子演示了类型特征是如何工作的，标准库在std命名空间中包含一个名为is\_floating\_point的类模板，定义在<type\_traits>标准头文件中。我们将在第5章中了解更多相关内容。
+第一行和最后一行打印0，即false;其他行输出1，即true。这个例子演示了类型特征是如何工作的，标准库在std命名空间中包含一个名为is_floating_point的类模板，定义在<type_traits>标准头文件中。我们将在第5章中了解更多相关内容。
 
 正如在本例中看到的，静态类成员可以全特化。每个特化版本都有自己的静态成员副本：
 
-\begin{cpp}
+\begin{cppcode}
 template <typename T>
 struct foo
 {
@@ -73,13 +73,13 @@ foo<double> a, b; // a.value=0, b.value=0
 foo<int> c; // c.value=42
 
 a.value = 100; // a.value=100, b.value=100, c.value=42
-\end{cpp}
+\end{cppcode}
 
 foo<T>是一个类模板，只有一个静态成员，称为value。对于主模板初始化为0，对于int特化初始化为42。声明变量a、b和c后，a.value为0,b.value为0，而c.value为42。将值100赋给a.value后，b.value也是100，而c.value仍然是42。
 
 显式特化必须出现在主模板声明之后，不需要在显式特化之前对主模板进行定义：
 
-\begin{cpp}
+\begin{cppcode}
 template <typename T>
 struct is_floating_point;
 
@@ -94,11 +94,11 @@ struct is_floating_point
 {
 	constexpr static bool value = false;
 };
-\end{cpp}
+\end{cppcode}
 
 模板特化也可以只声明而不定义，模板特化可以像其他不完整类型一样使用：
 
-\begin{cpp}
+\begin{cppcode}
 template <typename>
 struct foo {}; // primary template
 
@@ -108,13 +108,13 @@ struct foo<int>; // explicit specialization declaration
 foo<double> a; // OK
 foo<int>* b; // OK
 foo<int> c; // error, foo<int> incomplete type
-\end{cpp}
+\end{cppcode}
 
 foo<T>是主模板，其中存在int类型的显式特化声明，可以使用foo<double>和foo<int>*（支持声明指向部分类型的指针）。声明c变量时，完整的类型foo<int>是不可用的，因为缺少int的完整特化的定义，所以这会在编译时报错。
 
 当特化函数模板时，若编译器可以从函数实参的类型推导出模板实参，那么该模板的参数可选填：
 
-\begin{cpp}
+\begin{cppcode}
 template <typename T>
 struct foo {};
 
@@ -129,13 +129,13 @@ void func(foo<int>)
 {
 	std::cout << "int specialization\n";
 }
-\end{cpp}
+\end{cppcode}
 
 func函数模板的完整特化int的语法应该是template<> func<int>(foo<int>)，而编译器能够从函数参数中推断出T所代表的实际类型，所以不必在定义特化时进行指定。
 
 另外，函数模板和成员函数模板的声明或定义不允许包含默认函数参数。下面的例子中，编译器将报错：
 
-\begin{cpp}
+\begin{cppcode}
 template <typename T>
 void func(T a)
 {
@@ -147,11 +147,11 @@ void func(int a = 0) // error: default argument not allowed
 {
 	std::cout << "int specialization\n";
 }
-\end{cpp}
+\end{cppcode}
 
 所有这些示例中，模板都只有一个模板参数。实际中，许多模板都有多个参数。显式特化要求定义指定完整的参数集：
 
-\begin{cpp}
+\begin{cppcode}
 template <typename T, typename U>
 void func(T a, U b)
 {
@@ -173,7 +173,7 @@ std::cout << "int-double specialization\n";
 func(1, 2); // int-int specialization
 func(1, 2.0); // int-double specialization
 func(1.0, 2.0); // primary template
-\end{cpp}
+\end{cppcode}
 
 了解了这些内容后，继续讨论偏特化，也就是显式（全）特化的泛化。
 
@@ -183,7 +183,7 @@ func(1.0, 2.0); // primary template
 
 下面的例子用来说明这是如何工作的：
 
-\begin{cpp}
+\begin{cppcode}
 template <typename T, int S>
 struct collection
 {
@@ -211,7 +211,7 @@ struct collection<T*, S>
 	void operator()()
 	{ std::cout << "partial specialization <T*, S>\n"; }
 };
-\end{cpp}
+\end{cppcode}
 
 这里有一个名为collection的主模板，有两个模板实参（一个类型模板实参和一个非类型模板实参），有三个偏特化：
 
@@ -223,21 +223,21 @@ struct collection<T*, S>
 
 这些模板可以这样使用：
 
-\begin{cpp}
+\begin{cppcode}
 collection<char, 42> a; // primary template
 collection<int, 42> b; // partial specialization <int, S>
 collection<char, 10> c; // partial specialization <T, 10>
 collection<int*, 20> d; // partial specialization <T*, S>
-\end{cpp}
+\end{cppcode}
 
 正如注释中所指定的，a从主模板实例化，b从int的偏特化（collection<int, S>)， c从10的偏特化(collection<T, 10>），d从指针的偏特化(collection<T*, S>)。有些组合是不可能的，因为类型模糊的原因，编译器无法选择使用哪个模板实例化。这里有几个例子：
 
-\begin{cpp}
+\begin{cppcode}
 collection<int, 10> e; // error: collection<T,10> or
                        // collection<int,S>
 collection<char*, 10> f; // error: collection<T,10> or
                          // collection<T*,S>
-\end{cpp}
+\end{cppcode}
 
 第一种情况下，collection<T, 10>和collection<int, S>偏特化都匹配类型collection<int, 10>，而在第二种情况下，可以是collection<T, 10>或collection<T*, S>。
 
@@ -247,11 +247,11 @@ collection<char*, 10> f; // error: collection<T,10> or
   \item 偏特化的模板参数列表中的参数不能有默认值。
   \item 模板参数列表表示模板参数列表中的顺序，该顺序仅针对偏特化。偏特化的模板参数列表不能与模板参数列表所表示的模板参数列表相同。
   \item 模板参数列表中，只能对非类型模板参数使用标识符，此上下文中不允许使用表达式：
-\begin{cpp}
+\begin{cppcode}
 template <int A, int B> struct foo {};
 template <int A> struct foo<A, A> {}; // OK
 template <int A> struct foo<A, A + 1> {}; // error
-\end{cpp}
+\end{cppcode}
 \end{itemize}
 
 当类模板具有偏特化版本时，编译器必须决定从哪里生成定义的最佳匹配，将模板特化的模板实参与主模板和偏特化的模板参数列表相匹配。根据匹配过程的结果，编译器执行以下操作：
@@ -268,7 +268,7 @@ template <int A> struct foo<A, A + 1> {}; // error
 
 本例中会创建一个函数，该函数将格式化数组的内容并将其输出到流中。格式化数组的内容应该类似于[1,2,3,4,5]，但对于char元素的数组，元素不应该用逗号分隔，而应该显示为方括号内的字符串，例如[demo]。为此，考虑使用std::array类。下面的实现使用元素间分隔符格式化数组的内容：
 
-\begin{cpp}
+\begin{cppcode}
 template <typename T, size_t S>
 std::ostream& pretty_print(std::ostream& os,
                            std::array<T, S> const& arr)
@@ -292,11 +292,11 @@ pretty_print(std::cout, arr); // [1,1,2,3,5,8,13,21]
 std::array<char, 9> str;
 std::strcpy(str.data(), "template");
 pretty_print(std::cout, str); // [t,e,m,p,l,a,t,e]
-\end{cpp}
+\end{cppcode}
 
-pretty\_print是一个带有两个模板参数的函数模板，与std::array类的模板形参匹配。当以arr数组作为参数调用时，输出[1,1,2,3,5,8,13,21]。当以str数组作为参数调用时，输出[t,e,m,p,l,a,t,e]。然而，我们想在这种情况下打印[template]。为此，需要另一个实现，使其专门用于char类型：
+pretty_print是一个带有两个模板参数的函数模板，与std::array类的模板形参匹配。当以arr数组作为参数调用时，输出[1,1,2,3,5,8,13,21]。当以str数组作为参数调用时，输出[t,e,m,p,l,a,t,e]。然而，我们想在这种情况下打印[template]。为此，需要另一个实现，使其专门用于char类型：
 
-\begin{cpp}
+\begin{cppcode}
 template <size_t S>
 std::ostream& pretty_print(std::ostream& os,
 						   std::array<char, S> const& arr)
@@ -311,11 +311,11 @@ std::ostream& pretty_print(std::ostream& os,
 std::array<char, 9> str;
 std::strcpy(str.data(), "template");
 pretty_print(std::cout, str); // [template]
-\end{cpp}
+\end{cppcode}
 
-第二个实现中，pretty\_print是一个带有单个模板形参的函数模板，该形参是非类型模板参数，指示数组的大小。类型模板参数显式指定为char，在std::array<char, S>中。这一次，调用带有str数组的pretty\_print将[template]输出到控制台。
+第二个实现中，pretty_print是一个带有单个模板形参的函数模板，该形参是非类型模板参数，指示数组的大小。类型模板参数显式指定为char，在std::array<char, S>中。这一次，调用带有str数组的pretty_print将[template]输出到控制台。
 
-这里需要理解的是，其不是pretty\_print函数模板，而是std::array类模板。函数模板不能特化，而是重载函数，因为std::array<char, S>是主类模板std::array<T, S>的特化。
+这里需要理解的是，其不是pretty_print函数模板，而是std::array类模板。函数模板不能特化，而是重载函数，因为std::array<char, S>是主类模板std::array<T, S>的特化。
 
 我们在本章中看到的所有示例都是函数模板或类模板，并且变量也可以是模板，这将是下一节的主题。
 

@@ -28,7 +28,7 @@
 
 所描述的算法的可能实现如下所示：
 
-\begin{cpp}
+\begin{cppcode}
 template <typename InputIt1, typename InputIt2,
 		  typename OutputIt>
 OutputIt flatzip(
@@ -47,11 +47,11 @@ OutputIt flatzip(
 
 	return dest;
 }
-\end{cpp}
+\end{cppcode}
 
 实现非常简单。这里所做的只是同时遍历两个输入范围，并交替地从它们复制元素到目标范围。当到达最小范围的终点时，两个输入范围上的迭代停止。可以这样使用算法：
 
-\begin{cpp}
+\begin{cppcode}
 // one range is empty
 std::vector<int> v1 {1,2,3};
 std::vector<int> v2;
@@ -69,11 +69,11 @@ std::vector<int> v3;
 flatzip(v1.begin(), v1.end(), v2.begin(), v2.end(),
 		std::back_inserter(v3));
 assert(v3 == std::vector<int>({ 1, 4, 2, 5 }));
-\end{cpp}
+\end{cppcode}
 
-这些例子对输入和输出范围都使用std::vector，但flatzip算法对容器一无所知。容器的元素可以在迭代器的帮助下访问，所以只要迭代器满足指定的要求，就可以使用任何容器。这包括我们之前编写的circular\_buffer容器，因为circular\_buffer\_container同时满足输入和输出迭代器类别的要求。还可以编写如下代码：
+这些例子对输入和输出范围都使用std::vector，但flatzip算法对容器一无所知。容器的元素可以在迭代器的帮助下访问，所以只要迭代器满足指定的要求，就可以使用任何容器。这包括我们之前编写的circular_buffer容器，因为circular_buffer_container同时满足输入和输出迭代器类别的要求。还可以编写如下代码：
 
-\begin{cpp}
+\begin{cppcode}
 circular_buffer<int, 4> a({1, 2, 3, 4});
 circular_buffer<int, 3> b({5, 6, 7});
 circular_buffer<int, 8> c(0);
@@ -84,7 +84,7 @@ std::vector<int> v;
 for (auto e : c)
 	v.push_back(e);
 assert(v == std::vector<int>({ 1, 5, 2, 6, 3, 7, 0, 0 }));
-\end{cpp}
+\end{cppcode}
 
 这里有两个输入循环缓冲区：a有四个元素，b有三个元素。目标循环缓冲区的容量为8个元素，全部初始化为0。应用flatzip算法之后，目标循环缓冲区的六个元素将使用a和b缓冲区中的值写入。结果是循环缓冲区将包含元素1,5,2,6,3,7,0,0。
 

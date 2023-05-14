@@ -4,18 +4,18 @@
 
 要使一个合取为真，两个约束都必须为真。与逻辑与操作类似，两个约束从左到右求值，若左边的约束为假，则不对右边的约束求值。来看一个例子：
 
-\begin{cpp}
+\begin{cppcode}
 template <typename T>
 requires std::is_integral_v<T> && std::is_signed_v<T>
 T decrement(T value)
 {
 	return value--;
 }
-\end{cpp}
+\end{cppcode}
 
-这段代码中，有一个函数模板，返回接收到的参数的递减值，但只接受带符号的整数值。这是通过连接两个约束来指定的，std::is\_integral\_v<T> \&\& std::is\_signed\_v<T>。使用不同的方法定义连接可以获得相同的结果：
+这段代码中，有一个函数模板，返回接收到的参数的递减值，但只接受带符号的整数值。这是通过连接两个约束来指定的，std::is_integral_v<T> \&\& std::is_signed_v<T>。使用不同的方法定义连接可以获得相同的结果：
 
-\begin{cpp}
+\begin{cppcode}
 template <typename T>
 concept Integral = std::is_integral_v<T>;
 
@@ -30,24 +30,24 @@ T decrement(T value)
 {
 	return value--;
 }
-\end{cpp}
+\end{cppcode}
 
 可以看到这里定义了三个概念：一个约束整型，一个约束有符号类型，一个约束整型和有符号类型。
 
-析取的工作原理与此类似。要使析取为真，至少有一个约束条件必须为真。若左边的约束为真，则不对右边的约束求值。再看一个例子，若还记得本章第一节的add函数模板，我们用std::is\_arithmetic类型特征来约束它。还可以使用std::is\_integral和std::is\_float\_point得到相同的结果：
+析取的工作原理与此类似。要使析取为真，至少有一个约束条件必须为真。若左边的约束为真，则不对右边的约束求值。再看一个例子，若还记得本章第一节的add函数模板，我们用std::is_arithmetic类型特征来约束它。还可以使用std::is_integral和std::is_float_point得到相同的结果：
 
-\begin{cpp}
+\begin{cppcode}
 template <typename T>
 requires std::is_integral_v<T> || std::is_floating_point_v<T>
 T add(T a, T b)
 {
 	return a + b;
 }
-\end{cpp}
+\end{cppcode}
 
-表达式std::is\_integral\_v<T> || std::is\_float\_point\_v<T>定义了两个原子约束的析取。稍后我们将更详细地讨论这种约束。目前，原子约束是bool类型的表达式，不能分解为更小的部分。类似地，对于我们之前所做的，也可以建立一个析取的概念并使用：
+表达式std::is_integral_v<T> || std::is_float_point_v<T>定义了两个原子约束的析取。稍后我们将更详细地讨论这种约束。目前，原子约束是bool类型的表达式，不能分解为更小的部分。类似地，对于我们之前所做的，也可以建立一个析取的概念并使用：
 
-\begin{cpp}
+\begin{cppcode}
 template <typename T>
 concept Integral = std::is_integral_v<T>;
 
@@ -62,13 +62,13 @@ T add(T a, T b)
 {
 	return a + b;
 }
-\end{cpp}
+\end{cppcode}
 
 如前所述，合取和析取是短路的。这对检查程序的正确性有重要的意义。考虑形式为A<T> \&\& B<T>的连接，则首先检查并求值A<T>；若为假，则不再检查第二个约束B<T>。
 
 类似地，对于A<T> || B<T>的析取，在检查A<T>后，若计算结果为真，则不会检查第二个约束B<T>。若希望检查两个合取的格式是否良好，要么在之后通过其布尔值进行确定，要么不使用\&\&和||操作符。只有当\&\&和||分别嵌套在括号中或作为\&\&或||的操作数出现时，才会形成合取或析取。否则，这些操作符将视为逻辑操作符。这里，用例子来解释一下：
 
-\begin{cpp}
+\begin{cppcode}
 template <typename T>
 requires A<T> || B<T>
 void f() {}
@@ -80,11 +80,11 @@ void f() {}
 template <typename T>
 requires A<T> && (!A<T> || B<T>)
 void f() {}
-\end{cpp}
+\end{cppcode}
 
 所有这些示例中，||定义了一个析取。然而，当在强制转换表达式或逻辑NOT中使用时，\&\&和||定义了一个逻辑表达式：
 
-\begin{cpp}
+\begin{cppcode}
 template <typename T>
 requires (!(A<T> || B<T>))
 void f() {}
@@ -92,49 +92,49 @@ void f() {}
 template <typename T>
 requires (static_cast<bool>(A<T> || B<T>))
 void f() {}
-\end{cpp}
+\end{cppcode}
 
-这种情况下，首先检查整个表达式的正确性，然后确定其布尔值。后面的例子中，两个表达式!(A<T> || B<T>)和static\_cast<bool>(A<T> || B<T>)都需要包装在另一组括号中，因为requires子句的表达式不能以!标记或进行转换。
+这种情况下，首先检查整个表达式的正确性，然后确定其布尔值。后面的例子中，两个表达式!(A<T> || B<T>)和static_cast<bool>(A<T> || B<T>)都需要包装在另一组括号中，因为requires子句的表达式不能以!标记或进行转换。
 
 合取和析取符不能用于约束模板参数包，但有一种变通方法可以实现它。考虑add函数模板的可变参数实现，要求所有参数必须是整型。可以尝试以以下形式编写约束：
 
-\begin{cpp}
+\begin{cppcode}
 template <typename ... T>
 requires std::is_integral_v<T> && ...
 auto add(T ... args)
 {
 	return (args + ...);
 }
-\end{cpp}
+\end{cppcode}
 
 这将产生编译器错误，因为在此上下文中不允许使用省略号。为了避免这个错误，可以把表达式用括号括起来：
 
-\begin{cpp}
+\begin{cppcode}
 	template <typename ... T>
 	requires std::is_integral_v<T> && ...
 	auto add(T ... args)
 	{
 		return (args + ...);
 	}
-\end{cpp}
+\end{cppcode}
 
-表达式(std::is\_integral\_v<T> \&\&...)现在是一个折叠表达式，不是一个合取，这样就得到了一个原子约束。编译器将首先检查整个表达式的正确性，然后确定其布尔值。要构建一个合取，首先需要定义一个概念：
+表达式(std::is_integral_v<T> \&\&...)现在是一个折叠表达式，不是一个合取，这样就得到了一个原子约束。编译器将首先检查整个表达式的正确性，然后确定其布尔值。要构建一个合取，首先需要定义一个概念：
 
-\begin{cpp}
+\begin{cppcode}
 template <typename T>
 concept Integral = std::is_integral_v<T>;
-\end{cpp}
+\end{cppcode}
 
-接下来我们需要做的是更改requires子句，以便使用新定义的概念，而不是布尔变量std::is\_integral\_v<T>:
+接下来我们需要做的是更改requires子句，以便使用新定义的概念，而不是布尔变量std::is_integral_v<T>:
 
-\begin{cpp}
+\begin{cppcode}
 template <typename ... T>
 requires (Integral<T> && ...)
 auto add(T ... args)
 {
 	return (args + ...);
 }
-\end{cpp}
+\end{cppcode}
 
 看起来变化不大，由于使用了概念，验证正确性和确定布尔值将分别针对每个模板参数进行。若某个类型的约束不满足，其余部分将短路，验证将停止。
 

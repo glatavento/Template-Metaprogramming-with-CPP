@@ -1,7 +1,7 @@
 \section{可变参数模板的需求}
 最著名的C/C++函数之一是printf，将格式化输出写入标准输出流。实际上，I/O库中有一系列用于写入格式化输出的函数，其中还包括fprintf（写入文件流）、sprint和snprintf（写入字符缓冲区）。这些函数很相似，接受一个定义输出格式的字符串和可变数量的参数。C++语言提供了一种方法，用可变数量的参数来编写自己的函数。下面是一个例子，函数可以接受一个或多个参数，并返回最小值：
 
-\begin{cpp}
+\begin{cppcode}
 #include<stdarg.h>
 
 int min(int count, ...)
@@ -29,11 +29,11 @@ int main()
 				  min(5, 1, 5, 3, -4,
 	           9) << '\n';
 }
-\end{cpp}
+\end{cppcode}
 
 这个实现特定于int类型，也可以编写一个类似的函数，即函数模板：
 
-\begin{cpp}
+\begin{cppcode}
 template <typename T>
 T min(int count, ...)
 {
@@ -60,14 +60,14 @@ int main()
 	std::cout << "min(1,5,3,-4,9)="
   	          << min<int>(5, 1, 5, 3, -4, 9) << '\n';
 }
-\end{cpp}
+\end{cppcode}
 
 这样的代码，无论是否通用，都有几个缺点：
 
 \begin{itemize}
-  \item 需要使用几个宏：va\_list（提供对其他宏的信息）、va\_start（启动参数的迭代）、va\_arg（提供下一个参数）和va\_end（停止参数的迭代）。
+  \item 需要使用几个宏：va_list（提供对其他宏的信息）、va_start（启动参数的迭代）、va_arg（提供下一个参数）和va_end（停止参数的迭代）。
   \item 即使传递给函数的参数的数量和类型在编译时已知，求值部分也发生在运行时。
-  \item 以这种方式实现的可变函数类型不安全。va\_macros执行低内存操作，类型转换在运行时的va\_arg中完成，会导致运行时异常。
+  \item 以这种方式实现的可变函数类型不安全。va_macros执行低内存操作，类型转换在运行时的va_arg中完成，会导致运行时异常。
   \item 可变参函数需要以某种方式指定变量参数的数量。min函数的实现中，第一个参数表示参数的数量。类似printf的函数接受一个格式化字符串，从中确定预期参数的数量。例如，printf函数计算并忽略额外的参数（若提供的参数多于格式化字符串中指定的数量），但若提供的参数较少，则为未定义行为。
 \end{itemize}
 

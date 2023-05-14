@@ -3,76 +3,71 @@
 术语范围是指，由开始迭代器和结束迭代器限定的元素序列的抽象，所以范围表示元素的可迭代序列。这样的序列可以用几种方式定义：
 
 \begin{itemize}
-  \item
-        一个开始迭代器和一个结束哨兵，这样的序列从开始迭代到结束。哨兵是表示序列结束的对象。可以具有与迭代器类型相同的类型，也可以具有不同的类型。
-
-  \item
-        一个开始对象和一个大小（元素的数量），表示一个所谓的计数序列。这样的序列从一开始就要迭代N次（其中N表示大小）。
-
-  \item
-        有一个开始和一个谓词，表示所谓的有条件终止序列。这样的序列从开始迭代，直到谓词返回false为止。
-
-  \item
-        只有一个开始值，表示所谓的无界序列。这样的序列可以无限迭代。
+  \item 一个开始迭代器和一个结束哨兵，这样的序列从开始迭代到结束。哨兵是表示序列结束的对象。可以具有与迭代器类型相同的类型，也可以具有不同的类型。
+  \item 一个开始对象和一个大小（元素的数量），表示一个所谓的计数序列。这样的序列从一开始就要迭代N次（其中N表示大小）。
+  \item 有一个开始和一个谓词，表示所谓的有条件终止序列。这样的序列从开始迭代，直到谓词返回false为止。
+  \item 只有一个开始值，表示所谓的无界序列。这样的序列可以无限迭代。
 \end{itemize}
 
 所有这些类型的可迭代序列都是范围。因为范围是一种抽象，C++20标准库定义了一系列概念来描述范围类型的需求，可以在<ranges>头文件和std::ranges命名空间中使用。下表列出了范围概念的列表：
 
-\begin{longtblr} {|l|X|}
-  名称                    & 描述                         \\
-  range                 &
+\begin{longtblr} {|Q[l, cmd=\cppinline]|X|}
+  \SetRow{c, cmd={}}
+  名称                  & 描述                           \\
+  range               &
   通过提供开始迭代器和结束哨兵，定义类型R为范围的需求。迭代器和哨兵可以是不同的类型。         \\
-  bgorrowed\_range      &
+  bgorrowed_range     &
   定义R类型的要求，以便函数可以按值接受该类型的对象并返回从该对象获得的迭代器，而不会出现悬空的危险。 \\
-  sized\_range          &
+  sized_range         &
   将类型R的要求定义为在常数时间内知道其大小的范围。                          \\
-  common\_range         &
+  common_range        &
   将类型R的要求定义为迭代器类型和哨兵类型相同的范围。                         \\
-  view                  &
+  view                &
   定义类型R的需求，该类型R是一个具有固定时间复制、移动和赋值操作的范围。               \\
-  viewable\_range       &
+  viewable_range      &
   定义可转换为视图的范围类型R的需求。                                 \\
-  input\_range          &
-  要求范围类型具有满足input\_iterator概念的迭代器类型。                 \\
-  output\_range         &
-  要求范围类型具有满足output\_iterator概念的迭代器类型。                \\
-  forward\_range        &
-  要求范围类型具有满足forward\_iterator概念的迭代器类型。               \\
-  bidirectional\_range  &
-  要求范围类型具有满足bidirectional\_iterator概念的迭代器类型。         \\
-  random\_access\_range &
-  要求范围类型具有满足random\_access\_iterator概念的迭代器类型。        \\
-  contiguous\_range     &
-  要求范围类型具有满足contiguous\_iterator概念的迭代器类型。            \\
+  input_range         &
+  要求范围类型具有满足input_iterator概念的迭代器类型。                  \\
+  output_range        &
+  要求范围类型具有满足output_iterator概念的迭代器类型。                 \\
+  forward_range       &
+  要求范围类型具有满足forward_iterator概念的迭代器类型。                \\
+  bidirectional_range &
+  要求范围类型具有满足bidirectional_iterator概念的迭代器类型。          \\
+  random_access_range &
+  要求范围类型具有满足random_access_iterator概念的迭代器类型。          \\
+  contiguous_range    &
+  要求范围类型具有满足contiguous_iterator概念的迭代器类型。             \\
 \end{longtblr}
 
 标准库为容器和数组定义了一组访问函数。这包括std::begin和std::end代替成员函数begin和end, std::size代替成员函数size等，这些称为范围访问函数。类似地，范围库定义了一组范围访问函数。其为范围设计的，可以在<ranges>和<iterator>头文件和std::ranges命名空间中使用。下表列出了它们：
 
 \begin{table}[!htb]
   \centering
-  \begin{talltblr} {|l|l|X|}
-    Range的访问范围 & {容器/数组的           \\ 等效范围访问} & 描述                   \\
-    {begin/end                     \\ cbegin/cend} &
-    {begin/end                     \\ cbegin/cend} &
-    返回一个迭代器和一个常量迭代器，分别指向范围的开始/结束。  \\
-    {rbegin/rend                   \\ crbegin/crend} &
-    {rbegin/rend                   \\ crbegin/crend} &
-    分别返回一个指向范围开始/结束的反向迭代器和常量反向迭代器。 \\
+  \begin{talltblr} {colspec={|X[cmd=\cppcomma]|X[cmd=\cppcomma]|X[1.5]|}, measure=vbox}
+    \SetRow{c, cmd={}}
+    Range的访问范围                             & 容器/数组的等效范围访问 & 描述                   \\
+    begin/end, cbegin/cend &
+    begin/end, cbegin/cend &
+    返回一个迭代器和一个常量迭代器，分别指向范围的开始/结束。                    \\
+    rbegin/rend, crbegin/crend &
+    rbegin/rend, crbegin/crend &
+    分别返回一个指向范围开始/结束的反向迭代器和常量反向迭代器。                   \\
     size/ssize &
     size/ssize &
-    将范围的大小返回为整数或带符号的整数值。           \\
-    empty      &
-    empty      &
-    返回一个布尔值，指示范围是否为空。              \\
+    将范围的大小返回为整数或带符号的整数值。                             \\
+    empty &
+    empty &
+    返回一个布尔值，指示范围是否为空。                                \\
     data/cdata &
-    data       &
-    分别返回指向连续范围和只读连续范围开头的指针。        \\
+    data &
+    分别返回指向连续范围和只读连续范围开头的指针。                          \\
   \end{talltblr}
 \end{table}
 
 下面的代码段演示了其中一些函数的使用：
 
-\begin{cpp}
+\begin{cppcode}
 std::vector<int> v{ 8, 5, 3, 2, 4, 7, 6, 1 };
 auto r = std::views::iota(1, 10);
 
@@ -91,13 +86,13 @@ std::cout << "rbegin(r)=" << *std::ranges::rbegin(r)
 		  << '\n';
 		  
 std::cout << "data(v)=" << *std::ranges::data(v) << '\n';
-\end{cpp}
+\end{cppcode}
 
 这段代码中，使用了一个名为std::views::iota的类型。正如命名空间所示，这是一个视图。视图是带有限制的范围，视图是具有非所有语义的轻量级对象，以一种不需要复制或改变序列的方式呈现底层元素序列（范围）的视图。关键特征是惰性求值。所以不管它们应用了什么转换，只在请求（迭代）元素时执行，而不是在创建时执行。
 
-C++20中提供了一系列视图，C++23中也包含了新视图。视图可以在<ranges>头文件和std::ranges命名空间的形式中使用，std::ranges::abc\_view，例如std::ranges::iota\_view。为了使用方便，在std::views命名空间中，还存在一个形式为std::views::abc的变量模板，例如std::views::iota。这就是我们在前面的例子中看到的。下面是两个使用iota的等效示例：
+C++20中提供了一系列视图，C++23中也包含了新视图。视图可以在<ranges>头文件和std::ranges命名空间的形式中使用，std::ranges::abc_view，例如std::ranges::iota_view。为了使用方便，在std::views命名空间中，还存在一个形式为std::views::abc的变量模板，例如std::views::iota。这就是我们在前面的例子中看到的。下面是两个使用iota的等效示例：
 
-\begin{cpp}
+\begin{cppcode}
 // using the iota_view type
 for (auto i : std::ranges::iota_view(1, 10))
 	std::cout << i << '\n';
@@ -105,32 +100,33 @@ for (auto i : std::ranges::iota_view(1, 10))
 // using the iota variable template
 for (auto i : std::views::iota(1, 10))
 	std::cout << i << '\n';
-\end{cpp}
+\end{cppcode}
 
 iota视图是工厂视图的一部分。这些工厂视图是新生成范围的视图，范围库中有以下工厂视图：
 
 \begin{table}[!htb]
   \centering
-  \begin{talltblr} {|l|l|X|}
+  \begin{talltblr} {|X[cmd=\cppinline]|X[1.2, cmd=\cppinline]|X[1.5]|}
+    \SetRow{c, cmd={}}
     类型                     & 变量 & 描述       \\
-    ranges::empty\_view    &
+    ranges::empty_view    &
     ranges::views::empty   &
     生成不包含T类型元素的视图。                         \\
-    ranges::single\_view   &
+    ranges::single_view   &
     ranges::views::single  &
     生成具有单个T类型元素的视图。                        \\
-    ranges::iota\_view     &
+    ranges::iota_view     &
     ranges::views::iota    &
     生成一个连续元素序列的视图，从开始值到结束值（有界视图）或无限（无界视图）。 \\
-    {ranges::                              \\basic\_iostream\_view} &
+    ranges::basic_iostream_view &
     ranges::views::istream &
-    通过反复应用操作符>{}>生成一个元素序列的视图。              \\
+    通过反复应用操作符>>生成一个元素序列的视图。              \\
   \end{talltblr}
 \end{table}
 
-为什么empty\_view和single\_view有用，答案应该不难找到。模板代码中，可以处理空范围或只有一个元素的范围是有效输入的范围。一个函数模板不用多次重载来处理这些特殊情况；反之，可以接受一个empty\_view或single\_view范围。下面的代码使用工厂视图的几个示例：
+为什么empty_view和single_view有用，答案应该不难找到。模板代码中，可以处理空范围或只有一个元素的范围是有效输入的范围。一个函数模板不用多次重载来处理这些特殊情况；反之，可以接受一个empty_view或single_view范围。下面的代码使用工厂视图的几个示例：
 
-\begin{cpp}
+\begin{cppcode}
 constexpr std::ranges::empty_view<int> ev;
 static_assert(std::ranges::empty(ev));
 static_assert(std::ranges::size(ev) == 0);
@@ -140,11 +136,11 @@ constexpr std::ranges::single_view<int> sv{42};
 static_assert(!std::ranges::empty(sv));
 static_assert(std::ranges::size(sv) == 1);
 static_assert(*std::ranges::data(sv) == 42);
-\end{cpp}
+\end{cppcode}
 
-对于iota\_view，已经看过一些有界视图的例子。下面的代码段再次展示了一个例子，不仅使用了iota生成的有界视图，还使用了同样由iota生成的无界视图：
+对于iota_view，已经看过一些有界视图的例子。下面的代码段再次展示了一个例子，不仅使用了iota生成的有界视图，还使用了同样由iota生成的无界视图：
 
-\begin{cpp}
+\begin{cppcode}
 auto v1 = std::ranges::views::iota(1, 10);
 std::ranges::for_each(
 	v1,
@@ -155,11 +151,11 @@ auto v2 = std::ranges::views::iota(1) |
 std::ranges::for_each(
 	v2,
 	[](int const n) {std::cout << n << '\n'; });
-\end{cpp}
+\end{cppcode}
 
-最后一个示例中，使用了另一个名为take\_view的视图。这将生成另一个视图（我们的示例中是iota生成的无界视图）的前N个元素（我们的示例中是9）的视图。首先，举一个使用第四个视图工厂basic\_iostream\_view的例子。假设在文本中有一个商品价格列表，用空格分隔，需要输出这些价格的总和。有不同的解决方法，但这里给出了一个可能的解决方案：
+最后一个示例中，使用了另一个名为take_view的视图。这将生成另一个视图（我们的示例中是iota生成的无界视图）的前N个元素（我们的示例中是9）的视图。首先，举一个使用第四个视图工厂basic_iostream_view的例子。假设在文本中有一个商品价格列表，用空格分隔，需要输出这些价格的总和。有不同的解决方法，但这里给出了一个可能的解决方案：
 
-\begin{cpp}
+\begin{cppcode}
 auto text = "19.99 7.50 49.19 20 12.34";
 auto stream = std::istringstream{ text };
 std::vector<double> prices;
@@ -173,91 +169,93 @@ while (stream >> price) // 高亮显示
 auto total = std::accumulate(prices.begin(), prices.end(),
 							 0.0);
 std::cout << std::format("total: {}\n", total);
-\end{cpp}
+\end{cppcode}
 
-高亮显示的部分可以用以下两行代码替换，使用basic\_iostream\_view，或者更准确地说，使用istream\_view别名模板：
+高亮显示的部分可以用以下两行代码替换，使用basic_iostream_view，或者更准确地说，使用istream_view别名模板：
 
-\begin{cpp}
+\begin{cppcode}
 for (double const price :
 		std::ranges::istream_view<double>(stream))
 {
 	prices.push_back(price);
 }
-\end{cpp}
+\end{cppcode}
 
-istream\_view范围工厂所做的是在istringstream对象上重复应用操作符>{}>，并在每次应用时产生一个值。不能指定分隔符，只适用于空格。若喜欢使用标准算法，可以使用range::for\_each约束算法来产生相同的结果：
+istream_view范围工厂所做的是在istringstream对象上重复应用操作符>>，并在每次应用时产生一个值。不能指定分隔符，只适用于空格。若喜欢使用标准算法，可以使用range::for_each约束算法来产生相同的结果：
 
-\begin{cpp}
+\begin{cppcode}
 std::ranges::for_each(
 	std::ranges::istream_view<double>(stream),
 	[&prices](double const price) {
 		prices.push_back(price); });
-\end{cpp}
+\end{cppcode}
 
 目前为止，本章给出的示例包括filter, take, drop和reverse等视图。这些只是C++20中可用的一些标准视图，C++23中会添加了更多。下表列出了整个标准视图集：
 
-\begin{longtblr} {|l|l|c|X|}
-  {类型                                                         \\ （ranges\\ 命名空间中）} &
-  {变量                                                         \\ （ranges::view\\ 命名空间中）} &
+\begin{longtblr} {|X[cmd=\cppinline]|X[cmd=\cppinline]|c|X[1.5]|}
+  \SetRow{c, cmd={}}
+  类型（ranges命名空间中） &
+  变量（ranges::view命名空间中） &
   C++版本          &
   描述                                                          \\
-  fileter\_view  &
+  fileter_view  &
   fileter        &
   C++20          &
   表示范围适配器的类型，该范围适配器提供下级范围的视图，该范围仅包括满足谓词的元素。                   \\
-  {transform\_                                                \\ view} &
+  transform_view &
   transform      &
   C++20          &
   一种类型，表示提供底层范围视图的范围适配器，并将转换应用到范围的每个元素。                       \\
-  split\_view    &
+  split_view    &
   split          &
   C++20          &
   表示范围适配器的类型，该类型提供通过在指定分隔符上分割范围而产生的范围序列的视图。该范围不能是输入范围，并且视图的惰性语义不会被观察到。
   \\
-  {lazy\_split\_                                              \\ view} &
-  lazy\_split    &
+  lazy_split_view &
+  lazy_split    &
   C++20          &
-  与split\_view相同，还适用于输入范围，并观察范围的惰性机制。                         \\
-  reverse\_view  &
+  与split_view相同，还适用于输入范围，并观察范围的惰性机制。                         \\
+  reverse_view  &
   reverse        &
   C++20          &
   一种类型，表示范围适配器，该适配器以相反的顺序提供基础范围元素的视图。                         \\
-  keys\_view     &
+  keys_view     &
   keys           &
   C++20          &
   表示范围适配器的类型，提供从底层视图的类元组值（std::pari和std::tuple）的第一个元素投影的视图。   \\
-  values\_view   &
+  values_view   &
   values         &
   C++20          &
   表示范围适配器的类型，提供从底层视图的类元组值（std::pair和std::tuple）的第二个元素投影出来的视图。 \\
-  elements\_view &
+  elements_view &
   elements       &
   C++20          &
   表示范围适配器的类型，该范围适配器提供从非视图类元组值的第n个元素投影的视图。                     \\
-  zip\_view      &
+  zip_view      &
   zip            &
   C++23          &
   一种表示范围适配器的类型，提供一个由一个或多个底层视图构建的视图，将每个视图的第n个元素投影到一个元组中。       \\
-  {zip\_                                                      \\ transform\_\\ view} &
-  {zip\_                                                      \\ transform} &
+  zip_transform_view &
+  zip_transform &
   C++23          &
   一种类型，表示一个范围适配器，该适配器提供一个由一个或多个底层视图和一个可调用对象构建的视图，其元素是通过将可调用对象应用于每个底层视图的第n个元素来计算的。
   \\
-  {adjacent\_                                                 \\ view} &
+  adjacent_view &
   adjacent       &
   C++23          &
   一种表示范围适配器的类型，该范围适配器提供类似元组值的视图，通过获取底层视图的N个连续元素进行投影。          \\
-  {adjacent\_                                                 \\ transform\_\\ view} &
-  {adjacent\_                                                 \\ transform} &
+  adjacent_transform_view &
+  adjacent_transform &
   C++23          &
   表示范围适配器的类型，该类型通过将可调用对象应用到底层视图的N个连续元素来提供投影值的视图。              \\
 \end{longtblr}
 
 除了上表中列出的视图（范围适配器）之外，还有一些在某些特定场景中可能有用的视图。为了完整起见，下表将列出了这些参数：
 
-\begin{longtblr} {|l|l|c|X|}
-  {类型                                          \\ （ranges\\ 命名空间中）} &
-  {变量                                          \\ （ranges::view\\ 命名空间中）} &
+\begin{longtblr} {|X[cmd=\cppinline]|X[cmd=\cppinline]|c|X[1.5]|}
+  \SetRow{c, cmd={}}
+  类型（ranges命名空间中） &
+  变量（ranges::view命名空间中） &
   C++版本        &
   描述                                           \\
                &
@@ -265,22 +263,22 @@ std::ranges::for_each(
   C++20        &
   一个对象，创建一个包含范围参数的所有元素的视图。                     \\
                &
-  all\_t       &
+  all_t       &
   C++20        &
   可以安全转换为视图的范围的视图类型的别名模板。                      \\
                &
   counted      &
   C++20        &
   一个对象，创建一个包含N个范围元素的视图，从给定迭代器所表示的元素开始。         \\
-  ref\_view    &
+  ref_view    &
                &
   C++20        &
   将引用封装到另一个范围的视图类型。                            \\
-  owning\_view &
+  owning_view &
                &
   C++20        &
   存储给定范围的视图类型，拥有存储范围和移动语义的唯一所有权。               \\
-  common\_view &
+  common_view &
   common       &
   C++20        &
   一种对迭代器和哨兵类型对采用不同类型的视图的类型，对迭代器和哨兵类型使用相同类型的视图。 \\
@@ -292,7 +290,7 @@ std::ranges::for_each(
 
 本节之前，我们看到了以下示例（使用显式命名空间）：
 
-\begin{cpp}
+\begin{cppcode}
 namespace rv = std::ranges::views;
 std::ranges::sort(v);
 auto r = v
@@ -300,11 +298,11 @@ auto r = v
 		| rv::drop(2)
 		| rv::reverse
 		| rv::transform([](int const n) {return n * n; });
-\end{cpp}
+\end{cppcode}
 
 这实际上是以下内容的短而易读版本：
 
-\begin{cpp}
+\begin{cppcode}
 std::ranges::sort(v);auto r =
 	rv::transform(
 		rv::reverse(
@@ -314,41 +312,37 @@ std::ranges::sort(v);auto r =
 					[](int const n) {return n % 2 == 0; }),
 					2)),
 		[](int const n) {return n * n; });
-\end{cpp}
+\end{cppcode}
 
 第一个版本是可能的，因为管道操作符(|)可重载，以更易于阅读的形式简化视图的组合。有些范围适配器接受一个参数，有些可能接受多个参数。适用规则如下：
 
 \begin{itemize}
-  \item
-        若范围适配器a有一个参数，一个视图V，那么a(V)和v| a是等价的。这样的范围适配器是reverse\_view:
+  \item 若范围适配器a有一个参数，一个视图V，那么a(V)和v| a是等价的。这样的范围适配器是reverse_view:
 
-        \begin{cpp}
+        \begin{cppcode}
 std::vector<int> v{ 1, 5, 3, 2, 8, 7, 6, 4 };
 namespace rv = std::ranges::views;
 auto r1 = rv::reverse(v);
 auto r2 = v | rv::reverse;
-\end{cpp}
+\end{cppcode}
+  \item 若一个范围适配器a有多个参数，一个视图V和args...，那么a (V, args...)，a (args...)(V)和V| a (args...)是等价的。这样的范围适配器是take_view:
 
-  \item
-        若一个范围适配器a有多个参数，一个视图V和args...，那么a (V, args...)，a (args...)(V)和V| a (args...)是等价的。这样的范围适配器是take\_view:
-
-        \begin{cpp}
+        \begin{cppcode}
 std::vector<int> v{ 1, 5, 3, 2, 8, 7, 6, 4 };
 namespace rv = std::ranges::views;
 auto r1 = rv::take(v, 2);
 auto r2 = rv::take(2)(v);
 auto r3 = v | rv::take(2);
-\end{cpp}
+\end{cppcode}
 
 \end{itemize}
 
 已经看过滤器、变换、反转和删除的例子。下面，我们会通过一系列例子来演示表8.7中的视图的使用。以下所有示例中，我们将把rv视为std::ranges::views命名空间的别名：
 
 \begin{itemize}
-  \item
-        输出序列中最后两个奇数，顺序相反：
+  \item 输出序列中最后两个奇数，顺序相反：
 
-        \begin{cpp}
+        \begin{cppcode}
 std::vector<int> v{ 1, 5, 3, 2, 4, 7, 6, 8 };
 for (auto i : v |
 	rv::reverse |
@@ -357,12 +351,10 @@ for (auto i : v |
 {
 	std::cout << i << '\n'; // prints 7 and 3
 }
-\end{cpp}
+\end{cppcode}
+  \item 从不包括第一个连续奇数的范围中打印小于10的连续数的子序列：
 
-  \item
-        从不包括第一个连续奇数的范围中打印小于10的连续数的子序列：
-
-        \begin{cpp}
+        \begin{cppcode}
 std::vector<int> v{ 1, 5, 3, 2, 4, 7, 16, 8 };
 for (auto i : v |
 	rv::take_while([](int const n){return n < 10; }) |
@@ -370,12 +362,10 @@ for (auto i : v |
 ) {
 	std::cout << i << '\n'; // prints 2 4 7
 }
-\end{cpp}
+\end{cppcode}
+  \item 分别输出元组序列中的第一个元素、第二个元素和第三个元素：
 
-  \item
-        分别输出元组序列中的第一个元素、第二个元素和第三个元素：
-
-        \begin{cpp}
+        \begin{cppcode}
 std::vector<std::tuple<int,double,std::string>> v =
 {
 	{1, 1.1, "one"},
@@ -391,35 +381,29 @@ for (auto i : v | rv::values)
 	
 for (auto i : v | rv::elements<2>)
 	std::cout << i << '\n'; // prints one two three
-\end{cpp}
+\end{cppcode}
+  \item 输出一个由整数vector中的所有元素：
 
-  \item
-        输出一个由整数vector中的所有元素：
-
-        \begin{cpp}
+        \begin{cppcode}
 std::vector<std::vector<int>> v {
 	{1,2,3}, {4}, {5, 6}
 };
 
 for (int const i : v | rv::join)
 	std::cout << i << ' '; // prints 1 2 3 4 5 6
-\end{cpp}
+\end{cppcode}
+  \item 输出由整数vector中的所有元素，但在每个vector的元素之间插入一个0。范围适配器join_with是C++23的新功能，编译器可能还不支持：
 
-  \item
-        输出由整数vector中的所有元素，但在每个vector的元素之间插入一个0。范围适配器join\_with是C++23的新功能，编译器可能还不支持：
-
-        \begin{cpp}
+        \begin{cppcode}
 std::vector<std::vector<int>> v{
 	{1,2,3}, {4}, {5, 6}
 };
 for(int const i : v | rv::join_with(0))
 	std::cout << i << ' '; // print 1 2 3 0 4 0 5 6
-\end{cpp}
+\end{cppcode}
+  \item 输出句子中的单个单词，其中分隔符为空格：
 
-  \item
-        输出句子中的单个单词，其中分隔符为空格：
-
-        \begin{cpp}
+        \begin{cppcode}
 std::string text{ "this is a demo!" };
 constexpr std::string_view delim{ " " };
 for (auto const word : text | rv::split(delim))
@@ -428,35 +412,29 @@ for (auto const word : text | rv::split(delim))
 								  word.end())
 			  << '\n';
 }
-\end{cpp}
+\end{cppcode}
+  \item 从一个整数数组的元素和一个双精度vector创建元组视图：
 
-  \item
-        从一个整数数组的元素和一个双精度vector创建元组视图：
-
-        \begin{cpp}
+        \begin{cppcode}
 std::array<int, 4> a {1, 2, 3, 4};
 std::vector<double> v {10.0, 20.0, 30.0};
 
 auto z = rv::zip(a, v)
 // { {1, 10.0}, {2, 20.0}, {3, 30.0} }
-\end{cpp}
+\end{cppcode}
+  \item 创建包含整数数组的相乘元素和双精度vector的视图：
 
-  \item
-        创建包含整数数组的相乘元素和双精度vector的视图：
-
-        \begin{cpp}
+        \begin{cppcode}
 std::array<int, 4> a {1, 2, 3, 4};
 std::vector<double> v {10.0, 20.0, 30.0};
 
 auto z = rv::zip_transform(
 	std::multiplies<double>(), a, v)
 // { {1, 10.0}, {2, 20.0}, {3, 30.0} }
-\end{cpp}
+\end{cppcode}
+  \item 输出整数序列的相邻元素对：
 
-  \item
-        输出整数序列的相邻元素对：
-
-        \begin{cpp}
+        \begin{cppcode}
 std::vector<int> v {1, 2, 3, 4};
 for (auto i : v | rv::adjacent<2>)
 {
@@ -464,19 +442,17 @@ for (auto i : v | rv::adjacent<2>)
 	std::cout << std::format("({},{})",
 							 i.first, i.second)";
 }
-\end{cpp}
+\end{cppcode}
+  \item 输出从一个整数序列中每三个连续值相乘得到的值：
 
-  \item
-        输出从一个整数序列中每三个连续值相乘得到的值：
-
-        \begin{cpp}
+        \begin{cppcode}
 std::vector<int> v {1, 2, 3, 4, 5};
 for (auto i : v | rv::adjacent_transform<3>(
 	std::multiplies()))
 {
 	std::cout << i << ' '; // prints: 3 24 60
 }
-\end{cpp}
+\end{cppcode}
 
 \end{itemize}
 

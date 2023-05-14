@@ -6,7 +6,7 @@
 
 当编译器基于模板的使用生成定义，并且没有显式实例化时，就会触发隐式实例化。隐式实例化模板定义在与模板相同的命名空间中，不过编译器从模板创建定义的方式可能有所不同。先来看看这段代码：
 
-\begin{cpp}
+\begin{cppcode}
 template <typename T>
 struct foo
 {
@@ -17,31 +17,31 @@ int main()
 {
 	foo<int> x;
 }
-\end{cpp}
+\end{cppcode}
 
 有一个名为foo的类模板，有一个成员函数f。main函数中，定义了一个类型为foo<int>的变量，但没有使用其成员。因为采用这种方式使用foo，所以编译器隐式地为int类型定义foo的特化。可以在cppinsights.io上使用在Clang运行，会看到下面的代码：
 
-\begin{cpp}
+\begin{cppcode}
 template<>
 struct foo<int>
 {
 	inline void f();
 };
-\end{cpp}
+\end{cppcode}
 
 因为函数f在代码中没有调用，所以其只是声明而没有定义。若在main中添加调用f的代码，会发生如下的特化：
 
-\begin{cpp}
+\begin{cppcode}
 template<>
 struct foo<int>
 {
 	inline void f() { }
 };
-\end{cpp}
+\end{cppcode}
 
 若在下面的实现中添加一个包含错误的函数g，会在不同的编译器中看到不同的行为：
 
-\begin{cpp}
+\begin{cppcode}
 template <typename T>
 struct foo
 {
@@ -54,14 +54,14 @@ int main()
 	foo<int> x;
 	x.f();
 }
-\end{cpp}
+\end{cppcode}
 
-g的主体包含一个错误（也可以使用static\_assert(false)语句作为替代）。这段代码在VC++中编译没有问题，但是在Clang和GCC中就会失败。因为VC++忽略了模板中未使用的部分，前提是代码语法正确，但其他部分在模板实例化之前进行了语义验证。
+g的主体包含一个错误（也可以使用static_assert(false)语句作为替代）。这段代码在VC++中编译没有问题，但是在Clang和GCC中就会失败。因为VC++忽略了模板中未使用的部分，前提是代码语法正确，但其他部分在模板实例化之前进行了语义验证。
 
 
 对于函数模板，当用户代码在需要函数定义存在的上下文中引用函数时，就会发生隐式实例化。对于类模板，当用户代码在需要完整类型的上下文中引用模板时，或者当类型的完整性影响代码时，也会隐式实例化。此类上下文是构造此类类型的对象，但在声明指向类模板的指针时就是另外一种情况了。来看看下面的例子：
 
-\begin{cpp}
+\begin{cppcode}
 template <typename T>
 struct foo
 {
@@ -75,11 +75,11 @@ int main()
 	foo<int> x;
 	foo<double>* q;
 }
-\end{cpp}
+\end{cppcode}
 
 使用与前面示例相同的foo类模板，并声明了几个变量：p是指向foo<int>的指针，x是指向foo<int>的指针，q是指向foo<double>的指针。由于声明了x，此时编译器只需要实例化foo<int>，考虑调用成员函数f和g:
 
-\begin{cpp}
+\begin{cppcode}
 int main()
 {
 	foo<int>* p;
@@ -89,7 +89,7 @@ int main()
 	x.f();
 	q->g();
 }
-\end{cpp}
+\end{cppcode}
 
 通过这些更改，编译器需要实例化以下内容：
 
@@ -101,7 +101,7 @@ int main()
 
 另外，当声明指针p时，编译器不需要实例化foo<int>；当声明指针q时，也不需要实例化foo<double>。然而，当涉及到指针转换时，编译器确实需要隐式实例化类模板特化：
 
-\begin{cpp}
+\begin{cppcode}
 template <typename T>
 struct control
 {};
@@ -114,13 +114,13 @@ void show(button<int>* ptr)
 {
 	control<int>* c = ptr;
 }
-\end{cpp}
+\end{cppcode}
 
 函数show中，button<int>*和control<int>*之间进行了转换，此时编译器必须实例化button<int>。
 
 当类模板包含静态成员时，编译器隐式实例化类模板，这些成员不会隐式实例化；只在编译器需要它们的定义时，才会隐式实例化。另外，类模板的每个特化都有自己的静态成员副本：
 
-\begin{cpp}
+\begin{cppcode}
 template <typename T>
 struct foo
 {
@@ -144,7 +144,7 @@ int main()
 	std::cout << b.data << '\n'; // 42
 	std::cout << c.data << '\n'; // 42
 }
-\end{cpp}
+\end{cppcode}
 
 类模板foo有一个名为data的静态成员变量，在foo定义之后初始化。main函数中，变量a的类型为foo<int>，b和c的类型为foo<double>。最初，它们都将成员数据初始化为0，但变量b和c共享相同的数据副本。因此，赋值b.data = 42后，a.data仍然是0，但b.data和c.data都是42。
 
@@ -162,21 +162,21 @@ int main()
 
 \begin{itemize}
   \item 类模板的语法如下：
-\begin{cpp}
+\begin{cppcode}
 template class-key template-name <argument-list>
-\end{cpp}
+\end{cppcode}
   \item 函数模板的语法如下：
-\begin{cpp}
+\begin{cppcode}
 template return-type name<argument-list>(parameter-list);
 template return-type name(parameter-list);
-\end{cpp}
+\end{cppcode}
 \end{itemize}
 
 显式实例化定义用template关键字引入，但后面没有任何参数列表。对于类模板，class-key可以是class、struct或union关键字中的一个。对于类模板和函数模板，带有给定参数列表的显式实例化定义只能在整个程序中出现一次。
 
 我们将通过一些例子来理解这是如何工作的。下面是第一个例子：
 
-\begin{cpp}
+\begin{cppcode}
 namespace ns
 {
 	template <typename T>
@@ -190,11 +190,11 @@ namespace ns
 template struct ns::wrapper<double>; // [2]
 
 int main() {}
-\end{cpp}
+\end{cppcode}
 
 wrapper<T>是在ns命名空间中定义的类模板。代码中标记为[1]和[2]的语句都表示显式实例化定义，分别为wrapper<int>和wrapper<double>。显式实例化定义只能出现在与其引用的模板（如[1]）相同的命名空间中，或者必须是完全限定的（如[2]）。可以为函数模板编写类似的显式模板定义：
 
-\begin{cpp}
+\begin{cppcode}
 namespace ns
 {
 	template <typename T>
@@ -209,13 +209,13 @@ namespace ns
 template double ns::add(double, double); // [2]
 
 int main() { }
-\end{cpp}
+\end{cppcode}
 
 第二个例子与第一个例子很相似。[1]和[2]都表示add<int>()和add<double>()的显式模板定义。
 
 若显式实例化定义与模板不在同一个命名空间中，则名称必须完全限定。using语句的使用不会使名称在当前命名空间中可见：
 
-\begin{cpp}
+\begin{cppcode}
 namespace ns
 {
 	template <typename T>
@@ -225,13 +225,13 @@ namespace ns
 using namespace ns;
 
 template struct wrapper<double>; // error
-\end{cpp}
+\end{cppcode}
 
 本例中的最后一行在编译时会报错，因为wrapper是一个未知的名称，必须使用命名空间名称进行限定，如ns::wrapper。
 
 当类成员用于返回类型或参数类型时，显式实例化定义会忽略成员访问规则：
 
-\begin{cpp}
+\begin{cppcode}
 template <typename T>
 class foo
 {
@@ -244,7 +244,7 @@ class foo
 };
 
 template int foo<int>::f(foo<int>::bar);
-\end{cpp}
+\end{cppcode}
 
 类X<T>::bar和函数foo<T>::f()都是foo<T>类的private部分，但它们可以在最后一行显示的显式实例化定义中使用。
 
@@ -259,21 +259,21 @@ template int foo<int>::f(foo<int>::bar);
 
 \begin{itemize}
   \item 类模板的语法如下所示：
-\begin{cpp}
+\begin{cppcode}
 extern template class-key template-name <argument-list>
-\end{cpp}
+\end{cppcode}
   \item 函数模板的语法如下所示：
-\begin{cpp}
+\begin{cppcode}
 extern template return-type name<argumentlist>(parameter-list);
 extern template return-type name(parameter-list);
-\end{cpp}
+\end{cppcode}
 \end{itemize}
 
 若提供了显式的实例化声明，但在程序的翻译单元中都不存在实例化定义，则结果是编译器警告和链接器错误。该技术是在一个源文件中声明显式模板实例化，在其余的源文件中声明显式模板声明，这将减少编译时间和目标文件的大小。
 
 来看看下面的例子：
 
-\begin{cpp}
+\begin{cppcode}
 // wrapper.h
 template <typename T>
 struct wrapper
@@ -312,7 +312,7 @@ int main()
 {
 	wrapper<int> a{ 0 };
 }
-\end{cpp}
+\end{cppcode}
 
 这个例子中，可以看到：
 

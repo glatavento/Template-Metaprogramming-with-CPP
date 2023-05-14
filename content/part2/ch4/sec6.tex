@@ -12,7 +12,7 @@ decltype说明符不限制在模板代码中使用。可以用于不同的表达
 
 为了更好地理解这些规则，来看一组示例。考虑在decltype表达式中使用的以下函数和变量：
 
-\begin{cpp}
+\begin{cppcode}
 int f() { return 42; }
 int g() { return 0; }
 int g(int a) { return a; }
@@ -32,11 +32,11 @@ char* p = nullptr;
 char c = 'x';
 wrapper w1{ 1 };
 wrapper* w2 = new wrapper{ 2 };
-\end{cpp}
+\end{cppcode}
 
 下面的代码显示了decltype说明符的多种用法。适用于每种情况的规则，以及推导出的类型，都在注释中的每行指定：
 
-\begin{cpp}
+\begin{cppcode}
 decltype(a) e1; // R1, int
 decltype(ra) e2 = a; // R1, int&
 decltype(f) e3; // R1, int()
@@ -58,7 +58,7 @@ decltype(a = 0) e18 = a; // R3, int&
 decltype(p) e19 = nullptr; // R1, char*
 decltype(*p) e20 = c; // R3, char&
 decltype(p[0]) e21 = c; // R3, char&
-\end{cpp}
+\end{cppcode}
 
 我们不详细说明所有这些声明。根据指定的规则，其中大多数都相对容易遵循。不过，为了说明一些推导出的类型，有几点注意事项值得考虑：
 
@@ -71,15 +71,15 @@ decltype(p[0]) e21 = c; // R3, char&
 
 decltype说明符定义了一个未求值的上下文。所以与该说明符一起使用的表达式不会进行计算，因为该说明符只查询其操作数的属性。可以在下面的代码片段中看到这一点，其中赋值a=1与decltype说明符一起使用来声明变量e，但在声明之后，a是其初始化时的值：
 
-\begin{cpp}
+\begin{cppcode}
 int a = 42;
 decltype(a = 1) e = a;
 std::cout << a << '\n'; // prints 42
-\end{cpp}
+\end{cppcode}
 
 关于模板实例化的规则有一个例外。当与decltype说明符一起使用的表达式包含模板时，需要在编译时计算表达式之前实例化模板：
 
-\begin{cpp}
+\begin{cppcode}
 template <typename T>
 struct wrapper
 {
@@ -90,7 +90,7 @@ decltype(wrapper<double>::data) e1; // double
 
 int a = 42;
 decltype(wrapper<char>::data, a) e2; // int&
-\end{cpp}
+\end{cppcode}
 
 e1的类型是double，并且实例化了wrapper<double>来推导这个类型。另一方面，e2的类型是int\&（a是左值）。即使该类型仅从变量a推导出来（使用了逗号操作符），wrapper<char>依旧会在这里进行实例化。
 
@@ -104,7 +104,7 @@ e1的类型是double，并且实例化了wrapper<double>来推导这个类型。
 
 下面的代码片段演示了前两条规则：
 
-\begin{cpp}
+\begin{cppcode}
 struct foo
 {
 	int a = 0;
@@ -131,11 +131,11 @@ decltype(pf->c) e9 = 0; // int const
 decltype(foo{}.a) e10 = 0; // int
 decltype(foo{}.b) e11 = 0; // int volatile
 decltype(foo{}.c) e12 = 0; // int const
-\end{cpp}
+\end{cppcode}
 
 右边的注释提到了每种情况的推导类型。当表达式加圆括号时，这两个规则会颠倒过来。来看看下面的代码：
 
-\begin{cpp}
+\begin{cppcode}
 foo f;
 foo const cf;
 volatile foo* pf = &f;
@@ -159,13 +159,13 @@ decltype((pf->c)) e9 = z; // int const volatile&
 decltype((foo{}.a)) e10 = 0; // int&&
 decltype((foo{}.b)) e11 = 0; // int volatile&&
 decltype((foo{}.c)) e12 = 0; // int const&&
-\end{cpp}
+\end{cppcode}
 
 decltype用于声明变量e1到e9的所有表达式都是左值，推导出的类型是一个左值引用。用于声明变量e10、e11和e12的表达式是右值，推导的类型是一个右值引用。此外，cf是一个常量对象，foo::a的类型是int，结果类型是const int\&。类似地，foo::b的类型为volatile int，结果类型是const volatile int\&。这些只是本段代码中的几个示例，但其他示例遵循相同的推导规则。
 
 因为decltype是一个类型说明符，所以多余的const和volatile限定符以及引用说明符将忽略：
 
-\begin{cpp}
+\begin{cppcode}
 int a = 0;
 int& ra = a;
 int const c = 42;
@@ -174,72 +174,72 @@ int volatile d = 99;
 decltype(ra)& e1 = a; // int&
 decltype(c) const e2 = 1; // int const
 decltype(d) volatile e3 = 1; // int volatile
-\end{cpp}
+\end{cppcode}
 
 现在，已经了解了decltype说明符的工作方式。其真正目的是在模板中使用decltype，其中函数的返回值取决于模板参数，并且在实例化之前是未知的。为了理解这个场景，先从下面的函数模板示例开始，该函数模板返回两个值中的最小值：
 
-\begin{cpp}
+\begin{cppcode}
 template <typename T>
 T minimum(T&& a, T&& b)
 {
 	return a < b ? a : b;
 }
-\end{cpp}
+\end{cppcode}
 
 可以这样使用：
 
-\begin{cpp}
+\begin{cppcode}
 auto m1 = minimum(1, 5); // OK
 auto m2 = minimum(18.49, 9.99);// OK
 auto m3 = minimum(1, 9.99);
                     // error, arguments of different type
-\end{cpp}
+\end{cppcode}
 
 因为提供的参数是相同类型的，所以前两次调用都是正确的。第三次调用将产生编译器错误，因为参数具有不同的类型，所以需要将整数值强制转换为double类型。当然，还有另一种选择：可以编写一个函数模板，接受两个可能不同类型的参数，并返回这两个参数中的最小值。如下所示：
 
-\begin{cpp}
+\begin{cppcode}
 template <typename T, typename U>
 ??? minimum(T&& a, U&& b)
 {
 	return a < b ? a : b;
 }
-\end{cpp}
+\end{cppcode}
 
 问题是，这个函数的返回类型是什么呢？根据所使用的标准版本，可以以不同的方式实现。
 
 C++11中，可以使用带有尾随返回类型的auto说明符，使用decltype说明符从表达式推导返回类型：
 
-\begin{cpp}
+\begin{cppcode}
 template <typename T, typename U>
 auto minimum(T&& a, U&& b) -> decltype(a < b ? a : b)
 {
 	return a < b ? a : b;
 }
-\end{cpp}
+\end{cppcode}
 
 若使用C++14或标准的更新版本，则可以简化此语法。后面的返回类型将不再需要：
 
-\begin{cpp}
+\begin{cppcode}
 template <typename T, typename U>
 decltype(auto) minimum(T&& a, U&& b)
 {
 	return a < b ? a : b;
 }
-\end{cpp}
+\end{cppcode}
 
 还可以进一步简化，简单地使用auto作为返回类型：
 
-\begin{cpp}
+\begin{cppcode}
 template <typename T, typename U>
 auto minimum(T&& a, U&& b)
 {
 	return a < b ? a : b;
 }
-\end{cpp}
+\end{cppcode}
 
 虽然decltype(auto)和auto在本例中具有相同的效果，但情况并非总是如此。看看下面的例子，有一个函数返回一个引用，而另一个函数完美地转发了相关参数：
 
-\begin{cpp}
+\begin{cppcode}
 template <typename T>
 T const& func(T const& ref)
 {
@@ -255,11 +255,11 @@ return func(std::forward<T>(ref));
 int a = 42;
 decltype(func(a)) r1 = func(a); // int const&
 decltype(func_caller(a)) r2 = func_caller(a); // int
-\end{cpp}
+\end{cppcode}
 
-函数func返回一个引用，而func\_caller应该完全转发到这个函数。使用auto作为返回类型，在前面的代码片段中推断为int（参见变量r2）。为了完美地转发返回类型，必须对其使用decltype(auto):
+函数func返回一个引用，而func_caller应该完全转发到这个函数。使用auto作为返回类型，在前面的代码片段中推断为int（参见变量r2）。为了完美地转发返回类型，必须对其使用decltype(auto):
 
-\begin{cpp}
+\begin{cppcode}
 template <typename T>
 decltype(auto) func_caller(T&& ref)
 {
@@ -269,7 +269,7 @@ decltype(auto) func_caller(T&& ref)
 int a = 42;
 decltype(func(a)) r1 = func(a); // int const&
 decltype(func_caller(a)) r2 = func_caller(a); // int const&
-\end{cpp}
+\end{cppcode}
 
 这一次，结果和预期的一样，并且这个代码片段中的r1和r2的类型都是int const\&。
 

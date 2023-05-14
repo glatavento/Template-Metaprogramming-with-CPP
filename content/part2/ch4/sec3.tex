@@ -3,7 +3,7 @@
 
 从一个简单的例子开始：
 
-\begin{cpp}
+\begin{cppcode}
 template <typename T>
 void process(T arg)
 {
@@ -16,7 +16,7 @@ int main()
 	process<int>(42); // [2] T is int, redundant
 	process<short>(42); // [3] T is short
 }
-\end{cpp}
+\end{cppcode}
 
 这段代码中，process是一个具有单一类型模板形参的函数模板。process(42)和process<int>(42)等价，在第一种情况下，编译器能够从传递给函数的参数值推断类型模板形参T的类型为int。
 
@@ -25,7 +25,7 @@ int main()
 \begin{itemize}
   \item 形式为T, T const, T volatile的类型（包括cv-类型和non-类型）：
 
-\begin{cpp}
+\begin{cppcode}
 struct account_t
 {
 	int number;
@@ -48,10 +48,10 @@ int main()
 	process02(ac); // T const
 	process03(ac); // T volatile
 }
-\end{cpp}
+\end{cppcode}
   \item 指针(T*)、左值引用(T\&)和右值引用(T\&\&):
 
-\begin{cpp}
+\begin{cppcode}
 template <typename T>
 void process04(T*) { std::cout << "T*\n"; }
 
@@ -68,10 +68,10 @@ int main()
 	process04(ac); // T&
 	process05(ac); // T&&
 }
-\end{cpp}
+\end{cppcode}
   \item 数组，如T[5]或C[5][n]，其中C是类类型，n是非类型模板参数：
 
-\begin{cpp}
+\begin{cppcode}
 template <typename T>
 void process06(T[5]) { std::cout << "T[5]\n"; }
 
@@ -90,10 +90,10 @@ int main()
 	account_t arr2[5][3];
 	process07(arr2); // C[5][n]
 }
-\end{cpp}
+\end{cppcode}
   \item 函数指针，形式为T(*)()， C(*)(T)和T(*)(U)，其中C是类类型，T和U是类型模板参数：
 
-\begin{cpp}
+\begin{cppcode}
 template<typename T>
 void process08(T(*)()) { std::cout << "T (*)()\n"; }
 
@@ -114,10 +114,10 @@ int main()
 	process08(pf2); // C (*)(T)
 	process08(pf3); // T (*)(U)
 }
-\end{cpp}
+\end{cppcode}
   \item 具有以下形式之一的成员函数的指针，T (C::*)()， T (C::*)(U)， T (U::*)()， T (U::*)(V)， C (T::*)()， C (T::*)(U)和D (C::*)(T)，其中C和D是类类型，T, U和V是类型模板参数：
 
-\begin{cpp}
+\begin{cppcode}
 struct account_t
 {
 	int number;
@@ -199,10 +199,10 @@ int main()
 	process09(pfm6); // C (T::*)(U)
 	process09(pfm7); // D (C::*)(T)
 }
-\end{cpp}
+\end{cppcode}
   \item 数据成员的指针，如T C::*、C T::*和T U::*，其中C是类类型，T和U是类型模板形参：
 
-\begin{cpp}
+\begin{cppcode}
 template<typename T>
 void process10(T account_t::*)
 { std::cout << "T C::*\n"; }
@@ -220,10 +220,10 @@ int main()
 	process10(&balance_t::account); // C T::*
 	process10(&balance_t::amount); // T U::*
 }
-\end{cpp}
+\end{cppcode}
   \item 模板中参数列表包含至少一个类型模板形参；一般形式为C<T>，其中C是类类型，T是类型模板形参：
 
-\begin{cpp}
+\begin{cppcode}
 template <typename T>
 struct wrapper
 {
@@ -238,10 +238,10 @@ int main()
 	wrapper<double> wd{ 42.0 };
 	process11(wd); // C<T>
 }
-\end{cpp}
+\end{cppcode}
   \item 模板中参数列表包含至少一个非类型模板实参；一般形式为C<i>，其中C是类类型，i是非类型模板参数：
 
-\begin{cpp}
+\begin{cppcode}
 template <size_t i>
 struct int_array
 {
@@ -256,10 +256,10 @@ int main()
 	int_array<5> ia{};
 	process12(ia); // C<i>
 }
-\end{cpp}
+\end{cppcode}
   \item 双重模板参数，其实参列表包含至少一个类型模板形参；一般形式为TT<T>，其中TT是模板模板形参，T是类型模板：
 
-\begin{cpp}
+\begin{cppcode}
 template<template<typename> class TT, typename T>
 void process13(TT<T>) { std::cout << "TT<T>\n"; }
 
@@ -268,10 +268,10 @@ int main()
 	wrapper<double> wd{ 42.0 };
 	process13(wd); // TT<U>
 }
-\end{cpp}
+\end{cppcode}
   \item 双重模板参数，其实参列表包含至少一个非类型模板实参；一般形式为TT<i>，其中TT是模板模板形参，i是非类型模板实参：
 
-\begin{cpp}
+\begin{cppcode}
 template<template<size_t> typename TT, size_t i>
 void process14(TT<i>) { std::cout << "TT<i>\n"; }
 int main()
@@ -279,10 +279,10 @@ int main()
 	int_array<5> ia{};
 	process14(ia); // TT<i>
 }
-\end{cpp}
+\end{cppcode}
   \item 双重模板参数，参数列表中没有依赖于模板形参的模板实参；形式为TT<C>，其中TT是模板模板形参，C是类类型：
 
-\begin{cpp}
+\begin{cppcode}
 template<template<typename> typename TT>
 void process15(TT<account_t>) { std::cout << "TT<C>\n"; }
 
@@ -291,7 +291,7 @@ int main()
 	wrapper<account_t> wa{ {42} };
 	process15(wa); // TT<C>
 }
-\end{cpp}
+\end{cppcode}
 \end{itemize}
 
 尽管编译器能够推导出许多类型的模板参数，但能做的事也不多：
@@ -299,7 +299,7 @@ int main()
 \begin{itemize}
   \item 编译器不能从非类型模板实参的类型，推断出类型模板实参的类型。下面的例子中，process是一个有两个模板形参的函数模板：一个类型模板为T，一个类型为T的非类型模板i，调用带有五个double数组的函数不允许编译器确定T的类型，即使这是指定数组大小的值的类型：
 
-\begin{cpp}
+\begin{cppcode}
 template <typename T, T i>
 void process(double arr[i])
 {
@@ -317,12 +317,12 @@ int main()
 	process(arr); // error
 	process<int, 5>(arr); // OK
 }
-\end{cpp}
+\end{cppcode}
   \item 编译器不能根据默认值的类型确定模板参数的类型。前面的代码中用函数模板过程举例说明了这一点，该过程只有一个类型模板形参，但有两个函数形参，都是T类型，并且都有默认值。
 
 process()调用（没有实参）失败，因为编译器不能从函数形参的默认值推断类型模板形参T的类型。process<int>()没问题，因为template参数显式提供。process(6)也没问题，因为第一个函数形参的类型可以从提供的实参中推导出来，所以类型模板参数也可以推导出来：
 
-\begin{cpp}
+\begin{cppcode}
 template <typename T>
 void process(T a = 0, T b = 42)
 {
@@ -335,12 +335,12 @@ int main()
 	process<int>(); // [2] OK
 	process(10); // [3] OK
 }
-\end{cpp}
+\end{cppcode}
   \item 尽管编译器可以从函数指针或成员函数指针推导出函数模板实参，但这种功能有几个限制：不能从指向函数模板的指针推导出实参，也不能从指向函数的指针推导出实参，该函数的重载集包含多个匹配所需类型的重载函数。
 
 前面的代码中，函数模板调用接受一个指向函数的指针，该函数有两个参数，第一个是类型模板形参T，第二个是int型，并返回void。这个函数模板不能传递指向alpha([1])的指针，这是一个函数模板，不能传递给beta([2])，并且有多个可以匹配类型T的重载。可以用指向gamma的指针调用([3])，编译器将正确地推断出第二个重载的类型：
 
-\begin{cpp}
+\begin{cppcode}
 template <typename T>
 void invoke(void(*pfun)(T, int))
 {
@@ -369,7 +369,7 @@ int main()
 	invoke(&beta); // [2] error
 	invoke(&gamma); // [3] OK
 }
-\end{cpp}
+\end{cppcode}
   \item 编译器的另一个限制是对数组的主维进行参数推断，这不是函数形参类型的一部分。这种限制的例外情况是维度引用引用或指针类型。下面的代码段演示了这些限制：
 
 \begin{itemize}
@@ -377,7 +377,7 @@ int main()
   \item {}[2]的点上调用process2()是正确的，因为非类型模板参数Size指的是数组的第二维度。
   \item 另一方面，process3()（在[3]）和process4()（[4]）都没问题，因为函数参数要么是一个引用，要么是指向一维数组的指针：
 
-\begin{cpp}
+\begin{cppcode}
 template <size_t Size>
 void process1(int a[Size])
 { std::cout << "process(int[Size])" << '\n'; };
@@ -403,14 +403,14 @@ int main()
 	process3(arr1); // [3] OK
 	process4(&arr1); // [4] OK
 }
-\end{cpp}
+\end{cppcode}
 
 \end{itemize}
   \item 若在函数模板形参列表中的表达式中使用了非类型模板实参，则编译器无法推断其值。
 
 下面的代码中，ncube是一个类模板，其非类型模板参数N表示多个维度。函数模板process也有一个非类型的模板形参N，用在与其单个形参类型相同的模板形参列表中的表达式中，所以编译器不能从函数参数的类型推断出N的值（如[1]所示），这必须显式指定（如[2]所示）：
 
-\begin{cpp}
+\begin{cppcode}
 template <size_t N>
 struct ncube
 {
@@ -429,7 +429,7 @@ int main()
 	process(cube); // [1] error
 	process<6>(cube); // [2] OK
 }
-\end{cpp}
+\end{cppcode}
 \end{itemize}
 
 本节中讨论的模板参数推导的所有规则也适用于可变参数函数模板，但目前讨论的所有内容都是在函数模板上下文中进行的。模板参数推断也适用于类模板，我们将在下一节探讨这个主题。
