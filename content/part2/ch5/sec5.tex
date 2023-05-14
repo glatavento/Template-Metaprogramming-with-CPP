@@ -28,8 +28,7 @@
 
 之前已经使用了几个类型特征，例如std::is\_integral，std::is\_floating\_point，以及std::is\_arithmetic。这些用于查询主类型和复合类型类别的一些标准类型特征。下表列出了所有这些类型的特征：
 
-\begin{longtblr}
-  { colspec = {|l|X|}, hlines, rowhead = 1, rows={m}, row{1} = {c, font=\bfseries}, measure = vbox }
+\begin{longtblr} {|l|X|}
   名称                            & 描述                       \\
   is\_void                      &
   类型是否为void类型。                                             \\
@@ -145,8 +144,7 @@ static\_assert(false)会使程序格式不正确。原因是它的条件不依�
 
 能够查询类型属性的类型特征如下所示：
 
-\begin{longtblr}
-  { colspec = {|l|c|X|}, hlines, rowhead = 1, rows={m}, row{1} = {c, font=\bfseries}, measure = vbox }
+\begin{longtblr} {|l|c|X|}
   名称                      & C++ 版本 & 描述                                           \\
   is\_const               & C++11  & 是否为const限定（const或const volatile）。            \\
   is\_volatile            & C++11  & 是否为volatile限定（volatile或const volatile）。      \\
@@ -230,8 +228,7 @@ std::cout << std::is_trivially_copyable_v<tar>
 
 下面的类型特征可以查询类型支持的操作：
 
-\begin{longtblr}
-  { colspec = {|l|X|}, hlines, rowhead = 1, rows={m}, row{1} = {c, font=\bfseries} }
+\begin{longtblr} {|l|X|}
   名称 & 描述                     \\
   {is\_constructible          \\ is\_trivially\_constructible\\ is\_nothrow\_constructible}
      & 是否有可以接受特定参数的构造函数。      \\
@@ -263,8 +260,7 @@ std::cout << std::is_trivially_copyable_v<tar>
 
 这里，可以找到几个类型特征，可以查询类型之间的关系。这些类型特征如下所示：
 
-\begin{longtblr}
-  { colspec = {|l|c|X|}, hlines, rowhead = 1, rows={m}, row{1} = {c, font=\bfseries} }
+\begin{longtblr} {|l|c|X|}
   名称                     & C++ 版本 & 描述                   \\
   is\_same               & C++11  & 两个类型是否相同，包括可能的cv限定符。 \\
   is\_base\_of           & C++11  & 一个类型是否派生自另一个类型。      \\
@@ -315,8 +311,7 @@ std::cout << as_string(false) << '\n'; // prints false
 类型上执行转换的类型特征也称为元函数。这些类型特征提供了一个称为type的成员类型(typedef)，表示转换后的类型。这些类型特征包括：
 
 
-\begin{longtblr}
-  { colspec = {|l|X|}, hlines, rowhead = 1, rows={m}, row{1} = {c, font=\bfseries} }
+\begin{longtblr} {|l|X|}
   名称 & 描述                            \\
   {add\_cv                           \\ add\_const\\ add\_volatile}
      & 将const、volatile或两者都添加到类型中。    \\
@@ -348,8 +343,7 @@ std::cout << as_string(false) << '\n'; // prints false
 
 除了前面列出的元函数之外，还有其他执行类型转换的类型特征。其中常用的如下表所示：
 
-\begin{longtblr}
-  { colspec = {|l|c|X|}, hlines, rowhead = 1, rows={m}, row{1} = {c, font=\bfseries} }
+\begin{longtblr} {|l|c|X|}
   名称                & C++ 版本 & 描述 \\
   enable\_if        &
   C++11             &

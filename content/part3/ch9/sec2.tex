@@ -18,8 +18,7 @@
 
 所有这些类型的可迭代序列都是范围。因为范围是一种抽象，C++20标准库定义了一系列概念来描述范围类型的需求，可以在<ranges>头文件和std::ranges命名空间中使用。下表列出了范围概念的列表：
 
-\begin{longtblr}
-  { colspec = {|l|X|}, hlines, rowhead = 1, rows={m}, row{1} = {c, font=\bfseries} }
+\begin{longtblr} {|l|X|}
   名称                    & 描述                         \\
   range                 &
   通过提供开始迭代器和结束哨兵，定义类型R为范围的需求。迭代器和哨兵可以是不同的类型。         \\
@@ -51,8 +50,7 @@
 
 \begin{table}[!htb]
   \centering
-  \begin{talltblr}
-    { colspec = {|l|l|X|}, hlines, rows={m}, row{1} = {c, font=\bfseries} }
+  \begin{talltblr} {|l|l|X|}
     Range的访问范围 & {容器/数组的           \\ 等效范围访问} & 描述                   \\
     {begin/end                     \\ cbegin/cend} &
     {begin/end                     \\ cbegin/cend} &
@@ -113,8 +111,7 @@ iota视图是工厂视图的一部分。这些工厂视图是新生成范围的�
 
 \begin{table}[!htb]
   \centering
-  \begin{talltblr}
-    { colspec = {|l|l|X|}, hlines, rows={m}, row{1} = {c, font=\bfseries} }
+  \begin{talltblr} {|l|l|X|}
     类型                     & 变量 & 描述       \\
     ranges::empty\_view    &
     ranges::views::empty   &
@@ -199,8 +196,7 @@ std::ranges::for_each(
 
 目前为止，本章给出的示例包括filter, take, drop和reverse等视图。这些只是C++20中可用的一些标准视图，C++23中会添加了更多。下表列出了整个标准视图集：
 
-\begin{longtblr}
-  { colspec = {|l|l|c|X|}, hlines, rowhead = 1, rows={m}, row{1} = {c, font=\bfseries} }
+\begin{longtblr} {|l|l|c|X|}
   {类型                                                         \\ （ranges\\ 命名空间中）} &
   {变量                                                         \\ （ranges::view\\ 命名空间中）} &
   C++版本          &
@@ -259,8 +255,7 @@ std::ranges::for_each(
 
 除了上表中列出的视图（范围适配器）之外，还有一些在某些特定场景中可能有用的视图。为了完整起见，下表将列出了这些参数：
 
-\begin{longtblr}
-  { colspec = {|l|l|c|X|}, hlines, rowhead = 1, rows={m}, row{1} = {c, font=\bfseries} }
+\begin{longtblr} {|l|l|c|X|}
   {类型                                          \\ （ranges\\ 命名空间中）} &
   {变量                                          \\ （ranges::view\\ 命名空间中）} &
   C++版本        &

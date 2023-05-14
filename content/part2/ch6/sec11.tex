@@ -3,8 +3,7 @@
 
 主要的概念集可以在<concepts>头文件和std命名空间中找到。这些概念中的大多数等价于一个或多个现有的类型特征。对于其中一些，它们的实现是定义良好的；另一些，则是不明确的。可分为四类：核心语言概念、比较概念、对象概念和可调用概念。这组概念包含以下内容（但不仅如此）：
 
-\begin{longtblr}
-  { colspec = {|l|X|}, hlines, rowhead = 1, rows={m}, row{1} = {c, font=\bfseries} }
+\begin{longtblr} {|l|X|}
   概念                      & 描述                               \\
   same\_as                & 类型T与另一个类型U相同。                    \\
   derived\_from           & 类型D从另一个类型B派生。                    \\
@@ -65,8 +64,7 @@ concept regular = std::semiregular<T> &&
 
 C++20还引入了一个新的基于概念的迭代器系统，并在<iterator>头文件中定义了一组概念。下表列出了其中一些概念：
 
-\begin{longtblr}
-  { colspec = {|l|X|}, hlines, rowhead = 1, rows={m}, row{1} = {c, font=\bfseries} }
+\begin{longtblr} {|l|X|}
   概念                       & 描述                            \\
   indirectly\_readable     &
   可以通过应用*operator读取类型值。                                    \\
@@ -115,8 +113,7 @@ concept random_access_iterator =
 
 \begin{table}[!htb]
   \centering
-  \begin{talltblr}
-    { colspec = {|l|X|}, hlines, rows={m}, row{1} = {c, font=\bfseries} }
+  \begin{talltblr} {|l|X|}
     概念                   & 描述                            \\
     indriectly\_movable  &
     值可以从indirectly\_readable类型移动到indirectly\_readable类型。 \\
@@ -131,8 +128,7 @@ concept random_access_iterator =
 
 C++20中包含的几个主要特性之一（以及概念、模块和协程）是范围。范围库定义了一系列类和函数，用于简化使用范围操作。其中有一组概念，在<ranges>头文件和std::ranges命名空间中定义。其中的一些概念：
 
-\begin{longtblr}
-  { colspec = {|l|X|}, hlines, rowhead = 1, rows={m}, row{1} = {c, font=\bfseries} }
+\begin{longtblr} {|l|X|}
   概念                    & 描述                     \\
   range                 &
   类型R为范围，需要提供了一个开始迭代器和一个结束哨兵。                    \\
