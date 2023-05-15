@@ -42,7 +42,8 @@
 
 % Setup lists
 \SetLabelAlign { EmCenter } { \makebox [ 1em ] { #1 } }
-\setlist [ itemize    ] { nosep, labelsep=0pt, labelwidth=1em, leftmargin=1em, align=EmCenter }
+\setlist { nosep }
+\setlist [ itemize    ] { labelsep=0pt, labelwidth=1em, leftmargin=1em, align=EmCenter }
 \setlist [ itemize, 1 ] { leftmargin=3em }
 \setlist [ itemize, 2 ] { label=◦ }
 \SetEnumitemKey { noindent } { leftmargin=1em }
@@ -59,9 +60,9 @@
 
 % Macros to escape subscript
 \NewDocumentCommand { \makesubletter } {}
-{ \catcode`_=11 }
+{ \char_set_catcode_letter:N         _ }
 \NewDocumentCommand { \makesubsub } {}
-{ \catcode`_=8 }
+{ \char_set_catcode_math_subscript:N _ }
 
 % Setup minted
 \setminted { obeytabs, tabsize=2, breaklines=true, fontsize=\footnotesize, frame=single }
